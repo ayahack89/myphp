@@ -11,12 +11,23 @@
       padding: 0;
       box-sizing: border-box;
     }
+    .container{
+       
+       width: 800px;
+     
+        margin: auto;
+        padding: 10px;
+        border: 3px outset grey;
+       
+    }
     header {
       background-color: blue;
       padding: 5px;
+      border: 4px outset blue;
+      border-radius: 5px;
       color: aliceblue;
       text-align: center;
-      font-size: 1.6rem;
+      font-size: 1.1rem;
       font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     }
     .formCenter {
@@ -36,9 +47,9 @@
       margin-top: 40px;
     }
     label {
-      font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
-        "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
-      font-size: 1.2rem;
+      font-family:  Geneva, Verdana, sans-serif;
+      font-size: 1rem;
+      margin-left: 10px;
     }
     input[type="text"],
     input[type="email"],
@@ -54,21 +65,33 @@
       margin-top: 6px;
     }
     input[type="submit"] {
-      padding: 8px;
-      border: 5px outset blue;
+      padding: 5px;
+      border: 2px outset blue;
       background-color: blue;
       color: white;
-      font-size: 1.1rem;
+      font-size: 1rem;
       transition: all 3ms ease-in;
     }
     input[type="submit"]:hover {
       transform: translateY(-2%);
       cursor: pointer;
       background-color: rgba(0, 0, 255, 0.776);
-      border: 5px outset rgba(0, 0, 255, 0.776);
+      border: 2px outset rgba(0, 0, 255, 0.776);
+    }
+    footer{
+      background-color: blue;
+      padding: 10px;
+      border: 3px outset blue;
+      border-radius: 5px;
+      color: white;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 1rem;
+      margin-top: 30px;
+      text-align: right;
     }
   </style>
   <body>
+    <div class="container">  
     <header>
       <h1>Welcome to fSocity</h1>
     </header>
@@ -103,13 +126,7 @@
         </div>
       </form>
     </div>
-    <!-- <form>
-      <label for="fname">First name:</label><br />
-      <input type="text" id="fname" name="fname" /><br />
-      <label for="lname">Last name:</label><br />
-      <input type="text" id="lname" name="lname" />
-    </form> -->
-
-    <footer></footer>
+    <footer>&reg; fSocity by AyC</footer>
+  </div>
   </body>
 </html>

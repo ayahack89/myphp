@@ -17,6 +17,7 @@
       
         font-size: 1.5rem;
     }
+   
     .main .header{
         background-color: blue;
       padding: 10px;
