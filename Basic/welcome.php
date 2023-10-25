@@ -37,11 +37,11 @@
 <body>
     <center>
     <div class="main">
-<div class="header">Welcome to fSocity</div> <br> 
+<div class="header">Welcome to our community</div> <br> 
 Your name is <?php echo $_POST["name"]; ?><br>
 Your email address is <?php echo $_POST["email"]; ?><br>
 Your password is <?php echo $_POST["password"]; ?><br>
-You are now a member of fSocity.
+You are now a member of our community.
 </div>
     </center>
 </body>

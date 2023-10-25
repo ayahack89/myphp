@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Welcome to fSocity</title>
+    <title>Basic</title>
   </head>
   <style>
     body {
@@ -93,7 +93,7 @@
   <body>
     <div class="container">  
     <header>
-      <h1>Welcome to fSocity</h1>
+      <h1>Basic Community</h1>
     </header>
     <div class="formCenter">
       <form action="welcome.php" method="post" class="form">
@@ -126,7 +126,7 @@
         </div>
       </form>
     </div>
-    <footer>&reg; fSocity by AyC</footer>
+    <footer>&reg; A Community by AyC</footer>
   </div>
   </body>
 </html>
