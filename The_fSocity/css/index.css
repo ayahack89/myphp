@@ -1,0 +1,124 @@
+body {
+  margin: 0;
+  padding: 0;
+  background-color: gray;
+}
+.background {
+  background: url("../images/index_Background.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.container {
+  margin: 0 auto;
+  padding: 10px;
+  width: 1200px;
+  background-color: rgb(225, 225, 225);
+  border: 3px solid red;
+  border-radius: 10px;
+}
+h1 {
+  background-color: black;
+  color: red;
+  padding: 20px;
+  margin-top: 0px;
+  border: 2px outset red;
+  border-radius: 5px;
+  font-family: "Courier New", Courier, monospace;
+  text-align: center;
+  font-size: 2.8rem;
+}
+
+.form {
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  margin: 0 auto;
+  background-color: black;
+  width: 580px;
+  height: 360px;
+  color: red;
+  font-family: "Courier New", Courier, monospace;
+  font-size: 1rem;
+  font-weight: bolder;
+  border: 2px solid red;
+}
+
+label {
+  margin-left: 10px;
+}
+
+input[type="text"],
+input[type="password"] {
+  padding: 10px;
+  width: 500px;
+  margin: 10px;
+  margin-left: 10px;
+  font-size: 1rem;
+  border: 2px inset red;
+  border-radius: 5px;
+  background-color: white;
+  color: black;
+  font-family: "Courier New", Courier, monospace;
+  font-weight: bolder;
+}
+.check_box_container {
+  margin: auto;
+  width: 520px;
+}
+input[type="checkbox"] {
+  margin: 10px;
+  margin-left: 0px;
+  margin-right: 0px;
+  font-size: 20px;
+}
+select {
+  padding: 10px;
+  width: 500px;
+  margin: 10px;
+  margin-left: 0px;
+  margin-right: 0px;
+  font-size: 1rem;
+}
+.btn {
+  display: flex;
+  justify-content: right;
+  margin-right: 10px;
+}
+input[type="submit"] {
+  background-color: black;
+  padding: 10px;
+  color: white;
+  font-family: "Courier New", Courier, monospace;
+  font-weight: bolder;
+  width: 20%;
+  font-size: 1rem;
+  border: 2px outset red;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  margin-top: 20px;
+}
+input[type="submit"]:hover {
+  background-color: #27272a;
+  cursor: pointer;
+}
+
+#hide,
+#hide_password,
+#hide_cpassword {
+  display: none;
+  color: red;
+  font-size: 10px;
+  padding: 0px;
+}
+footer {
+  background-color: black;
+  border: 2px outset red;
+  border-radius: 8px;
+  padding: 10px;
+  color: red;
+  text-align: right;
+  font-size: 1.2rem;
+  font-family: "Courier New", Courier, monospace;
+  margin-top: 20px;
+}
