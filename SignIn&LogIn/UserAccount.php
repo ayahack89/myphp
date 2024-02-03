@@ -53,7 +53,7 @@
      <td><?php echo $_SESSION['Uname']; ?></td>
     </tr>
 </table>
-<p>Welcome <?php echo $_SESSION['Uname']; ?> Now you are the one of the member of our community : )</p>
+<p>Welcome [<?php echo $_SESSION['Uname']; ?>] Now you are the one of the member of our community : )</p>
 
                     
 

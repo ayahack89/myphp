@@ -1,11 +1,14 @@
 <?php
 //Server Connction
-$serverName = "localhost";
+$serverIP = "127.0.0.1";
 $userName = "root";
 $password = "";
-$database = "sigin_login";
+$database = "userlogin";
 
-$conn = mysqli_connect($serverName, $userName, $password, $database) or die("Server not connected!".mysqli_error($conn))
+$conn = mysqli_connect($serverIP, $userName, $password, $database);
+if(!$conn){
+     die("Server not connected!".mysqli_error($conn));
+}
 
 
 

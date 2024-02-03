@@ -9,7 +9,6 @@
     body {
       margin: 0;
       padding: 0;
-      background-color: rgb(188, 188, 188);
     }
     .container {
       margin: auto;
@@ -18,7 +17,7 @@
       height: 430px;
       display: grid;
       background-color: white;
-      margin-top: 10%;
+      margin-top: 5%;
       border: 2px outset gray;
     }
     h3 {
@@ -72,6 +71,11 @@
       color: red;
       display: none;
     }
+    p{
+      font-family: 'Courier New', Courier, monospace;
+      font-weight: bolder;
+      margin-left: 30px;
+    }
   </style>
   <body>
     <?php 
@@ -84,7 +88,7 @@
     $upass = $_POST['password'];
     $cpass = $_POST['cpassword'];
     
-    $sqlquery = "INSERT INTO sigin(`Uname`, `UserEmail`, `password`, `cpassword`) VALUES ('{$uname}', '{$uemail}', '{$upass}', '{$cpass}')";
+    $sqlquery = "INSERT INTO `useraccounts`(`Uname`, `UserEmail`, `password`, `cpassword`) VALUES ('{$uname}', '{$uemail}', '{$upass}', '{$cpass}')";
 
     //Connection result
 $result = mysqli_query($conn, $sqlquery);
@@ -94,7 +98,7 @@ if(!$result){
 else{
 
 //Redirect succes page
-header("Location: http://localhost/SignIn&LogIn/succesSignIn.php");
+header("Location: success.php");
 //Connection close
 mysqli_close($conn);
   }
@@ -145,7 +149,7 @@ mysqli_close($conn);
           >YOUR PASSWORD SHOULD ATLEAST 9 CHARECTERS!</span
         >
         <label for="cpassword">
-          Confirm Password: <br />
+          Retype Password: <br />
           <input
             type="password"
             name="cpassword"
@@ -156,6 +160,7 @@ mysqli_close($conn);
         <span id="hide_userCPassword">PLEASE CONFIRM YOUR PASSWORD!</span>
         <span id="hide_userCPassword_II">INCORRECT PASSWORD!</span>
         <input type="submit" name="submit" value="SignIn" />
+        <p>Already a member! <a href="login.php">LogIn</a></p>
       </form>
     </div>
     <script>
