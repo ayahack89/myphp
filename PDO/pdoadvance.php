@@ -26,7 +26,7 @@
                /*$insert_query = "INSERT INTO `students` (`name`, `age`, `class`, `gender`) VALUES ('Shivam', '20', '5', 'Male');";
                $connection->query($insert_query);*/
                //Fetch data from database by uising PHP PDO
-               $id = 2;
+               $id = 1;
                $sql = "SELECT * FROM `students`WHERE id='$id'";
                $stmt = $connection->prepare($sql);
                $stmt->execute();
