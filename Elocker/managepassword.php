@@ -128,11 +128,9 @@ ini_set('display_errors', true);
                     $delete = mysqli_query($conn, $delete_query);
 
                     if ($delete) {
-                        // Redirect to the page after deletion
                         header("Location: managepassword.php");
                         exit();
                     } else {
-                        // Display an error message if deletion fails
                         echo "Error deleting record: " . mysqli_error($conn);
                     }
                 }

@@ -56,6 +56,7 @@
     }
 
     $sql = "SELECT * FROM `create&read` LIMIT $page1, $limit";
+
     $result = mysqli_query($conn, $sql);
 
     if (mysqli_num_rows($result) > 0) {
@@ -70,6 +71,7 @@
 
     // Pagination
     $run = mysqli_query($conn, "SELECT COUNT(*) as total FROM `table`");
+
     $row = mysqli_fetch_assoc($run);
     $total_records = $row['total'];
 

@@ -1,4 +1,7 @@
 <?php
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+
 session_start();
 include "db_config.php";
 ?>
@@ -19,7 +22,7 @@ include "db_config.php";
      $get_id = mysqli_real_escape_string($conn, isset($_GET['id']) ? $_GET['id'] : '');
      if (isset($_POST['submit'])) {
 
-          $get_user_id = mysqli_real_escape_string($conn, isset($_POST['user_id']) ? $_POST['user_id'] : '');
+          $get_user_id = mysqli_real_escape_string($conn, isset($_POST['user_id']) ? $_POST['user_id'] : 'Error');
           $get_username = mysqli_real_escape_string($conn, isset($_POST['username']) ? $_POST['username'] : 'Error');
           $get_user_email = mysqli_real_escape_string($conn, isset($_POST['user_email']) ? $_POST['user_email'] : 'Error');
           $get_user_links = mysqli_real_escape_string($conn, isset($_POST['user_links']) ? $_POST['user_links'] : 'Error');
@@ -32,7 +35,8 @@ include "db_config.php";
                $run = mysqli_query($conn, $sql_query);
                if ($run) {
                     header("Location: managepassword.php");
-                    mysqli_close($conn);
+                    exit();
+
                } else {
                     echo '<h3 style="color:red;">Opps! Somthing went wrong : (</h3>';
                     die("Erro!" . mysqli_error($conn));
@@ -86,7 +90,6 @@ include "db_config.php";
                               </div>
                               <input type="text" name="links" class="form-control" name="user_links" id="basic-url"
                                    value="<?php echo $data['links'] ?>" aria-describedby="basic-addon3">
-                              <!-- Corrected variable name -->
                          </div>
 
                          <div class="input-group mb-3">
