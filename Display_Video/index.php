@@ -1,3 +1,7 @@
+<?php
+include "video_db.php";
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -60,77 +64,39 @@
 </style>
 
 <body>
+
+
      <?php
-     // if (isset($_FILES['video']) && isset($_POST['submit'])) {
-     //      $videoName = $_FILES['video']['name'];
-     //      $videoTempName = $_FILES['video']['tmp_name'];
-     
 
-     //      $position = strpos($videoName, ".");
-     //      $fileExtension = substr($videoName, $position + 1);
-     //      $fileExtension = strtolower($fileExtension);
+     // echo "<pre>";
+     // print_r($_FILES['video']);
+     // echo "</pre>";
      
-     //      if (empty($videoName)) {
-     //           echo '<h1 style="text-align:center; font-family:Courier New, Courier, monospace;">Please choose a file!</h1>';
-     //      } elseif (!in_array($fileExtension, array("mp4", "ogg", "webm"))) {
-     //           echo "The file extension must be .mp4, .ogg, or .webm in order to be uploaded.";
-     //      } else {
-     //           $path = '../Display_Video/UploadedVids/';
-     //           $destination = $path . $videoName;
-     
-     //           if (move_uploaded_file($videoTempName, $destination)) {
-     //                echo "Video uploaded.";
-     //                header('Location: upload.php');
-     
-     //           } else {
-     //                echo "Failed to upload the video.";
-     //           }
-     //      }
-     // }
-     
-     if (isset($_POST['submit']) && isset($_FILES['video'])) {
-
-          $name = $_FILES['video']['name'];
-          $path = $_FILES['video']['full_path'];
-          $type = $_FILES['video']['type'];
+     if (isset($_POST['submit'])) {
+          $name = mysqli_real_escape_string($connection, $_FILES['video']['name']);
           $tmp_name = $_FILES['video']['tmp_name'];
           $error = $_FILES['video']['error'];
-          $size = $_FILES['video']['size'];
 
-          if ($error === 0) {
-               $video_x = pathinfo($name, PATHINFO_EXTENSION);
-
-               $video_ex_lower = strtolower($video_x);
-               $allow_type = array("m4", "webm", "avi", "flv");
-
-               if (in_array($video_ex_lower, $allow_type)) {
-
-                    echo "cool";
-
+          if ($error === UPLOAD_ERR_OK) {
+               $video_upload_path = "UploadedVids/" . $name;
+               if (move_uploaded_file($tmp_name, $video_upload_path)) {
+                    $sql = "INSERT INTO `uploaded_videos` (`videoname`) VALUES ('{$name}');";
+                    $uploaded = mysqli_query($connection, $sql);
+                    if ($uploaded) {
+                         header("Location: upload.php");
+                         exit();
+                    } else {
+                         echo "Sorry! your video is not uploaded!";
+                    }
                } else {
-                    echo "You can't upload file on this type!";
-                    header("Location: index.php?error=$em");
-
+                    echo "Oops! Something went wrong :(";
                }
-
+          } else {
+               echo "Error uploading the file. Please try again.";
           }
-
-          //           [name] => Basic Student Registration.mp4
-//     [full_path] => Basic Student Registration.mp4
-//     [type] => video/mp4
-//     [tmp_name] => C:\xampp\tmp\php454B.tmp
-//     [error] => 0
-//     [size] => 17520816
-     
-
-          echo '<pre>';
-          print_r($_FILES['video']);
-          echo '</pre>';
-
      }
 
 
-     // To Be Continue...... 
      ?>
 
 

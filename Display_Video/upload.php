@@ -1,3 +1,6 @@
+<?php
+include "video_db.php";
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -9,21 +12,30 @@
 
 <body>
      <?php
-     $videoName = $_FILES['video']['name'];
 
 
-     $position = strpos($videoName, ".");
-     $fileExtension = substr($videoName, $position + 1);
-     $fileExtension = strtolower($fileExtension);
-
-     if (($fileExtension == "mp4" && $fileExtension == "ogg" && $fileExtension == "webm")) {
-          $path = '../Display_Video/UploadedVids/';
-          echo '<video width="400px" src="' . $path . '/' . $videoName . '" type="video/' . $fileExtension . '"  controls>
-     </video>';
+     $sql_query = "SELECT * FROM `uploaded_videos`";
+     $result = mysqli_query($connection, $sql_query);
+     if ($result) {
+          if (mysqli_num_rows($result) > 0) {
+               while ($view = mysqli_fetch_assoc($result)) {
+                    ?>
+                    <video id="myvideo" width="300px" controls>
+                         <source src="<?php echo 'UploadedVids/' . $view['videoname']; ?>">
+                    </video>
+                    <?php
+               }
+          } else {
+               echo "No videos found in database!";
+          }
+     } else {
+          echo "Oops! Something went wrong :(";
      }
 
 
      ?>
+     <br><br>
+     <a href="index.php">Home</a>
 
 
 
