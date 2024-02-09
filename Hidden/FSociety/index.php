@@ -21,30 +21,6 @@ session_start();
   <br><br>
   <div style="display:flex;">
     <table>
-      <th>Profile pic</th>
-
-      <?php
-      $sql_query = "SELECT * FROM `user`";
-      $result = mysqli_query($conn, $sql_query);
-
-      if ($result) {
-        if (mysqli_num_rows($result) > 0) {
-          while ($row = mysqli_fetch_assoc($result)) {
-
-
-            ?>
-            <tr>
-
-              <td><img src="img/images/<?php echo $row['profile_pic']; ?>" alt="yourimage" height="50px" width="80px"></td>
-            </tr>
-            <?php
-          }
-        } else {
-
-        }
-      }
-
-      ?>
 
     </table>
     <table>
@@ -60,32 +36,41 @@ session_start();
       if ($result) {
         if (mysqli_num_rows($result) > 0) {
           while ($row = mysqli_fetch_assoc($result)) {
-            $id = $row['topic_id'];
-            ?>
-
-            <tr>
-              <td>
-                <?php echo $row['topic_id']; ?>
-              </td>
-              <td>
-                <a href="topic.php?id=<?php echo $id; ?>">
-                  <?php echo $row['topic_name']; ?>
-                </a>
+            $topic_creator_username = $row['topic_creator'];
+            $sql_user = "SELECT * FROM `user` WHERE username = '{$topic_creator_username}'";
+            $result_user = mysqli_query($conn, $sql_user);
+            while ($user_profile = mysqli_fetch_assoc($result_user)) {
 
 
-                </a>
-              </td>
-              <td>
-                <?php echo $row['views'] ?>
-              </td>
-              <td>
-                <?php echo $row['topic_creator'] ?>
-              </td>
-              <td>
-                <?php echo $row['date']; ?>
-              </td>
-            </tr>
-            <?php
+              $id = $row['topic_id'];
+              ?>
+
+              <tr>
+                <td>
+                  <?php echo $row['topic_id']; ?>
+                </td>
+                <td>
+                  <a href="topic.php?id=<?php echo $id; ?>">
+                    <?php echo $row['topic_name']; ?>
+                  </a>
+
+
+                  </a>
+                </td>
+                <td>
+                  <?php echo $row['views'] ?>
+                </td>
+                <td>
+                  <a href="allprofile.php?user=<?php echo $user_profile['id']; ?>">
+                    <?php echo $row['topic_creator'] ?>
+                  </a>
+                </td>
+                <td>
+                  <?php echo $row['date']; ?>
+                </td>
+              </tr>
+              <?php
+            }
           }
         } else {
           echo "No topic found!";

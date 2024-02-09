@@ -2,7 +2,7 @@
 session_start();
 session_destroy();
 unset($_SESSION['username']);
-header("Location: index.php");
+header("Location: login.php");
 exit();
 
 ?>
