@@ -8,109 +8,111 @@ session_start();
 <head>
      <meta charset="UTF-8" />
      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+     <?php include "bootstrapcss-and-icons.php"; ?>
      <title>Welcome to fSociety - "your hidden society" - Login</title>
-     <style>
-          <?php include "css/profile.css" ?>
-     </style>
 </head>
+<?php include "fonts.php"; ?>
+<style>
+     ul li {
+          list-style-type: none;
+     }
+</style>
 
-<body style="background-color:#cbd5e1; border:none;">
-     <div style="width: 80vw; margin:auto; background-color:white; border:1px solid #64748b;">
-          <div class="nav">
-               <div class="header">
-                    <div class="logo">
-                         <img src="img/f-society-original.png" width="100px" height="100px" alt="fsocietylogo" />
-                    </div>
-                    <div class="logoText">
-                         <span><b class="bigtext">fsociety</b><br></span>
-                         <span class="smalltext"><i>"Your Hidden Society"</i></span>
-                    </div>
-               </div>
-          </div>
+<body>
+     <?php include "header.php"; ?>
 
-          <div class="mainContainer">
-               <div class="profile">
-                    <?php
-                    if (isset($_GET['user'])) {
-                         $userId = $_GET['user'];
-                         $sql = "SELECT * FROM `user` WHERE id = '$userId'";
-                         $result = mysqli_query($conn, $sql);
-                         if ($result) {
-                              if (mysqli_num_rows($result) > 0) {
-                                   while ($row = mysqli_fetch_assoc($result)) {
-                                        ?>
-                                        <div class="pro_image">
-                                             <img src="img/images/<?php echo $row['profile_pic']; ?>" alt="yourimage" height="150px"
-                                                  width="180px">
+     <div class="container my-3 bg-light py-5 px-5 border rounded">
+          <div class="d-flex">
+               <div class="pro_image">
+                    <div class="d-flex">
+                         <?php
+                         if (isset($_GET['user'])) {
+                              $userId = $_GET['user'];
+                              $sql = "SELECT * FROM `user` WHERE id = '$userId'";
+                              $result = mysqli_query($conn, $sql);
+                              if ($result) {
+                                   if (mysqli_num_rows($result) > 0) {
+                                        while ($row = mysqli_fetch_assoc($result)) {
+                                             ?>
+                                             <div class="pro_image">
+                                                  <img src="img/images/<?php echo $row['profile_pic']; ?>" alt="yourimage" height="170px"
+                                                       width="180px" class="rounded border">
+                                             </div>
+
+                                             <div class="container">
+                                                  <ul>
+                                                       <li>
+                                                            <strong>User:</strong>
+                                                            <?php echo $row['username']; ?>
+                                                       </li>
+                                                       <li>
+                                                            <strong> Points:</strong>
+                                                            <?php echo $row['points']; ?>
+                                                       </li>
+                                                       <li>
+                                                            <strong> Posts:</strong>
+                                                            <?php echo $row['posts']; ?>
+                                                       </li>
+                                                       <li>
+                                                            <strong> Topics:</strong>
+                                                            <?php echo $row['topics']; ?>
+                                                       </li>
+
+                                                       <li>
+                                                            <strong>Joined at:</strong>
+                                                            <?php echo $row['datetime']; ?>
+                                                       </li>
+                                                       <li>
+                                                            <strong>About:</strong>
+                                                            <?php echo $row['about']; ?>
+                                                       </li>
+                                                       <li>
+                                                            <strong>Gender:</strong>
+                                                            <?php echo $row['gender']; ?>
+                                                       </li>
+                                                       <li>
+                                                            <strong> Country:</strong>
+                                                            <?php echo $row['country']; ?>
+                                                       </li>
+                                                       <li>
+                                                            <strong>Personal Contact:</strong>
+                                                            <?php echo $row['personalcontact']; ?>
+                                                       </li>
+                                                  </ul>
+
+
+                                             </div>
                                         </div>
 
-                                        <div class="useraccount">
-                                             <div class="pro_txt">
+                                        <?php
 
-
-                                                  <span>
-                                                       User:
-                                                       <?php echo $row['username']; ?>
-                                                  </span>
-                                                  <span>
-                                                       Points:
-                                                       <?php echo $row['points']; ?>
-                                                  </span>
-                                                  <span>
-                                                       Posts:
-                                                       <?php echo $row['posts']; ?>
-                                                  </span>
-                                                  <span>
-                                                       Topics:
-                                                       <?php echo $row['topics']; ?>
-                                                  </span>
-
-                                                  <span>
-                                                       Joined at:
-                                                       <?php echo $row['datetime']; ?>
-                                                  </span>
-                                                  <span>
-                                                       About:
-                                                       <?php echo $row['about']; ?>
-                                                  </span>
-                                                  <span>
-                                                       Gender:
-                                                       <?php echo $row['gender']; ?>
-                                                  </span>
-                                                  <span>
-                                                       Country:
-                                                       <?php echo $row['country']; ?>
-                                                  </span>
-                                                  <span>
-                                                       Personal Contact:
-                                                       <?php echo $row['personalcontact']; ?>
-                                                  </span>
-                                                  <?php
-
+                                        }
                                    }
+
                               }
 
+                         } else {
+                              header("Location: index.php");
                          }
 
-                    } else {
-                         header("Location: index.php");
-                    }
-
-                    ?>
-                         </div>
-                    </div>
-
-
-
-
-
+                         ?>
                </div>
-
-
-
           </div>
-          <div class="footer">000fSociety</div>
      </div>
+     <?php include "footer.php"; ?>
+     <?php include "bootstrapjs.php"; ?>
+     </div>
+     </div>
+
+
+
+
+
+
+
+
+
+
 </body>
 
 </html>

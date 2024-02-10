@@ -51,7 +51,8 @@ session_start();
               // Login Successful
               $_SESSION['username'] = $user_pass['username'];
               // Page redirect
-              header("Location: index.php");
+              // header("Location: index.php");
+              echo '<script>window.location="index.php";</script>';
               mysqli_close($conn);
               exit();
             } else {
@@ -70,7 +71,8 @@ session_start();
   }
 
   ?>
-  <div class="container  py-5 px-5 bg-light from-box border rounded">
+  <div class="container  py-4 px-4 bg-light from-box border rounded">
+    <h4 style="text-align:center;">Log In</h4>
     <form action="<?php echo htmlentities($_SERVER['PHP_SELF']); ?>" method="post">
       <label for="username" class="form-label w-100">Username <br>
         <input class="form-control" type="text" name="uname" placeholder="@Username" aria-label="default input example">
