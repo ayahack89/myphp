@@ -8,87 +8,86 @@ session_start();
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="css/style.css">
+  <?php include "bootstrapcss-and-icons.php"; ?>
   <title>Welcome to fSociety - "your hidden society" - Login</title>
 </head>
+<?php include "fonts.php"; ?>
+<style>
+  .from-box {
+    width: 30vw;
+    margin: auto;
+  }
+</style>
 
-<body style="background-color:#cbd5e1;">
-  <div style="width: 80vw; margin:auto; background-color:white; border:1px solid #64748b;">
-    <div class="nav">
-      <div class="header">
-        <div class="logo">
-          <img src="img/f-society-original.png" width="100px" height="100px" alt="fsocietylogo" />
-        </div>
-        <div class="logoText">
-          <span><b class="bigtext">fsociety</b><br></span>
-          <span class="smalltext"><i>"Your Hidden Society"</i></span>
-        </div>
-      </div>
-    </div>
+<body>
+  <?php include "header.php"; ?>
 
-    <div class="mainContainer">
-      <div class="formContainer">
-        <?php
 
-        if (isset($_POST["submit"])) {
-          if ($_SERVER["REQUEST_METHOD"] == "POST") {
+  <?php
 
-            // User input
-            $userName = mysqli_real_escape_string($conn, $_POST['uname']);
-            $password = mysqli_real_escape_string($conn, $_POST['password']);
+  if (isset($_POST["submit"])) {
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-            // User Verification
-            $user_check = "SELECT * FROM `user` WHERE username = '$userName'";
-            $user_exist_verification = mysqli_query($conn, $user_check);
-            $check = mysqli_num_rows($user_exist_verification);
+      // User input
+      $userName = mysqli_real_escape_string($conn, $_POST['uname']);
+      $password = mysqli_real_escape_string($conn, $_POST['password']);
 
-            if ($check > 0) {
-              if (!empty($userName) && !empty($password)) {
-                $sql = "SELECT * FROM user WHERE username = '$userName'";
-                $result = mysqli_query($conn, $sql);
+      // User Verification
+      $user_check = "SELECT * FROM `user` WHERE username = '$userName'";
+      $user_exist_verification = mysqli_query($conn, $user_check);
+      $check = mysqli_num_rows($user_exist_verification);
 
-                if ($result) {
-                  $user_pass = mysqli_fetch_assoc($result);
-                  $dbpass = $user_pass['password'];
+      if ($check > 0) {
+        if (!empty($userName) && !empty($password)) {
+          $sql = "SELECT * FROM user WHERE username = '$userName'";
+          $result = mysqli_query($conn, $sql);
 
-                  // Verify the password using password_verify
-                  if (password_verify($password, $dbpass)) {
-                    // Login Successful
-                    $_SESSION['username'] = $user_pass['username'];
-                    // Page redirect
-                    header("Location: forum/topic_listing.php");
-                    mysqli_close($conn);
-                    exit();
-                  } else {
-                    echo "Password Incorrect";
-                  }
-                } else {
-                  echo "Error: " . mysqli_error($conn);
-                }
-              } else {
-                echo "Please enter both username and password";
-              }
+          if ($result) {
+            $user_pass = mysqli_fetch_assoc($result);
+            $dbpass = $user_pass['password'];
+
+            // Verify the password using password_verify
+            if (password_verify($password, $dbpass)) {
+              // Login Successful
+              $_SESSION['username'] = $user_pass['username'];
+              // Page redirect
+              header("Location: index.php");
+              mysqli_close($conn);
+              exit();
             } else {
-              echo "User not found! Please register first.";
+              echo "Password Incorrect";
             }
+          } else {
+            echo "Error: " . mysqli_error($conn);
           }
+        } else {
+          echo "Please enter both username and password";
         }
+      } else {
+        echo "User not found! Please register first.";
+      }
+    }
+  }
 
-        ?>
+  ?>
+  <div class="container  py-5 px-5 bg-light from-box border rounded">
+    <form action="<?php echo htmlentities($_SERVER['PHP_SELF']); ?>" method="post">
+      <label for="username" class="form-label w-100">Username <br>
+        <input class="form-control" type="text" name="uname" placeholder="@Username" aria-label="default input example">
+      </label><br>
 
-        <form action="<?php echo htmlentities($_SERVER['PHP_SELF']); ?>" method="post">
-          <label for="UserName">
-            <input type="text" name="uname" placeholder="@Username" /> </label><br />
-          <label for="UserName">
-            <input type="password" name="password" placeholder="#password" /> </label><br />
-          <br />
-          <input type="submit" name="submit" value="LogIn" />
-        </form>
+      <label for="password" class="form-label w-100">Password <br>
+        <input type="password" name="password" placeholder="#password" id="inputPassword5" class="form-control"
+          aria-describedby="passwordHelpBlock">
+      </label><br>
 
-      </div>
-      <p style="font-size:15px; text-align:center;">New to fSociety? At first you need to <a
-          href="register.php">Register</a> </p>
-      <div class="desc">
+      <button type="submit" class="btn btn-dark w-100" name="submit">LogIn</button>
+    </form>
+
+    <br>
+    <p>New to fSociety? At first you need to <a href="register.php">Register</a> </p>
+  </div>
+  <!-- <div class="desc">
 
         <p> fSociety - a anonymus marketplace & a community like you can buy our services and discuss your product
           quality with others, talk with real hackers, go to our chatroom and chat with others.
@@ -110,10 +109,9 @@ session_start();
           anonymus place of our users, total privacy no restriction.
           Hope you like it & and don't forget to give your feedback of our review section : )</p>
 
-      </div>
-    </div>
-    <div class="footer">000fSociety</div>
-  </div>
+      </div> -->
+  <?php include "footer.php"; ?>
+  <?php include "bootstrapjs.php"; ?>
 </body>
 
 </html>

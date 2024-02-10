@@ -24,7 +24,7 @@ session_start();
 
      <?php include "header.php"; ?>
 
-     <div class="container my-3 bg-light py-3 px-3 border rounded">
+     <div class="container my-3 bg-light py-5 px-5 border rounded">
           <div class="d-flex">
                <div class="pro_image">
                     <?php
@@ -97,62 +97,59 @@ session_start();
 
 
                          </div>
-                         <div class="pro_guide">
-                              <p style="margin:50px; font-size:15px;">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo
-                                   id adipisci
-                                   tempore,
-                                   praesentium veritatis, est eveniet perspiciatis quidem animi suscipit aut nostrum?
-                                   Repellat eligendi excepturi reprehenderit dolor! Expedita, magnam non.</p>
-                              <p style="margin:50px"><button type="button" class="btn btn-dark"><a href="profile.php?action=edit"
-                                             style="text-decoration:none; color:gainsboro;">Edit Profile</a></button>
-                                   <button type="button" class="btn btn-dark"><a href="profile.php?action=change_profile_image"
-                                             style="text-decoration:none; color:gainsboro;">Change Profile Image</a></button>
-                                   <button type="button" class="btn btn-dark"><a href="profile.php?action=change_password"
-                                             style="text-decoration:none; color:gainsboro;">Change Password</a></button>
 
-                                   <button type="button" class="btn btn-dark"><a href="profile.php?action=delete"
-                                             style="text-decoration:none; color:gainsboro;">Delete
-                                             Profile</a></button>
+                         <div class="container d-flex mx-2 my-2">
+                              <button type="button" class="btn btn-dark mx-1 my-1"><a href="profile.php?action=edit"
+                                        style="text-decoration:none; color:gainsboro;">Edit Profile</a></button>
+                              <button type="button" class="btn btn-dark mx-1 my-1"><a href="profile.php?action=change_profile_image"
+                                        style="text-decoration:none; color:gainsboro;">Change Profile Image</a></button>
+                              <button type="button" class="btn btn-dark mx-1 my-1"><a href="profile.php?action=change_password"
+                                        style="text-decoration:none; color:gainsboro;">Change Password</a></button>
+
+                              <button type="button" class="btn btn-dark mx-1 my-1"><a href="profile.php?action=delete"
+                                        style="text-decoration:none; color:gainsboro;">Delete
+                                        Profile</a></button>
+                         </div>
+
+
+
+                         <?php
+                         $action = isset($_GET['action']) ? $_GET['action'] : "";
+
+                         $username = $_SESSION['username'];
+                         if ($action == "edit") {
+
+                              ?>
+                              <p>If you want to edit your profile pic and other informtions just click this <a
+                                        href="editprofile.php?update=<?php echo $row['id']; ?>">edit</a> button.
+                              </p>
+                              <?php
+                         } elseif ($action == "change_password") {
+                              ?>
+                              <p>If you want to change your password just click on this <a
+                                        href="editprofile.php?change=<?php echo $row['id']; ?>">Change Password</a> button.
                               </p>
 
 
+                              <?php
+                         } elseif ($action == "change_profile_image") {
+                              ?>
+                              <p>If you want to delete your account just click on thon is <a
+                                        href="editprofile-image.php?update=<?php echo $row['id']; ?>">Change Profile Image</a>
+                                   button.
+                              </p>
+                              <?php
+
+
+                         } elseif ($action == "delete") {
+                              ?>
+                              <p>If you want to delete your account just click on thon is <a
+                                        href="editprofile.php?update=<?php echo $row['id']; ?>">delete</a> button.
+                              </p>
 
                               <?php
-                              $action = $_GET['action'];
-                              $username = $_SESSION['username'];
-                              if ($action == "edit") {
 
-                                   ?>
-                                   <p>If you want to edit your profile pic and other informtions just click this <a
-                                             href="editprofile.php?update=<?php echo $row['id']; ?>">edit</a> button.
-                                   </p>
-                                   <?php
-                              } elseif ($action == "change_password") {
-                                   ?>
-                                   <p>If you want to change your password just click on this <a
-                                             href="editprofile.php?change=<?php echo $row['id']; ?>">Change Password</a> button.
-                                   </p>
-
-
-                                   <?php
-                              } elseif ($action == "change_profile_image") {
-                                   ?>
-                                   <p>If you want to delete your account just click on thon is <a
-                                             href="editprofile-image.php?update=<?php echo $row['id']; ?>">Change Profile Image</a>
-                                        button.
-                                   </p>
-                                   <?php
-
-
-                              } elseif ($action == "delete") {
-                                   ?>
-                                   <p>If you want to delete your account just click on thon is <a
-                                             href="editprofile.php?update=<?php echo $row['id']; ?>">delete</a> button.
-                                   </p>
-
-                                   <?php
-
-                              }
+                         }
                               }
 
                          } else {
@@ -161,12 +158,12 @@ session_start();
                          ?>
 
 
-                    <?php
+               <?php
 
 
                     }
                     ?>
-          </div>
+     </div>
 
 
      </div>

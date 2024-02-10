@@ -30,7 +30,10 @@
           font-size: 1.2rem;
      }
 </style>
+<?php
+include "db_connection.php";
 
+?>
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
      <div class="container-fluid">
           <a class="navbar-brand" href="#">Navbar</a>
@@ -66,9 +69,35 @@
                     <li class="nav-item">
                          <a class="nav-link active" href="#"><i class="ri-phone-fill"></i> Contact Us</a>
                     </li>
-                    <li class="nav-item">
-                         <a class="nav-link active" href="logout.php"><i class="ri-logout-circle-fill"></i> Logout</a>
-                    </li>
+                    <?php if (isset($_SESSION['username'])) {
+                         ?>
+                         <li class="nav-item">
+                              <a class="nav-link active" href="logout.php"><i class="ri-logout-circle-fill"></i> Logout</a>
+                         </li>
+                         <?php
+
+                    } else {
+                         ?>
+                         <div class="dropdown">
+                              <a class="btn btn-secondary btn-sm my-2 btn-dark dropdown-toggle" href="#" role="button"
+                                   data-bs-toggle="dropdown" aria-expanded="false">
+                                   <i class="ri-account-circle-line" style="font-size:1rem;"></i> Create your account
+                              </a>
+
+                              <ul class="dropdown-menu">
+                                   <li><a class="dropdown-item" href="login.php"><i class="ri-login-circle-fill"></i> Log
+                                             In</a></li>
+                                   <li><a class="dropdown-item" href="register.php"><i class="ri-login-box-fill"></i> Sign
+                                             Up</a></li>
+
+                              </ul>
+                         </div>
+
+                         <?php
+                    }
+
+                    ?>
+
                </ul>
           </div>
      </div>
