@@ -1,9 +1,6 @@
 <?php
-ob_start();
-include "../db_connection.php";
+include "db_connection.php";
 session_start();
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
 ?>
 
 <!DOCTYPE html>
@@ -12,72 +9,61 @@ ini_set('display_errors', 1);
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <?php include "bootstrapcss-and-icons.php"; ?>
   <title>Welcome to fSociety your anonymous market - home</title>
-  <style>
-    <?php include "stylesheet/addtopic.css"; ?>
-  </style>
 </head>
+<?php include "fonts.php"; ?>
 
 <body>
-  <div class="header header_background">
-    <div class="logo">
-      <img src="../img/fsocietylogo.png" width="120px" height="120px" alt="fsocietylogo" />
-    </div>
-    <div class="logoText">
-      <h2><b class="bigtext">fSociety</b><br><b class="smalltext">the anonymous market</b></h2>
-    </div>
-  </div>
+  <?php include "header.php"; ?>
+  <?php
+  if (isset($_GET['topic'])) {
+    $data = mysqli_real_escape_string($conn, isset($_GET['topic']) ? $_GET['topic'] : 'Invalid Data');
+    // echo "Data parameter found: $data";
+  
+    if (isset($_POST['submit'])) {
+      // User Input
+      $username = $_SESSION['username'];
+      $comment = $_POST['comment'];
 
-  <div class="navbar">
-    <?php include "forumnav.php"; ?>
-  </div>
+      if (!empty($username) && !empty($comment)) {
+        $sql_query = "INSERT INTO `replytopost` (`post_comment`, `username`) VALUES ('$comment', '$username');";
+        $result = mysqli_query($conn, $sql_query);
 
-  <div class="bigBox">
-    <div class="formBox">
-      <?php
-      if (isset($_GET['data'])) {
-        $data = $_GET['data'];
-        echo "Data parameter found: $data";
-
-        if (isset($_POST['submit'])) {
-          // User Input
-          $username = $_POST['username'];
-          $comment = $_POST['topic_desc'];
-
-          if (!empty($username) && !empty($comment)) {
-            $sql_query = "INSERT INTO `replytopost` (`post_comment`, `username`) VALUES ('$comment', '$username');";
-            $result = mysqli_query($conn, $sql_query);
-
-            if ($result) {
-              // Redirect after successful form submission
-              header("Location: showtopic.php?data=$data");
-              exit;
-            } else {
-              echo "Error executing query: " . mysqli_error($conn);
-            }
-          } else {
-            echo "All form fields are required.";
-          }
+        if ($result) {
+          // Redirect after successful form submission
+          header('Location: showtopic.php?topic="$data"');
+          exit();
+        } else {
+          echo "Error executing query: " . mysqli_error($conn);
         }
       } else {
-        echo "No 'data' parameter in the URL. URL: " . $_SERVER['REQUEST_URI'];
+        echo "All form fields are required.";
       }
-      ?>
+    }
+  } else {
+    echo "No 'data' parameter in the URL. URL: " . $_SERVER['REQUEST_URI'];
+  }
+  ?>
+  <div class="container w-50 px-5 py-5">
+    <form method="post" action="<?php echo htmlentities($_SERVER['PHP_SELF'] . '?data=' . urlencode($data)); ?>">
 
-      <form method="post" action="<?php echo htmlentities($_SERVER['PHP_SELF'] . '?data=' . urlencode($data)); ?>">
-        <p><strong>User Name:</strong><br>
-          <input type="text" name="username" style="background-color:gainsboro;"
-            value="<?php echo isset($_SESSION["username"]) ? $_SESSION["username"] : ''; ?>">
-        </p>
-        <p><strong> Comment:</strong><br>
-          <textarea name="topic_desc" rows="4" cols="32" wrap="virtual"></textarea>
-        </p>
-        <p><input type="submit" name="submit" style="padding-right:10px; padding-left: 10px;" value="Post"></p>
-      </form>
-    </div>
-
-    <div class="footer">000fSociety</div>
+      <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">@</span>
+        <input type="text" class="form-control" placeholder="Username" aria-label="Username"
+          aria-describedby="basic-addon1" value="<?php echo $_SESSION['username']; ?>" disabled>
+      </div>
+      <div class="form-floating">
+        <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"
+          name="comment"></textarea>
+        <label for="floatingTextarea2">Comments</label>
+      </div><br>
+      <button type="submit" name="submit" class="btn btn-dark text-light">Comment</button>
+    </form>
   </div>
+
+  <?php include "footer.php"; ?>
+  <?php include "bootstrapjs.php"; ?>
 </body>
 
 </html>

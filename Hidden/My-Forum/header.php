@@ -60,7 +60,7 @@ include "db_connection.php";
                                    class="ri-chat-3-fill"></i> Live Chat</a>
                     </li>
                     <li class="nav-item">
-                         <a class="nav-link active" href="rateus.php"><i class="ri-bar-chart-grouped-fill"></i>
+                         <a class="nav-link active" href="reviews.php"><i class="ri-bar-chart-grouped-fill"></i>
                               Reviews</a>
                     </li>
                     <li class="nav-item">
