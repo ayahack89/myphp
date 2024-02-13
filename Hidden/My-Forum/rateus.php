@@ -14,11 +14,6 @@ session_start(); ?>
 
 <body>
      <?php include "header.php"; ?>
-     <div class="useraccount">
-          <div class="yourname">
-               <?php echo $_SESSION['username']; ?> <i>(You)</i>
-          </div>
-     </div>
      </div>
      <div class="container w-50">
           <?php
@@ -45,30 +40,49 @@ session_start(); ?>
 
 
           ?>
-          <form action="<?php echo htmlentities($_SERVER['PHP_SELF']); ?>" method="post">
-               <div class="input-group mb-3">
-                    <span class="input-group-text" id="basic-addon1">@</span>
-                    <input type="text" class="form-control" placeholder="Username" aria-label="Username"
-                         aria-describedby="basic-addon1" value="<?php echo $_SESSION['username']; ?>" disabled>
-               </div>
-               <div class="input-group mb-3">
-                    <select name="rating" class="form-select bg-light" aria-label="Default select example">
-                         <option selected>--Rating---</option>
-                         <option value="★">★</option>
-                         <option value="★★">★★</option>
-                         <option value="★★★">★★★</option>
-                         <option value="★★★★">★★★★</option>
-                         <option value="★★★★★">★★★★★</option>
-                    </select>
-               </div>
+          <?php if (isset($_SESSION['username'])) {
+               ?>
+               <form action="<?php echo htmlentities($_SERVER['PHP_SELF']); ?>" method="post">
+                    <div class="input-group mb-3">
+                         <span class="input-group-text" id="basic-addon1">@</span>
+                         <input type="text" class="form-control" placeholder="Username" aria-label="Username"
+                              aria-describedby="basic-addon1" value="<?php echo $_SESSION['username']; ?>" disabled>
+                    </div>
+                    <div class="input-group mb-3">
+                         <select name="rating" class="form-select bg-light" aria-label="Default select example">
+                              <option selected>--Rating---</option>
+                              <option value="★">★</option>
+                              <option value="★★">★★</option>
+                              <option value="★★★">★★★</option>
+                              <option value="★★★★">★★★★</option>
+                              <option value="★★★★★">★★★★★</option>
+                         </select>
+                    </div>
 
-               <div class="form-floating">
-                    <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2"
-                         style="height: 100px" name="comments"></textarea>
-                    <label for="floatingTextarea2">Comments</label>
-               </div><br>
-               <button type="submit" class="btn btn-dark" name="submit">Submit Your Feedback</button>
-          </form>
+                    <div class="form-floating">
+                         <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2"
+                              style="height: 100px" name="comments"></textarea>
+                         <label for="floatingTextarea2">Comments</label>
+                    </div><br>
+                    <button type="submit" class="btn btn-dark" name="submit">Submit Your Feedback</button>
+               </form>
+
+               <?php
+          } else {
+               ?>
+               <div class="alert alert-danger d-flex align-items-center" role="alert">
+
+                    <use xlink:href="#exclamation-triangle-fill" />
+                    </svg>
+                    <div>
+                         <i class="ri-alert-fill"></i> You are not logged In! Please <a href="login.php"
+                              style="color:maroon;">logIn</a> to get access.
+                    </div>
+               </div>
+               <?php
+          }
+          ?>
+
      </div>
 
      <p>Want to see reviews? <a href="reviews.php">click here</a>.</p>

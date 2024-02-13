@@ -29,17 +29,17 @@ session_start();
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
       // User input
-      $userName = mysqli_real_escape_string($conn, $_POST['uname']);
+      $email = mysqli_real_escape_string($conn, $_POST['email']);
       $password = mysqli_real_escape_string($conn, $_POST['password']);
 
       // User Verification
-      $user_check = "SELECT * FROM `user` WHERE username = '$userName'";
+      $user_check = "SELECT * FROM `user` WHERE email = '{$email}'";
       $user_exist_verification = mysqli_query($conn, $user_check);
       $check = mysqli_num_rows($user_exist_verification);
 
       if ($check > 0) {
-        if (!empty($userName) && !empty($password)) {
-          $sql = "SELECT * FROM user WHERE username = '$userName'";
+        if (!empty($email) && !empty($password)) {
+          $sql = "SELECT * FROM user WHERE email = '{$email}'";
           $result = mysqli_query($conn, $sql);
 
           if ($result) {
@@ -62,7 +62,7 @@ session_start();
             echo "Error: " . mysqli_error($conn);
           }
         } else {
-          echo "Please enter both username and password";
+          echo "Please enter both your valid email and password";
         }
       } else {
         echo "User not found! Please register first.";
@@ -74,8 +74,9 @@ session_start();
   <div class="container  py-4 px-4 bg-light from-box border rounded">
     <h4 style="text-align:center;">Log In</h4>
     <form action="<?php echo htmlentities($_SERVER['PHP_SELF']); ?>" method="post">
-      <label for="username" class="form-label w-100">Username <br>
-        <input class="form-control" type="text" name="uname" placeholder="@Username" aria-label="default input example">
+      <label for="email" class="form-label w-100">Email <br>
+        <input class="form-control" type="email" name="email" placeholder="....@gmail.com"
+          aria-label="default input example">
       </label><br>
 
       <label for="password" class="form-label w-100">Password <br>

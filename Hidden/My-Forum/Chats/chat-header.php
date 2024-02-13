@@ -48,10 +48,23 @@ include "../db_connection.php";
                                    class="ri-home-7-fill"></i>
                               Home</a>
                     </li>
-                    <li class="nav-item">
-                         <a class="nav-link active" aria-current="page" href="../profile.php"><i
-                                   class="ri-account-circle-fill"></i> Profile</a>
-                    </li>
+                    <?php
+                    if (isset($_SESSION['username'])) {
+                         ?>
+                         <li class="nav-item">
+                              <a class="nav-link active" aria-current="page" href="../profile.php"><i
+                                        class="ri-account-circle-fill"></i>
+                                   <?php echo $_SESSION['username']; ?>
+                              </a>
+                         </li>
+                         <?php
+                    } else {
+                         ?>
+                         <li class="nav-item">
+                              <a class="nav-link active" aria-current="page" href="#"><i class="ri-account-circle-fill"></i>
+                                   Profile</a>
+                         </li>
+                    <?php } ?>
                     <li class="nav-item">
                          <a class="nav-link active" aria-current="page" href="../members.php"><i
                                    class="ri-team-fill"></i>

@@ -48,9 +48,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['username'])) {
     <form method="post" action="<?php echo htmlentities($_SERVER['PHP_SELF']); ?>">
       <?php
       if (!isset($_SESSION['username'])) {
-        echo "<h6 style='color:red;'>Somthing went wrong : ( </h6></br>";
-        echo "You are not a member of our community.";
-        echo "Please login to acces our chatroom.";
+        ?>
+        <div class="alert alert-danger my-2 d-flex align-items-center" role="alert">
+
+          <use xlink:href="#exclamation-triangle-fill" />
+          </svg>
+          <div>
+            <i class="ri-alert-fill"></i> You are not a member of our community. Please <a href="../login.php"
+              style="color:maroon;">logIn</a> and get access of our chatroom.
+          </div>
+        </div>
+        <?php
       } else {
         echo '<div class="container w-100 py-2 px-2 bg-light border rounded-bottom">';
         echo ' <div class="input-group">';

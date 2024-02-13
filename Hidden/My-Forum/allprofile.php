@@ -46,6 +46,10 @@ session_start();
                                                             <?php echo $row['username']; ?>
                                                        </li>
                                                        <li>
+                                                            <strong> Email:</strong>
+                                                            <?php echo $row['email']; ?>
+                                                       </li>
+                                                       <li>
                                                             <strong> Points:</strong>
                                                             <?php echo $row['points']; ?>
                                                        </li>

@@ -31,6 +31,7 @@ include "db_connection.php";
     // User details
     // Required
     $userName = mysqli_real_escape_string($conn, $_POST["uname"]);
+    $useremail = mysqli_real_escape_string($conn, $_POST["email"]);
     $userpassword = mysqli_real_escape_string($conn, $_POST["password"]);
     $userrepass = mysqli_real_escape_string($conn, $_POST["repassword"]);
     // Optional
@@ -48,7 +49,7 @@ include "db_connection.php";
     $userpass_hash = password_hash($userpassword, PASSWORD_DEFAULT);
     $repass_hash = password_hash($userrepass, PASSWORD_DEFAULT);
 
-    if (!empty($userName) && !empty($userpassword) && !empty($userrepass)) {
+    if (!empty($userName) && !empty($useremail) && !empty($userpassword) && !empty($userrepass)) {
       $user_check = "SELECT * FROM `user` WHERE username = '$userName'";
       $check = mysqli_query($conn, $user_check);
       $user_exist_verification = mysqli_num_rows($check);
@@ -71,7 +72,7 @@ include "db_connection.php";
 
 
               if (move_uploaded_file($tempImgName, $imageUpload)) {
-                $sql = "INSERT INTO `user` (`username`, `password`, `repassword`, `about`, `gender`, `country`, `personalcontact`, `profile_pic`) VALUES ('$userName', '$userpass_hash', '$repass_hash',  '$about', '$gender', '$country', '$pContact', '$newImgName')";
+                $sql = "INSERT INTO `user` (`username`,`email`, `password`, `repassword`, `about`, `gender`, `country`, `personalcontact`, `profile_pic`) VALUES ('{$userName}','{$useremail}', '{$userpass_hash}', '{$repass_hash}',  '{$about}', '{$gender}', '{$country}', '{$pContact}', '{$newImgName}')";
                 $result = mysqli_query($conn, $sql);
 
                 if ($result) {
@@ -107,6 +108,9 @@ include "db_connection.php";
       <h4>Create your account</h4>
       <label for="username">Username
         <input type="text" name="uname" placeholder="Username (required)" class="form-control w-100" required />
+      </label><br />
+      <label for="username">Email
+        <input type="email" name="email" placeholder="Username (required)" class="form-control w-100" required />
       </label><br />
       <label for="password">Password
         <input type="password" name="password" placeholder="password (required)" class="form-control" required />

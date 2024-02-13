@@ -1,261 +1,213 @@
 <?php
-session_start();
-
 include "db_connection.php";
-$itemsPerPage = 5;
-
-// Fetch total count of records
-$sqlTotalRecords = "SELECT COUNT(*) as total FROM `addtopics`";
-$resultTotalRecords = mysqli_query($conn, $sqlTotalRecords);
-
-// Check for query error
-if (!$resultTotalRecords) {
-    die("Error in SQL query: " . mysqli_error($conn));
-}
-
-$rowTotalRecords = mysqli_fetch_assoc($resultTotalRecords);
-$totalRecords = $rowTotalRecords['total'];
-
-// Calculate total pages
-$totalPages = ceil($totalRecords / $itemsPerPage);
-
-// Determine current page
-$currentPage = isset($_GET['page']) ? intval($_GET['page']) : 1;
-
-// Ensure currentPage is within valid range
-if ($currentPage < 1) {
-    $currentPage = 1;
-} elseif ($currentPage > $totalPages) {
-    $currentPage = $totalPages;
-}
-
-// Calculate offset based on current page
-$offset = ($currentPage - 1) * $itemsPerPage;
-
-// Fetch data based on the offset and number of items per page
-$sqlFetchData = "SELECT * FROM `addtopics` LIMIT $offset, $itemsPerPage";
-$resultFetchData = mysqli_query($conn, $sqlFetchData);
-
-// Check for query error
-if (!$resultFetchData) {
-    die("Error in SQL query: " . mysqli_error($conn));
-}
-
-// Check if the "Load More" button is clicked
-if (isset($_POST['load_more'])) {
-    // Update the current page for the next load
-    $currentPage++;
-    // Ensure currentPage is within valid range after clicking "Load More"
-    if ($currentPage > $totalPages) {
-        $currentPage = $totalPages;
-    }
-}
-
+session_start();
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
-
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <?php include "bootstrapcss-and-icons.php"; ?>
-    <title>Welcome to fSociety - Home</title>
+     <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <?php include "bootstrapcss-and-icons.php"; ?>
+     <title>Catagory-Page</title>
 </head>
 <?php include "fonts.php"; ?>
 
 <body>
-
-    <?php include "header.php"; ?>
-    <div style="display:flex;">
-
-        <div class="container">
-
-
-            <div class="useraccount">
-
-                <span>
-                    <b>User:</b>
+     <?php include "header.php"; ?>
+     <!-- Button trigger modal -->
+     <div class="px-4 py-5 my-1 text-center">
+          <img class="d-block mx-auto" src="/docs/5.0/assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">
+          <h1 class="display-5 fw-bold">Centered hero</h1>
+          <div class="col-lg-6 mx-auto">
+               <p class="lead mb-4">Quickly design and customize responsive mobile-first sites with Bootstrap, the
+                    world’s most popular front-end open source toolkit, featuring Sass variables and mixins, responsive
+                    grid system, extensive prebuilt components, and powerful JavaScript plugins.</p>
+               <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+                    <button type="button" class="btn btn-dark btn-lg px-4 gap-3"><a href="Chats/chatroom.php"
+                              style="text-decoration:none; color:white;"><i class="ri-chat-3-fill"></i> Live
+                              Chat</a></button>
                     <?php
-                    if (isset($_SESSION['username'])) {
-                        echo $_SESSION['username'];
-
-                    } else {
-                        echo "you are not logged in!";
-                    }
-
-                    ?> <i>(You)</i>
-                </span>
-
-
-
-            </div>
-
-            <div style="width:50vw; margin:auto;">
-                <form method="post" style="text-align:right;">
-                    <input class="form-control form-control-sm my-3 py-2 border" type="text" name="search"
-                        placeholder="Search By username, topics, content" aria-label=".form-control-sm example">
-                    <input type="submit" name="submit" style="display:none;">
-                </form>
-            </div>
-
-            <?php
-            if (isset($_POST["submit"])) {
-                $search = mysqli_real_escape_string($conn, $_POST["search"]);
-                $sql_search = "SELECT * FROM `addtopics` WHERE topic_id LIKE '%$search%' OR topic_title LIKE '%$search%' OR username LIKE '%$search%'";
-                $runQuery = mysqli_query($conn, $sql_search);
-
-                // Check for query error
-                if (!$runQuery) {
-                    die("Error in SQL query: " . mysqli_error($conn));
-                }
-                ?>
-
-                <table class="table table-light table-striped border">
-
-                    <thead class="table-dark">
-                        <tr>
-
-                            <th colspan="2" style="text-align:center; font-weight:lighter;">Author</th>
-                            <th colspan="2" style="font-weight:lighter;">Topics</th>
-
-
-                        </tr>
-                    </thead>
-
-                    <tbody>
-
-
-
-                        <?php
-                        if (mysqli_num_rows($runQuery) > 0) {
-                            while ($row = mysqli_fetch_assoc($runQuery)) {
-                                // Display search results
-                                ?>
-                                <tr style="background-color:#bbf7d0;">
-                                    <td style="width:5%;"></td>
-                                    <td style="width:25%;">
-                                        <?php echo $row["username"]; ?>] <br>
-                                        <b style="font-size:12px; font-weight:lighter;">
-                                            <?php echo $row["topic_create_time"]; ?>
-                                        </b>
-                                    </td>
-
-                                    <td style="width:70%;">Topic: <a style="color:#475569;"
-                                            href="showtopic.php?data=<?php echo urlencode($row["topic_title"]); ?>">
-                                            <?php echo $row["topic_title"]; ?>
-                                        </a> <br><br>
-                                        About: <i style="color:#1f2937;">
-                                            <?php echo $row["topic_desc"]; ?>
-                                        </i>
-                                    </td>
-
-                                </tr>
-                                <?php
-                            }
-                        } else {
-                            echo '<tr  style="background-color:#bbf7d0;">';
-                            echo "<td style='color:red; text-decoration:none;' colspan='4'>No results found.</td>";
-                            echo '</tr>';
-                        }
-            }
-            ?>
-                </tbody>
-            </table>
-
-            <table class="table table-light table-striped border">
-
-                <thead class="table-dark">
-                    <tr>
-
-                        <th colspan="2" style="text-align:center; font-weight:lighter;">Author</th>
-                        <th colspan="2" style="font-weight:lighter;">Topics</th>
-
-
-                    </tr>
-                </thead>
-
-                <tbody>
-
-                    <?php
-                    if (mysqli_num_rows($resultFetchData) > 0) {
-                        while ($row = mysqli_fetch_assoc($resultFetchData)) {
-                            // Display fetched data
-                            ?>
-                            <tr>
-                                <td style="width:5%;"></td>
-                                <td style="width:25%;">[
-                                    <?php echo $row["username"]; ?>] <br>
-                                    <b style="font-size:12px; font-weight:lighter;">
-                                        <?php echo $row["topic_create_time"]; ?>
-                                    </b>
-                                </td>
-
-                                <td style="width:65%;">Topic: <a style="color:#475569;"
-                                        href="showtopic.php?data=<?php echo urlencode($row["topic_id"]); ?>">
-                                        <?php echo $row["topic_title"]; ?>
-                                    </a>
-                                    <br><br>
-                                    Catagory: <a style="color: #475569;"
-                                        href="showcatagories.php?catagory=<?php echo urlencode($row["catagories"]); ?>">
-                                        <?php echo $row["catagories"]; ?>
-                                    </a>
-                                    <br>
-
-                                    About: <span>
-                                        <?php echo $row["topic_desc"]; ?>
-                                    </span>
-                                </td>
-
-
-
-                                <?php
-                        }
-                    } else {
-                        echo "<p>No data found.</p>";
+                    if (!isset($_SESSION['username'])) {
+                         ?>
+                         <button type="button" class="btn btn-secondary btn-lg px-4">
+                              <a href="login.php" style="text-decoration:none; color:white;"><i
+                                        class="ri-login-circle-line"></i> Log
+                                   In</a>
+                         </button>
+                         <?php
                     }
                     ?>
-                </tbody>
-            </table>
+
+               </div>
+          </div>
+     </div>
+     <div class="container">
 
 
 
+          <!-- Modal -->
 
-            <?php if ($totalPages > 1): ?>
-                <div class="pagination">
-                    <nav aria-label="Page navigation">
-                        <ul class="pagination pagination-sm" style="color:black;">
-                            <?php for ($i = 1; $i <= $totalPages; $i++): ?>
-                                <li class="page-item <?php echo ($i === $currentPage) ? 'active' : ''; ?>">
-                                    <a class="page-link text-dark bg-light border-dark" href="?page=<?php echo $i; ?>">
-                                        <?php echo $i; ?>
-                                    </a>
-                                </li>
-                            <?php endfor; ?>
-                        </ul>
-                    </nav>
-                </div>
-            <?php endif; ?>
-
-
-
-
-
-        </div>
+          <form action="<?php echo htmlentities($_SERVER['PHP_SELF']); ?>" method="post"
+               class=" container  py-3 d-flex">
+               <button type="button" class=" btn btn-dark mx-5 w-50" data-bs-toggle="modal"
+                    data-bs-target="#exampleModal">
+                    Create a new disk
+               </button>
+               <input class="form-control rounded-0" type="search" placeholder="Search Disks by name, date, content.."
+                    name="search" aria-label="default input example">
+               <button type="submit" name="submit" class="btn btn-primary rounded-0"><i
+                         class="ri-search-line"></i></button>
+          </form>
 
 
 
 
 
+          <?php
+          if (isset($_POST['submit'])) {
+               $search = mysqli_real_escape_string($conn, $_POST['search']);
+               if (!empty($search)) {
+                    $search_query = "SELECT * FROM `catagory` WHERE catagory_name LIKE '%{$search}%' OR catagory_desc LIKE '%{$search}%' OR created LIKE '%{$search}%' ";
+                    $result = mysqli_query($conn, $search_query); // Execute the query once
+                    if ($result) {
+                         if (mysqli_num_rows($result) > 0) {
+                              while ($search_disk = mysqli_fetch_assoc($result)) {
+                                   ?>
+                                   <div class="card mx-2 my-2" style="width: 18rem;">
+                                        <div class="card-body">
+                                             <h5 class="card-title">
+                                                  <?php echo $search_disk['catagory_name']; ?><br>
+                                                  <b style="font-size:11px; font-weight:lighter;">Disk added on:
+                                                       <?php echo $search_disk['created']; ?>
+                                                  </b>
+                                             </h5>
+                                             <p class="card-text" style="font-size:12px;">
+                                                  <?php echo $search_disk['catagory_desc']; ?>
+                                             </p>
+                                             <button class="btn btn-dark">
+                                                  <a href="disk.php?Disk=<?php echo $search_disk['catagory_id']; ?>"
+                                                       style="text-decoration:none; color:white;">View Disk</a></button>
+                                        </div>
+                                   </div>
+                                   <?php
+                              }
+                         } else {
+                              echo "No Search Found : (";
+                         }
+                    } else {
+                         echo "Something went wrong!";
+                    }
+               } else {
+                    echo "Empty search is not allowed!";
+               }
+          }
+          ?>
 
 
 
 
-    </div>
+          <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+               aria-hidden="true">
+               <div class="modal-dialog">
+                    <div class="modal-content">
+                         <div class="modal-header">
+                              <h1 class="modal-title fs-5" id="exampleModalLabel">Create a new disk</h1>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                   aria-label="Close"></button>
+                         </div>
+                         <?php
+                         if (isset($_POST["submit"])) {
+                              $catagory_name = mysqli_real_escape_string($conn, $_POST['catagory_name']);
+                              $catagory_desc = mysqli_real_escape_string($conn, $_POST['about']);
+                              if (!empty($_POST['catagory_name']) && !empty($_POST['about'])) {
+                                   $sql_query = "INSERT INTO `catagory` (`catagory_name`, `catagory_desc`) VALUES ( '{$catagory_name}', '{$catagory_desc}');";
+                                   $result = mysqli_query($conn, $sql_query);
+                                   if ($result) {
+                                        echo "<script>window.location='index.php'</script>";
+                                        exit();
 
-    <?php include "footer.php" ?>
-    <?php include "bootstrapjs.php" ?>
+
+                                   } else {
+                                        echo "<s>alert('Somthing Went wrong : (');</script>";
+                                   }
+                              } else {
+                                   echo "Please properly create your disk!";
+                              }
+                         }
+                         ?>
+                         <form action="<?php echo htmlentities($_SERVER['PHP_SELF']); ?>" method="post">
+                              <div class="modal-body">
+                                   <div class="mb-3">
+                                        <label for="exampleFormControlInput1" class="form-label">Disk name</label>
+                                        <input type="text" class="form-control" name="catagory_name"
+                                             id="exampleFormControlInput1" placeholder="Enter your disk name...">
+                                   </div>
+                                   <div class="mb-3">
+                                        <label for="exampleFormControlTextarea1" class="form-label">About</label>
+                                        <textarea class="form-control" name="about" id="exampleFormControlTextarea1"
+                                             rows="3" placeholder="Talking about..."></textarea>
+                                   </div>
+
+                              </div>
+                              <div class="modal-footer">
+                                   <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Close</button>
+                                   <button type="submit" name="submit" class="btn btn-dark">Create</button>
+                              </div>
+                         </form>
+
+
+                    </div>
+               </div>
+          </div>
+
+
+          <!-- Featching data -->
+          <div class="container d-flex px-3 py-3 row">
+               <?php
+               $sql = "SELECT * FROM `catagory`";
+               $print = mysqli_query($conn, $sql);
+               if ($print) {
+                    if (mysqli_num_rows($print) > 0) {
+                         while ($disk = mysqli_fetch_assoc($print)) {
+                              ?>
+                              <div class="card mx-2 my-2" style="width: 18rem;">
+                                   <div class="card-body">
+                                        <h5 class="card-title">
+                                             <?php echo $disk['catagory_name']; ?><br>
+                                             <b style="font-size:11px; font-weight:lighter;">Disk added on:
+                                                  <?php echo $disk['created']; ?>
+                                             </b>
+                                        </h5>
+
+
+
+                                        <p class="card-text" style="font-size:12px;">
+                                             <?php echo $disk['catagory_desc']; ?>
+                                        </p>
+                                        <button class="btn btn-dark">
+                                             <a href="disk.php?Disk=<?php echo $disk['catagory_id']; ?>"
+                                                  style="text-decoration:none; color:white;">View Disk</a></button>
+                                   </div>
+                              </div>
+                              <?php
+                         }
+                    } else {
+                         echo "<h5>No Disk Found : (</h5>";
+                    }
+               } else {
+                    echo "<h5>Somthing Went Wrong! : (</h5>";
+               }
+
+
+
+               ?>
+          </div>
+     </div>
+     <?php include "footer.php"; ?>
+     <?php include "bootstrapjs.php"; ?>
 </body>
 
 </html>

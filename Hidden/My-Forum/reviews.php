@@ -15,12 +15,6 @@ session_start();
 
 <body>
   <?php include "header.php"; ?>
-  <div class="username">
-    User Name:
-  </div>
-  <div class="yourname">
-    <?php echo $_SESSION['username']; ?> <i>(You)</i>
-  </div>
 
 
   <div class="container">
