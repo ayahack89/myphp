@@ -15,6 +15,7 @@ session_start();
 
 <body>
      <?php include "header.php"; ?>
+     <!-- Thread view section -Start -->
      <?php
      $thread_id = mysqli_real_escape_string($conn, $_GET['thread']);
      $sql_query = "SELECT * FROM `threads` WHERE thread_id = '{$thread_id}'";
@@ -28,7 +29,9 @@ session_start();
                               <div class="card-header">
                                    Thread No.
                                    <?php echo $thread['thread_id']; ?>
-                                   <h6 style="font-size:11px;">Posted by Ayanabha</h6>
+                                   <h6 style="font-size:11px;">Posted by
+                                        <?php echo $thread['thread_created_by']; ?>
+                                   </h6>
                               </div>
                               <div class="card-body">
                                    <h3 class="card-title">
@@ -39,8 +42,19 @@ session_start();
 
                                    </p>
                                    <div class="container">
-                                        <img src="img/upload/<?php echo $thread['uploaded_image']; ?>"
-                                             class="figure-img img-fluid rounded" alt="..." width="300px" height="300px">
+                                        <?php
+                                        if (empty($thread['uploaded_image'])) {
+
+                                        } else {
+                                             ?>
+                                             <img src="img/upload/<?php echo $thread['uploaded_image']; ?>"
+                                                  class="figure-img img-fluid rounded" alt="..." width="300px" height="300px">
+
+                                             <?php
+
+                                        }
+                                        ?>
+
                                    </div>
 
 
@@ -51,6 +65,10 @@ session_start();
                                    <?php echo $thread['thread_time']; ?>
                               </div>
                          </div>
+                         <!-- Thread view section -End  -->
+
+
+                         <!-- Post a comment section -start -->
                          <div class="container py-3">
                               <?php
                               $alert = false;
@@ -81,7 +99,7 @@ session_start();
                                         }
                                    }
                               }
-
+                              // Success alert section  -Start
                               if ($alert) {
                                    echo '<div id="alertMsg" class="alert alert-success alert-dismissible fade show" role="alert">
                                       <strong>Success!</strong> Your comment has been added successfully. Wait for community response.
@@ -94,8 +112,8 @@ session_start();
                                       }, 2000);
                                   </script>';
                               }
-
-
+                              // Success alert section -End 
+               
                               ?>
 
                               <?php if (isset($_SESSION['username'])) {
@@ -110,9 +128,11 @@ session_start();
                                              <button type="submit" name="submit" class="btn btn-dark">Post comments</button>
                                         </div>
                                    </form>
+                                   <!-- Post a comment section -end  -->
                                    <?php
                               } else {
                                    ?>
+                                   <!-- If you are not logged in -start  -->
                                    <div class="alert alert-danger d-flex align-items-center" role="alert">
 
                                         <use xlink:href="#exclamation-triangle-fill" />
@@ -123,6 +143,7 @@ session_start();
                                              discussion.
                                         </div>
                                    </div>
+                                   <!-- If you are not logged in -End  -->
                                    <?php
                               }
                               ?>
@@ -133,7 +154,7 @@ session_start();
 
 
 
-
+                         <!-- Comments section -Start  -->
                          <div class="container my-3">
                               <h3>Comments
                               </h3>
@@ -190,7 +211,7 @@ session_start();
                                                                  </b>
                                                             </h6>
 
-                                                            <p style="font-size:15px;">
+                                                            <p style="font-size:12px;">
                                                                  <?php echo $thread['comment_content']; ?>
                                                             </p>
                                                        </div>
@@ -237,7 +258,7 @@ session_start();
      }
      ?>
 
-
+     <!-- Comments section -End  -->
 
      <?php include "footer.php"; ?>
      <?php include "bootstrapjs.php"; ?>

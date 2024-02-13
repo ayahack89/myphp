@@ -1,6 +1,7 @@
 <?php
 include "db_connection.php";
 session_start();
+ini_set('display_errors', 0);
 ?>
 
 <!DOCTYPE html>
@@ -13,10 +14,15 @@ session_start();
      <title>Catagory-Page</title>
 </head>
 <?php include "fonts.php"; ?>
+<style>
+     :root {
+          --success-result: #86efac;
+     }
+</style>
 
 <body>
      <?php include "header.php"; ?>
-     <!-- Button trigger modal -->
+     <!-- Hero Section -Start -->
      <div class="px-4 py-5 my-1 text-center">
           <img class="d-block mx-auto" src="/docs/5.0/assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">
           <h1 class="display-5 fw-bold">Centered hero</h1>
@@ -43,54 +49,51 @@ session_start();
                </div>
           </div>
      </div>
+     <!-- Hero Section -End -->
+
+
+     <!-- Action Section -Start -->
      <div class="container">
-
-
-
-          <!-- Modal -->
-
+          <!-- Search-bar -Start -->
           <form action="<?php echo htmlentities($_SERVER['PHP_SELF']); ?>" method="post"
                class=" container  py-3 d-flex">
-               <button type="button" class=" btn btn-dark mx-5 w-50" data-bs-toggle="modal"
+               <button type="button" class=" btn btn-dark mx-5" style="width:200px;" data-bs-toggle="modal"
                     data-bs-target="#exampleModal">
                     Create a new disk
                </button>
-               <input class="form-control rounded-0" type="search" placeholder="Search Disks by name, date, content.."
-                    name="search" aria-label="default input example">
-               <button type="submit" name="submit" class="btn btn-primary rounded-0"><i
+               <input class="form-control rounded-0" style="width:800px;" type="search"
+                    placeholder="Search Disks by name, date, content.." name="search"
+                    aria-label="default input example">
+               <button type="submit" name="submit" class="btn btn-dark rounded-0"><i
                          class="ri-search-line"></i></button>
           </form>
-
-
-
-
-
           <?php
           if (isset($_POST['submit'])) {
                $search = mysqli_real_escape_string($conn, $_POST['search']);
                if (!empty($search)) {
                     $search_query = "SELECT * FROM `catagory` WHERE catagory_name LIKE '%{$search}%' OR catagory_desc LIKE '%{$search}%' OR created LIKE '%{$search}%' ";
-                    $result = mysqli_query($conn, $search_query); // Execute the query once
+                    $result = mysqli_query($conn, $search_query);
                     if ($result) {
                          if (mysqli_num_rows($result) > 0) {
                               while ($search_disk = mysqli_fetch_assoc($result)) {
                                    ?>
-                                   <div class="card mx-2 my-2" style="width: 18rem;">
-                                        <div class="card-body">
-                                             <h5 class="card-title">
-                                                  <?php echo $search_disk['catagory_name']; ?><br>
-                                                  <b style="font-size:11px; font-weight:lighter;">Disk added on:
-                                                       <?php echo $search_disk['created']; ?>
-                                                  </b>
-                                             </h5>
-                                             <p class="card-text" style="font-size:12px;">
-                                                  <?php echo $search_disk['catagory_desc']; ?>
-                                             </p>
-                                             <button class="btn btn-dark">
-                                                  <a href="disk.php?Disk=<?php echo $search_disk['catagory_id']; ?>"
-                                                       style="text-decoration:none; color:white;">View Disk</a></button>
+                                   <a href="disk.php?Disk=<?php echo $search_disk['catagory_id']; ?>" style="text-decoration:none; color:white;"
+                                        class="">
+                                        <div class="card px-3 py-3 container" style="background-color:var(--success-result);">
+                                             <div class="card-body">
+                                                  <h5 class="card-title">
+                                                       <?php echo $search_disk['catagory_name']; ?><br>
+                                                       <b style="font-size:11px; font-weight:lighter;">Disk added on:
+                                                            <?php echo $search_disk['created']; ?>
+                                                       </b>
+                                                  </h5>
+                                                  <p class="card-text" style="font-size:12px;">
+                                                       <?php echo $search_disk['catagory_desc']; ?>
+                                                  </p>
+
+                                             </div>
                                         </div>
-                                   </div>
+                                   </a>
                                    <?php
                               }
                          } else {
@@ -99,15 +102,35 @@ session_start();
                     } else {
                          echo "Something went wrong!";
                     }
-               } else {
-                    echo "Empty search is not allowed!";
                }
           }
           ?>
+          <!-- Search-bar -End -->
 
 
+          <!-- Createt New Disk -Start  -->
+
+          <?php
+          if (isset($_POST["submit"])) {
+               $catagory_created_by = $_SESSION['username'];
+               $catagory_name = mysqli_real_escape_string($conn, $_POST['catagory_name']);
+               $catagory_desc = mysqli_real_escape_string($conn, $_POST['about']);
+               if (!empty($_POST['catagory_name']) && !empty($_POST['about'] && !empty($catagory_created_by))) {
+
+                    $sql_query = "INSERT INTO `catagory` (`catagory_name`, `catagory_desc` ,`created_by`) VALUES ( '{$catagory_name}', '{$catagory_desc}', '{$catagory_created_by}');";
+                    $result = mysqli_query($conn, $sql_query);
+                    if ($result) {
+                         echo "<script>window.location='index.php'</script>";
+                         exit();
 
 
+                    } else {
+                         echo "<s>alert('Somthing Went wrong : (');</script>";
+                    }
+
+               }
+          }
+          ?>
           <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
                aria-hidden="true">
                <div class="modal-dialog">
@@ -117,29 +140,10 @@ session_start();
                               <button type="button" class="btn-close" data-bs-dismiss="modal"
                                    aria-label="Close"></button>
                          </div>
-                         <?php
-                         if (isset($_POST["submit"])) {
-                              $catagory_name = mysqli_real_escape_string($conn, $_POST['catagory_name']);
-                              $catagory_desc = mysqli_real_escape_string($conn, $_POST['about']);
-                              if (!empty($_POST['catagory_name']) && !empty($_POST['about'])) {
-                                   $sql_query = "INSERT INTO `catagory` (`catagory_name`, `catagory_desc`) VALUES ( '{$catagory_name}', '{$catagory_desc}');";
-                                   $result = mysqli_query($conn, $sql_query);
-                                   if ($result) {
-                                        echo "<script>window.location='index.php'</script>";
-                                        exit();
-
-
-                                   } else {
-                                        echo "<s>alert('Somthing Went wrong : (');</script>";
-                                   }
-                              } else {
-                                   echo "Please properly create your disk!";
-                              }
-                         }
-                         ?>
                          <form action="<?php echo htmlentities($_SERVER['PHP_SELF']); ?>" method="post">
                               <div class="modal-body">
                                    <div class="mb-3">
+                                        <input type="text" value="<?php echo $_SESSION['username'] ?>" disabled>
                                         <label for="exampleFormControlInput1" class="form-label">Disk name</label>
                                         <input type="text" class="form-control" name="catagory_name"
                                              id="exampleFormControlInput1" placeholder="Enter your disk name...">
@@ -162,18 +166,27 @@ session_start();
                     </div>
                </div>
           </div>
+          <!-- Create New Disk -End -->
+     </div>
+     <!-- Action Section -End  -->
 
 
-          <!-- Featching data -->
-          <div class="container d-flex px-3 py-3 row">
-               <?php
-               $sql = "SELECT * FROM `catagory`";
-               $print = mysqli_query($conn, $sql);
-               if ($print) {
-                    if (mysqli_num_rows($print) > 0) {
-                         while ($disk = mysqli_fetch_assoc($print)) {
-                              ?>
-                              <div class="card mx-2 my-2" style="width: 18rem;">
+
+     <!-- Middilbody -Start -->
+     <div class="container d-flex px-3 py-3 row" style="margin:auto;">
+          <?php
+          $sql = "SELECT * FROM `catagory`";
+          $print = mysqli_query($conn, $sql);
+          if ($print) {
+               if (mysqli_num_rows($print) > 0) {
+                    while ($disk = mysqli_fetch_assoc($print)) {
+                         ?>
+                         <!-- Disk Fetch -Start -->
+                         <a href="disk.php?Disk=<?php echo $disk['catagory_id']; ?>" style="text-decoration:none; color:white;"
+                              class="row">
+                              <div class="card mx-2 my-2">
+                                   <!-- Disk Card -Start -->
+
                                    <div class="card-body">
                                         <h5 class="card-title">
                                              <?php echo $disk['catagory_name']; ?><br>
@@ -181,31 +194,31 @@ session_start();
                                                   <?php echo $disk['created']; ?>
                                              </b>
                                         </h5>
-
-
-
                                         <p class="card-text" style="font-size:12px;">
                                              <?php echo $disk['catagory_desc']; ?>
                                         </p>
-                                        <button class="btn btn-dark">
-                                             <a href="disk.php?Disk=<?php echo $disk['catagory_id']; ?>"
-                                                  style="text-decoration:none; color:white;">View Disk</a></button>
+
                                    </div>
+
+                                   <!-- Disk Card -End -->
                               </div>
-                              <?php
-                         }
-                    } else {
-                         echo "<h5>No Disk Found : (</h5>";
+                         </a>
+                         <!-- Disk Fetch -End -->
+                         <?php
                     }
                } else {
-                    echo "<h5>Somthing Went Wrong! : (</h5>";
+                    echo "<h5>No Disk Found : (</h5>";
                }
+          } else {
+               echo "<h5>Somthing Went Wrong! : (</h5>";
+          }
 
 
 
-               ?>
-          </div>
+          ?>
      </div>
+     <!-- Middlebody -End -->
+
      <?php include "footer.php"; ?>
      <?php include "bootstrapjs.php"; ?>
 </body>
