@@ -25,6 +25,7 @@ session_start();
      <?php include "header.php"; ?>
 
      <div class="container my-3 bg-light py-5 px-5 border rounded">
+
           <div class="d-flex">
                <div class="pro_image">
                     <?php
@@ -102,58 +103,65 @@ session_start();
 
                          </div>
 
-                         <div class="container d-flex mx-2 my-2">
-                              <button type="button" class="btn btn-dark mx-1 my-1"><a href="profile.php?action=edit"
-                                        style="text-decoration:none; color:gainsboro;">Edit Profile</a></button>
-                              <button type="button" class="btn btn-dark mx-1 my-1"><a href="profile.php?action=change_profile_image"
-                                        style="text-decoration:none; color:gainsboro;">Change Profile Image</a></button>
-                              <button type="button" class="btn btn-dark mx-1 my-1"><a href="profile.php?action=change_password"
-                                        style="text-decoration:none; color:gainsboro;">Change Password</a></button>
 
-                              <button type="button" class="btn btn-dark mx-1 my-1"><a href="profile.php?action=delete"
-                                        style="text-decoration:none; color:gainsboro;">Delete
-                                        Profile</a></button>
-                         </div>
 
+
+                         <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                              aria-expanded="false">
+                              Small button
+                         </button>
+                         <ul class="dropdown-menu px-3 py-3">
+                              <li><a href="profile.php?action=edit">Edit Profile</a></button></li>
+                              <li><a href="profile.php?action=change_profile_image">Change Profile Image</a></li>
+                              <li><a href="profile.php?action=change_password">Change Password</a></li>
+                              <hr>
+                              <li><a href="profile.php?action=delete">Delete Profile</a></li>
+                              <li><a href="your-disks.php">your disks</a></li>
+                              <li><a href="your-threads.php">your threads</a></li>
+                              <li><a href="your-comments.php">your comments</a></li>
+                         </ul>
+
+                    </div>
+
+
+
+                    <?php
+                    $action = isset($_GET['action']) ? $_GET['action'] : "";
+
+                    $username = $_SESSION['username'];
+                    if ($action == "edit") {
+
+                         ?>
+                         <p>If you want to edit your profile pic and other informtions just click this <a
+                                   href="editprofile.php?update=<?php echo $row['id']; ?>">edit</a> button.
+                         </p>
+                         <?php
+                    } elseif ($action == "change_password") {
+                         ?>
+                         <p>If you want to change your password just click on this <a
+                                   href="editprofile.php?change=<?php echo $row['id']; ?>">Change Password</a> button.
+                         </p>
 
 
                          <?php
-                         $action = isset($_GET['action']) ? $_GET['action'] : "";
-
-                         $username = $_SESSION['username'];
-                         if ($action == "edit") {
-
-                              ?>
-                              <p>If you want to edit your profile pic and other informtions just click this <a
-                                        href="editprofile.php?update=<?php echo $row['id']; ?>">edit</a> button.
-                              </p>
-                              <?php
-                         } elseif ($action == "change_password") {
-                              ?>
-                              <p>If you want to change your password just click on this <a
-                                        href="editprofile.php?change=<?php echo $row['id']; ?>">Change Password</a> button.
-                              </p>
+                    } elseif ($action == "change_profile_image") {
+                         ?>
+                         <p>If you want to delete your account just click on thon is <a
+                                   href="editprofile-image.php?update=<?php echo $row['id']; ?>">Change Profile Image</a>
+                              button.
+                         </p>
+                         <?php
 
 
-                              <?php
-                         } elseif ($action == "change_profile_image") {
-                              ?>
-                              <p>If you want to delete your account just click on thon is <a
-                                        href="editprofile-image.php?update=<?php echo $row['id']; ?>">Change Profile Image</a>
-                                   button.
-                              </p>
-                              <?php
+                    } elseif ($action == "delete") {
+                         ?>
+                         <p>If you want to delete your account just click on thon is <a
+                                   href="editprofile.php?update=<?php echo $row['id']; ?>">delete</a> button.
+                         </p>
 
+                         <?php
 
-                         } elseif ($action == "delete") {
-                              ?>
-                              <p>If you want to delete your account just click on thon is <a
-                                        href="editprofile.php?update=<?php echo $row['id']; ?>">delete</a> button.
-                              </p>
-
-                              <?php
-
-                         }
+                    }
                               }
 
                          } else {
@@ -162,32 +170,13 @@ session_start();
                          ?>
 
 
-               <?php
+          <?php
 
 
                     }
                     ?>
      </div>
-     <div class="card text-center">
-          <div class="card-header">
-               <ul class="nav nav-tabs card-header-tabs">
-                    <li class="nav-item">
-                         <a class="nav-link active" aria-current="true" href="#">Active</a>
-                    </li>
-                    <li class="nav-item">
-                         <a class="nav-link" href="#">Link</a>
-                    </li>
-                    <li class="nav-item">
-                         <a class="nav-link disabled" aria-disabled="true">Disabled</a>
-                    </li>
-               </ul>
-          </div>
-          <div class="card-body">
-               <h5 class="card-title">Special title treatment</h5>
-               <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-               <a href="#" class="btn btn-primary">Go somewhere</a>
-          </div>
-     </div>
+
 
 
      </div>
