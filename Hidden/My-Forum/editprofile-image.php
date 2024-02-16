@@ -14,6 +14,7 @@ ini_set('display_errors', 1);
 </head>
 
 <body>
+     <!-- Profile picture edit -Start  -->
      <?php
      $get_id = $_GET['update'];
 
@@ -54,7 +55,7 @@ ini_set('display_errors', 1);
           <input type="submit" name="submit" value="Update Profile Image">
      </form>
 
-
+     <!-- Profile picture edit -END  -->
 
 
 

@@ -15,6 +15,7 @@ session_start();
 
 <body>
      <?php include "header.php"; ?>
+     <!-- All threads section -Start  -->
      <?php
      $thread_created_by = $_SESSION['username'];
      $sql = "SELECT * FROM `threads` WHERE thread_created_by = '{$thread_created_by}'";
@@ -23,6 +24,7 @@ session_start();
           if (mysqli_num_rows($result) > 0) {
                while ($thread = mysqli_fetch_assoc($result)) {
                     ?>
+                    <!-- Thread box -Start  -->
                     <div class="card rounded-0">
                          <div class="card-body">
                               <h5 class="card-title">
@@ -38,22 +40,25 @@ session_start();
                               </h6>
                               <p class="card-text">
                                    <?php echo $thread['thread_desc']; ?>
-                              </p>
-                              <a href="#" class="card-link text-success" style="text-decoration:none;"><i
-                                        class="ri-edit-box-line"></i></a>
-                              <a href="#" class="card-link text-danger" style="text-decoration:none;"><i
-                                        class="ri-delete-bin-5-line"></i></a>
+                              </p><br>
+                              <img src="img/upload/<?php echo $thread['uploaded_image']; ?>" class="img-thumbnail" alt=""
+                                   width="200vw"><br>
+                              <a href="user-thread-edit-page.php?edit=<?php echo $thread['thread_id']; ?>"
+                                   class="card-link text-success" style="text-decoration:none;"><i class="ri-edit-box-line"></i></a>
+                              <a href="delete-your-threads.php?edit=<?php echo $thread['thread_id']; ?>" class="card-link text-danger"
+                                   style="text-decoration:none;"><i class="ri-delete-bin-5-line"></i></a>
                          </div>
                     </div>
-
+                    <!-- Thread box -End  -->
                     <?php
                }
 
           } else {
-               echo "No Disk Found !";
+               echo "No threads Found !";
           }
      }
      ?>
+     <!-- All threads section -End  -->
 
      <?php include "footer.php"; ?>
      <?php include "bootstrapjs.php"; ?>

@@ -1,0 +1,56 @@
+                                                                 <?php
+
+$sql_query = "SELECT * FROM `comments`";
+$result = mysqli_query($conn, $sql_query);
+
+if ($result && mysqli_num_rows($result) > 0) {
+    while ($comment = mysqli_fetch_assoc($result)) {
+        $comment_id = $comment['comment_id'];
+        $comment_content = $comment['comment_content'];
+        $comment_by = $comment['comment_by'];
+        $comment_time = $comment['comment_time'];
+        $sql_query = "SELECT * FROM `replies` WHERE comment_id = '{$comment_id}'";
+$reply_result = mysqli_query($conn, $sql_query);
+if ($reply_result && mysqli_num_rows($reply_result) > 0) {
+     $reply=mysqli_fetch_assoc($reply_result);
+        
+        // Retrieve user information for the comment author
+        $reply_by = $reply['reply_by'];
+        $user_sql = "SELECT * FROM `user` WHERE id = '{$reply_by}'";
+        $user_result = mysqli_query($conn, $user_sql);
+
+        if ($user_result && mysqli_num_rows($user_result) > 0) {
+            $user = mysqli_fetch_assoc($user_result);
+?>
+            <div class="container d-flex bg-light border py-4 px-4">
+                <div class="px-3">
+                    <?php if (isset($_SESSION['username'])) { ?>
+                        <a href="allprofile.php?user=<?php echo $user['id']; ?>">
+                            <img src="img/images/<?php echo $user['profile_picture']; ?>" alt="Profile Picture" width="50px" height="50px">
+                        </a>
+                        <h6 style="font-size:12px;"><?php echo $user['username']; ?></h6>
+                    <?php } else { ?>
+                        <img src="img/images/default.png" alt="Default Profile Picture" width="50px" height="50px">
+                    <?php } ?>
+                </div>
+                <div class="text">
+                    <h6 style="font-weight:bolder;">@<?php echo $user['username']; ?></h6>
+                    <p style="font-size:12px;"><?php echo $comment_content; ?></p>
+
+                    <!-- Display replies for this comment -->
+                    <?php
+                    $reply_sql = "SELECT * FROM `replies` WHERE comment_id = '{$comment_id}'";
+                    $reply_result = mysqli_query($conn, $reply_sql);
+
+                    if ($reply_result && mysqli_num_rows($reply_result) > 0) {
+                        while ($reply = mysqli_fetch_assoc($reply_result)) {
+                            // Output each reply
+                    ?>
+                            <div class="reply-container">
+                                <!-- Display reply content here -->
+                                <p><?php echo $reply['reply_content']; ?></p>
+                            </div>
+                    <?php
+                        }
+                    }
+                    ?>

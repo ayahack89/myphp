@@ -15,6 +15,7 @@ session_start();
 
 <body>
      <?php include "header.php"; ?>
+     <!-- All disks -Start -->
      <?php
      $created_by = $_SESSION['username'];
      $sql = "SELECT * FROM `catagory` WHERE created_by = '{$created_by}'";
@@ -23,6 +24,7 @@ session_start();
           if (mysqli_num_rows($result) > 0) {
                while ($disk = mysqli_fetch_assoc($result)) {
                     ?>
+                    <!-- Disk box -Start  -->
                     <div class="card rounded-0">
                          <div class="card-body">
                               <h5 class="card-title">
@@ -41,10 +43,11 @@ session_start();
                               </p>
                               <a href="user-disk-edit-page.php?edit=<?php echo $disk['catagory_id']; ?>" class="card-link text-success"
                                    style="text-decoration:none;"><i class="ri-edit-box-line"></i></a>
-                              <a href="#" class="card-link text-danger" style="text-decoration:none;"><i
-                                        class="ri-delete-bin-5-line"></i></a>
+                              <a href="delete-your-disks.php?edit=<?php echo $disk['catagory_id']; ?>" class="card-link text-danger"
+                                   style="text-decoration:none;"><i class="ri-delete-bin-5-line"></i></a>
                          </div>
                     </div>
+                    <!-- Disk box -End  -->
 
                     <?php
                }
@@ -54,6 +57,7 @@ session_start();
           }
      }
      ?>
+     <!-- All disks -End  -->
 
      <?php include "footer.php"; ?>
      <?php include "bootstrapjs.php"; ?>

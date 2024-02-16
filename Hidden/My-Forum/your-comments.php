@@ -14,6 +14,7 @@ session_start();
 <?php include "fonts.php"; ?>
 
 <body>
+     <!-- Comment section -Start  -->
      <?php include "header.php"; ?>
      <?php
      $username = $_SESSION['username'];
@@ -29,6 +30,7 @@ session_start();
                     if (mysqli_num_rows($result) > 0) {
                          while ($comment = mysqli_fetch_assoc($result)) {
                               ?>
+                              <!-- Comment box -Start  -->
                               <div class="card rounded-0">
                                    <div class="card-body">
                                         <h6 class="card-subtitle mb-2 text-body-secondary">
@@ -48,6 +50,7 @@ session_start();
                                                   class="ri-delete-bin-5-line"></i></a>
                                    </div>
                               </div>
+                              <!-- Comment box -End  -->
                               <?php
 
                          }
@@ -63,10 +66,11 @@ session_start();
           }
 
      } else {
-          echo "No Disk Found !";
+          echo "No comment Found !";
      }
 
      ?>
+     <!-- Comment section -End  -->
 
      <?php include "footer.php"; ?>
      <?php include "bootstrapjs.php"; ?>

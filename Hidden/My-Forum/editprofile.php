@@ -13,7 +13,7 @@ include "db_connection.php";
 </head>
 
 <body>
-
+     <!-- Profile details edit -Start -->
      <?php
      $update = isset($_GET['update']) ? $_GET['update'] : null;
 
@@ -343,6 +343,7 @@ include "db_connection.php";
                          </label><br>
                          <input type="submit" name="submit" value="Update Profile" />
                     </form>
+                    <!-- Profile details edit -End  -->
                     <?php
                }
           }
