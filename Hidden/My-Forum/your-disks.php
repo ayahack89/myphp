@@ -43,7 +43,7 @@ session_start();
                               </p>
                               <a href="user-disk-edit-page.php?edit=<?php echo $disk['catagory_id']; ?>" class="card-link text-success"
                                    style="text-decoration:none;"><i class="ri-edit-box-line"></i></a>
-                              <a href="delete-your-disks.php?edit=<?php echo $disk['catagory_id']; ?>" class="card-link text-danger"
+                              <a href="delete-your-disks.php?delete=<?php echo $disk['catagory_id']; ?>" class="card-link text-danger"
                                    style="text-decoration:none;"><i class="ri-delete-bin-5-line"></i></a>
                          </div>
                     </div>

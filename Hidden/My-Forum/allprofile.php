@@ -50,19 +50,6 @@ session_start();
                                                             <?php echo $row['email']; ?>
                                                        </li>
                                                        <li>
-                                                            <strong> Points:</strong>
-                                                            <?php echo $row['points']; ?>
-                                                       </li>
-                                                       <li>
-                                                            <strong> Posts:</strong>
-                                                            <?php echo $row['posts']; ?>
-                                                       </li>
-                                                       <li>
-                                                            <strong> Topics:</strong>
-                                                            <?php echo $row['topics']; ?>
-                                                       </li>
-
-                                                       <li>
                                                             <strong>Joined at:</strong>
                                                             <?php echo $row['datetime']; ?>
                                                        </li>

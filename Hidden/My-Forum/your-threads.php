@@ -45,8 +45,8 @@ session_start();
                                    width="200vw"><br>
                               <a href="user-thread-edit-page.php?edit=<?php echo $thread['thread_id']; ?>"
                                    class="card-link text-success" style="text-decoration:none;"><i class="ri-edit-box-line"></i></a>
-                              <a href="delete-your-threads.php?edit=<?php echo $thread['thread_id']; ?>" class="card-link text-danger"
-                                   style="text-decoration:none;"><i class="ri-delete-bin-5-line"></i></a>
+                              <a href="delete-your-threads.php?delete=<?php echo $thread['thread_id']; ?>"
+                                   class="card-link text-danger" style="text-decoration:none;"><i class="ri-delete-bin-5-line"></i></a>
                          </div>
                     </div>
                     <!-- Thread box -End  -->

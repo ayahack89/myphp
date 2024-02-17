@@ -36,7 +36,27 @@ session_start();
                                         <h6 class="card-subtitle mb-2 text-body-secondary">
                                              <b style="color:black;">
                                                   <?php echo '@' . $_SESSION['username']; ?>
-                                             </b><br>
+                                             </b>
+                                             <?php
+                                             if (empty($comment['tag_someone'])) {
+
+                                             } else {
+                                                  ?>
+                                                  <?php
+                                                  $sql = "SELECT * FROM `user` WHERE username = '{$comment['tag_someone']}'";
+                                                  if (mysqli_query($conn, $sql) && mysqli_num_rows(mysqli_query($conn, $sql))) {
+                                                       $tag_user = mysqli_fetch_assoc(mysqli_query($conn, $sql));
+                                                       ?>
+                                                       <i class="ri-arrow-right-double-line"></i>
+                                                       <b><a href="allprofile.php?user=<?php echo $tag_user['id'] ?>"
+                                                                 style="color:black; text-decoration:none;">
+                                                                 <?php
+                                                  }
+                                                  ?>
+                                                            @
+                                                            <?php echo $comment['tag_someone'] ?>
+                                                       </a></b>
+                                             <?php } ?><br>
                                              <b style="font-weight:lighter; font-size:12px;">
                                                   <?php echo $comment['comment_time']; ?>
                                              </b>
@@ -44,10 +64,10 @@ session_start();
                                         <p class="card-text">
                                              <?php echo $comment['comment_content']; ?>
                                         </p>
-                                        <a href="#" class="card-link text-success" style="text-decoration:none;"><i
-                                                  class="ri-edit-box-line"></i></a>
-                                        <a href="#" class="card-link text-danger" style="text-decoration:none;"><i
-                                                  class="ri-delete-bin-5-line"></i></a>
+                                        <a href="user-comment-edit-page.php?edit=<?php echo $comment['comment_id']; ?>"
+                                             class="card-link text-success" style="text-decoration:none;"><i class="ri-edit-box-line"></i></a>
+                                        <a href="delete-your-comments.php?delete=<?php echo $comment['comment_id']; ?>"
+                                             class="card-link text-danger" style="text-decoration:none;"><i class="ri-delete-bin-5-line"></i></a>
                                    </div>
                               </div>
                               <!-- Comment box -End  -->

@@ -207,7 +207,32 @@ session_start();
                                                                       <a href="allprofile.php?user=<?php echo $user['id']; ?>"
                                                                            style="color:black; text-decoration:none;">
                                                                            <?php echo $user['username']; ?>
-                                                                      </a><br> <b style="font-size:11px; font-weight:lighter;">at
+
+
+                                                                      </a>
+                                                                      <?php
+                                                                      if (empty($thread['tag_someone'])) {
+
+                                                                      } else {
+                                                                           ?>
+                                                                           <?php
+                                                                           $sql = "SELECT * FROM `user` WHERE username = '{$thread['tag_someone']}'";
+                                                                           if (mysqli_query($conn, $sql) && mysqli_num_rows(mysqli_query($conn, $sql))) {
+                                                                                $tag_user = mysqli_fetch_assoc(mysqli_query($conn, $sql));
+                                                                                ?>
+                                                                                <i class="ri-arrow-right-double-line"></i>
+                                                                                <a href="allprofile.php?user=<?php echo $tag_user['id'] ?>"
+                                                                                     style="color:black; text-decoration:none;">
+                                                                                     <?php
+                                                                           }
+                                                                           ?>
+                                                                                @
+                                                                                <?php echo $thread['tag_someone'] ?>
+                                                                           </a>
+                                                                           <?php
+                                                                      }
+                                                                      ?>
+                                                                      <br> <b style="font-size:11px; font-weight:lighter;">at
                                                                            <?php echo $thread['comment_time']; ?>
                                                                       </b>
                                                                  </h6>
@@ -220,95 +245,112 @@ session_start();
                                                                       data-bs-target="#exampleModal" style="font-size:10px;">
                                                                       <i class="ri-reply-fill" style="font-size:10px;"></i> Reply
                                                                  </button>
-
+                                                                 <br><br>
+                                                                 <!-- Reply action -Start  -->
                                                                  <?php
                                                                  $alert = false;
                                                                  $method = $_SERVER['REQUEST_METHOD'];
                                                                  if ($method == 'POST') {
                                                                       $thread_id = mysqli_real_escape_string($conn, $_GET['thread']);
                                                                       if (isset($_POST['reply_submit'])) {
-                                                                           $sql_query = "SELECT * FROM `comments`";
-                                                                           $result = mysqli_query($conn, $sql_query);
-                                                                           if (mysqli_num_rows($result) > 0) {
-                                                                                $comment = mysqli_fetch_assoc($result);
-                                                                                $parent_comment_id = $comment['comment_id'];
-                                                                                $reply = mysqli_real_escape_string($conn, $_POST['reply']);
-                                                                                if (!empty($reply)) {
-                                                                                     $username = $_SESSION['username'];
-                                                                                     $sqlquery = "SELECT * FROM `user` WHERE username = '{$username}'";
-                                                                                     $user = mysqli_query($conn, $sqlquery);
-                                                                                     if (mysqli_num_rows($user) > 0) {
-                                                                                          $user_account = mysqli_fetch_assoc($user);
-                                                                                          $reply_by = $user_account['id'];
-                                                                                          $sql_query = "INSERT INTO `replies` (`reply_content`, `thread_id`, `comment_id`, `reply_by`) VALUES ('{$reply}', '{$thread_id}', '{$parent_comment_id}', '{$reply_by}')";
-                                                                                          $result = mysqli_query($conn, $sql_query);
-                                                                                          if ($result) {
-                                                                                               $alert = true;
-                                                                                          } else {
-                                                                                               echo "Oops! Something went wrong :(";
-                                                                                          }
+                                                                           $reply_content = mysqli_real_escape_string($conn, $_POST['reply']);
+                                                                           $tag_someone = mysqli_real_escape_string($conn, $_POST['tag']);
+                                                                           if (!empty($reply_content)) {
+                                                                                $username = $_SESSION['username'];
+                                                                                $sql_query = "SELECT * FROM `user` WHERE username = '{$username}'";
+                                                                                $user = mysqli_query($conn, $sql_query);
+                                                                                if (mysqli_num_rows($user) > 0) {
+                                                                                     $user_account = mysqli_fetch_assoc($user);
+                                                                                     $reply_by = $user_account['id'];
+                                                                                     $sql_insert_reply = "INSERT INTO `comments` (`comment_content`, `thread_id`, `comment_by`, `tag_someone`) VALUES ('{$reply_content}', '{$thread_id}', '{$reply_by}', '{$tag_someone}')";
+                                                                                     $result = mysqli_query($conn, $sql_insert_reply);
+                                                                                     if ($result) {
+                                                                                          $alert = true;
                                                                                      } else {
-                                                                                          echo "User not found!";
+                                                                                          echo "Oops! Something went wrong :(";
                                                                                      }
                                                                                 } else {
-                                                                                     echo "Please add a reply!";
+                                                                                     echo "User not found!";
                                                                                 }
+                                                                           } else {
+                                                                                echo "Please add a reply!";
                                                                            }
                                                                       }
                                                                  }
-                                                                 // Success alert section - Start
+                                                                 // Success alert section -Start
                                                                  if ($alert) {
                                                                       echo '<div id="alertMsg" class="alert alert-success alert-dismissible fade show" role="alert">
-        <strong>Success!</strong> Your reply has been added successfully. Wait for community response.
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>';
+            <strong>Success!</strong> Your reply has been added successfully. Wait for community response.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>';
+                                                                      ini_set('display_errors', 0);
                                                                       echo '<script>
-        setTimeout(function() {
-            document.getElementById("alertMsg").style.display = "none";
-            window.location="thread.php?thread=' . $thread_id . '";
-        }, 2000);
-    </script>';
+            setTimeout(function() {
+                document.getElementById("alertMsg").style.display = "none";
+                window.location="thread.php?thread=' . $thread_id . '";
+            }, 2000);
+        </script>';
                                                                  }
-                                                                 // Success alert section - End 
+                                                                 //Success alert section -End 
                                                                  ?>
+                                                                 <!-- Reply section -End  -->
 
-                                                                 <!-- Modal -->
+                                                                 <!-- Modal form -Start -->
                                                                  <form class="modal fade" id="exampleModal"
                                                                       action="<?php echo htmlentities($_SERVER['PHP_SELF'] . '?thread=' . $thread_id); ?>"
                                                                       tabindex="-1" aria-labelledby="exampleModalLabel" method="post" aria-hidden="true">
                                                                       <div class="modal-dialog">
                                                                            <div class="modal-content">
                                                                                 <div class="modal-header">
-                                                                                     <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                                                                                     <h1 class="modal-title fs-5" id="exampleModalLabel">
+                                                                                          <?php echo '@' . $_SESSION['username']; ?> <b
+                                                                                               style="font-size:12px">(you)</b>
+                                                                                     </h1>
                                                                                      <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                                                           aria-label="Close"></button>
                                                                                 </div>
                                                                                 <div class="modal-body">
+                                                                                     <select class="form-select" name="tag" aria-label="Default select example">
+                                                                                          <option selected>@Tag Someone</option>
+                                                                                          <?php
+                                                                                          $sql_query = "SELECT * FROM `user`";
+                                                                                          $query = mysqli_query($conn, $sql_query);
+                                                                                          if ($query && mysqli_num_rows($query)) {
+                                                                                               while ($username = mysqli_fetch_assoc($query)) {
+                                                                                                    ?>
+                                                                                                    <option value="<?php echo $username['username']; ?>">
+                                                                                                         <?php echo $username['username']; ?>
+                                                                                                    </option>
+                                                                                                    <?php
+                                                                                               }
+
+                                                                                          }
+                                                                                          ?>
+                                                                                     </select>
+                                                                                </div>
+
+
+                                                                                <div class="modal-body">
                                                                                      <div class="form-floating">
-                                                                                          <textarea class="form-control" placeholder="Leave a comment here"
+                                                                                          <textarea class="form-control" placeholder="Leave a reply here"
                                                                                                id="floatingTextarea" name="reply"></textarea>
-                                                                                          <label for="floatingTextarea">Comments</label>
+                                                                                          <label for="floatingTextarea">Reply</label>
                                                                                      </div>
                                                                                 </div>
                                                                                 <div class="modal-footer">
                                                                                      <button type="button" class="btn btn-secondary"
                                                                                           data-bs-dismiss="modal">Close</button>
-                                                                                     <!-- Change type to submit -->
                                                                                      <button type="submit" class="btn btn-primary" name="reply_submit">Reply</button>
                                                                                 </div>
                                                                            </div>
                                                                       </div>
                                                                  </form>
-                                                                 <br><br>
-
+                                                                 <!-- Modal form -End  -->
 
                                                             </div>
                                                        </div>
-                                                  </div>
-                                                  </div>
 
-
-                                                  <?php
+                                                       <?php
                                                   } else {
                                                        echo "Invalid user!";
                                                   }
@@ -321,12 +363,12 @@ session_start();
                                         }
                                    } else {
                                         ?>
-                                   <div class="container px-4">
-                                        <h2>No Comments Found : (</h2>
-                                        <p style="font-size:12px;">Be the first person to add a comment....</p>
-                                   </div>
+                                        <div class="container px-4">
+                                             <h2>No Comments Found : (</h2>
+                                             <p style="font-size:12px;">Be the first person to add a comment....</p>
+                                        </div>
 
-                                   <?php
+                                        <?php
                                    }
 
 
