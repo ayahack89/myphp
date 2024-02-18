@@ -16,6 +16,87 @@ session_start();
           ul li {
                list-style-type: none;
           }
+
+          * {
+               margin: 0;
+               padding: 0
+          }
+
+
+
+          .card {
+               width: 350px;
+               background-color: #efefef;
+               border: none;
+               cursor: pointer;
+               transition: all 0.5s;
+          }
+
+          .image img {
+               transition: all 0.5s
+          }
+
+          .card:hover .image img {
+               transform: scale(1.5)
+          }
+
+          .name {
+               font-size: 22px;
+               font-weight: bold
+          }
+
+          .idd {
+               font-size: 14px;
+               font-weight: 600
+          }
+
+          .idd1 {
+               font-size: 12px
+          }
+
+          .number {
+               font-size: 22px;
+               font-weight: bold
+          }
+
+          .follow {
+               font-size: 12px;
+               font-weight: 500;
+               color: #444444
+          }
+
+          .btn1 {
+               height: 40px;
+               width: 150px;
+               border: none;
+               background-color: #000;
+               color: #aeaeae;
+               font-size: 15px
+          }
+
+          .text span {
+               font-size: 13px;
+               color: #545454;
+               font-weight: 500
+          }
+
+          .icons i {
+               font-size: 19px
+          }
+
+          hr .new1 {
+               border: 1px solid
+          }
+
+          .join {
+               font-size: 14px;
+               color: #a0a0a0;
+               font-weight: bold
+          }
+
+          .date {
+               background-color: #ccc
+          }
      </style>
 
 </head>
@@ -24,36 +105,34 @@ session_start();
 
      <?php include "header.php"; ?>
 
-     <div class="container my-3 bg-light py-5 px-5 border rounded">
 
-          <div class="d-flex">
-               <div class="pro_image">
-                    <?php
-                    $username = $_SESSION['username'];
 
-                    ?>
-                    <?php
-                    $sql_query = "SELECT * FROM `user` WHERE username = '$username'";
-                    $result = mysqli_query($conn, $sql_query);
+     <div class="d-flex">
+          <div class="pro_image">
+               <?php
+               $username = $_SESSION['username'];
 
-                    if ($result) {
-                         if (mysqli_num_rows($result) > 0) {
-                              while ($row = mysqli_fetch_assoc($result)) {
-                                   ?>
-                                   <img class="rounded border" src="img/images/<?php echo $row['profile_pic']; ?>" alt="yourimage"
-                                        height="170px" width="180px">
+               ?>
+               <?php
+               $sql_query = "SELECT * FROM `user` WHERE username = '$username'";
+               $result = mysqli_query($conn, $sql_query);
 
-                              </div>
+               if ($result) {
+                    if (mysqli_num_rows($result) > 0) {
+                         while ($row = mysqli_fetch_assoc($result)) {
+                              ?>
+
+                         </div>
 
 
 
 
 
-                              <div class="container">
+                         <!-- <div class="container">
                                    <ul>
                                         <li>
                                              <strong>User:</strong>
-                                             <?php echo $row['username']; ?>
+                                             
                                         </li>
                                         <li>
                                              <strong> Email:</strong>
@@ -62,19 +141,19 @@ session_start();
 
                                         <li>
                                              <strong>Joined at:</strong>
-                                             <?php echo $row['datetime']; ?>
+                                            
                                         </li>
                                         <li>
                                              <strong>About:</strong>
-                                             <?php echo $row['about']; ?>
+                                             
                                         </li>
                                         <li>
                                              <strong>Gender:</strong>
-                                             <?php echo $row['gender']; ?>
+                                             
                                         </li>
                                         <li>
                                              <strong> Country:</strong>
-                                             <?php echo $row['country']; ?>
+                                            
                                         </li>
                                         <li>
                                              <strong>Personal Contact:</strong>
@@ -83,31 +162,74 @@ session_start();
                                    </ul>
 
 
+                              </div> -->
+                         <div class="container mt-4 mb-4 p-2 d-flex justify-content-center">
+                              <div class="card p-4 border">
+                                   <div class="d-flex flex-column justify-content-center align-items-center">
+                                        <img src="img/images/<?php echo $row['profile_pic']; ?>" class="rounded-circle border"
+                                             height="150" width="150" />
+                                        <span class="name mt-3">
+                                             <?php echo $row['username']; ?>
+                                        </span>
+                                        <div class="d-flex flex-row justify-content-center align-items-center gap-2"> <span
+                                                  class="idd1">@
+                                                  <?php echo $row['username']; ?>
+                                             </span>
+
+                                        </div>
+                                        <span>
+                                             <i class="ri-flag-fill"></i>
+                                             <?php echo $row['country']; ?>
+                                        </span>
+                                        <div class="d-flex flex-row justify-content-center align-items-center mt-3"> <span
+                                                  class="number">1069 <span class="follow">Followers</span></span> </div>
+                                        <div class=" d-flex mt-2">
+                                             <button class="btn btn-dark btn-sm dropdown-toggle" type="button"
+                                                  data-bs-toggle="dropdown" aria-expanded="false">
+                                                  <i class="ri-user-settings-fill"></i> Account Setting
+                                             </button>
+                                             <ul class="dropdown-menu text-light px-3 py-3">
+                                                  <li><a href="profile.php?action=edit" style="text-decoration:none;">Edit
+                                                            Profile</a></button></li>
+                                                  <li><a href="profile.php?action=change_profile_image"
+                                                            style="text-decoration:none;">Change Profile Image</a>
+                                                  </li>
+                                                  <li><a href="profile.php?action=change_password" style="text-decoration:none;">Change
+                                                            Password</a></li>
+                                                  <hr>
+                                                  <li><a href="profile.php?action=delete" style="text-decoration:none;">Delete
+                                                            Profile</a></li>
+                                                  <li><a href="your-disks.php" style="text-decoration:none;">your disks</a></li>
+                                                  <li><a href="your-threads.php" style="text-decoration:none;">your threads</a></li>
+                                                  <li><a href="your-comments.php" style="text-decoration:none;">your comments</a></li>
+                                             </ul>
+
+                                        </div>
+                                        <div class="text mt-3"> <span>
+                                                  <?php echo $row['about']; ?>
+                                             </span>
+                                        </div>
+                                        <div class="gap-3 mt-3 icons d-flex flex-row justify-content-center align-items-center">
+                                             <span><i class="fa fa-twitter"></i></span> <span><i class="fa fa-facebook-f"></i></span>
+                                             <span><i class="fa fa-instagram"></i></span> <span><i class="fa fa-linkedin"></i></span>
+                                        </div>
+                                        <div class=" px-2 rounded mt-4 date "> <span class="join">Joined
+                                                  <?php echo $row['datetime']; ?>
+                                             </span> </div>
+                                   </div>
                               </div>
-
-
-
-
-
                          </div>
 
 
 
 
-                         <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                              aria-expanded="false">
-                              Small button
-                         </button>
-                         <ul class="dropdown-menu px-3 py-3">
-                              <li><a href="profile.php?action=edit">Edit Profile</a></button></li>
-                              <li><a href="profile.php?action=change_profile_image">Change Profile Image</a></li>
-                              <li><a href="profile.php?action=change_password">Change Password</a></li>
-                              <hr>
-                              <li><a href="profile.php?action=delete">Delete Profile</a></li>
-                              <li><a href="your-disks.php">your disks</a></li>
-                              <li><a href="your-threads.php">your threads</a></li>
-                              <li><a href="your-comments.php">your comments</a></li>
-                         </ul>
+
+                    </div>
+
+
+
+
+
 
                     </div>
 
@@ -150,24 +272,25 @@ session_start();
                          <?php
 
                     }
-                              }
-
-                         } else {
-                              header("Location: index.php");
                          }
-                         ?>
+
+                    } else {
+                         header("Location: index.php");
+                    }
+                    ?>
 
 
           <?php
 
 
-                    }
-                    ?>
+               }
+               ?>
+
+
+
+
      </div>
 
-
-
-     </div>
      <?php include "footer.php"; ?>
      <?php include "bootstrapjs.php"; ?>
 

@@ -12,6 +12,27 @@ session_start();
      <title>Document</title>
 </head>
 <?php include "fonts.php"; ?>
+<style>
+     /*Like & Diskike CSS script*/
+     button {
+          cursor: pointer;
+          outline: 0;
+          color: #AAA;
+
+     }
+
+     .btn:focus {
+          outline: none;
+     }
+
+     .green {
+          color: green;
+     }
+
+     .red {
+          color: red;
+     }
+</style>
 
 <body>
      <?php include "header.php"; ?>
@@ -59,11 +80,38 @@ session_start();
                                         </div>
 
 
-                                        <a href="disk.php?Disk=<?php echo $thread['thread_catagory_id']; ?>" class="btn btn-dark">Go
-                                             back</a>
-                                   </div>
-                                   <div class="card-footer text-body">
+                                        <a href="disk.php?Disk=" class="btn btn-dark">Go
+                                             back</a><br><br>
                                         <?php echo $thread['thread_time']; ?>
+                                   </div>
+
+                                   <div class="card-footer text-body">
+
+
+
+                                        <div class="container">
+                                             <button class="btn" id="likeButton<?php echo $thread['thread_id']; ?>"
+                                                  onclick="setLikeDislike('like', '<?php echo $thread['thread_id']; ?>')">
+                                                  <i class="fa fa-thumbs-up fa-lg" aria-hidden="true"></i>
+                                                  <span id="likeCount<?php echo $thread['thread_id']; ?>">
+                                                       <?php echo $thread['like_count']; ?>
+                                                  </span>
+                                             </button>
+                                             <button class="btn" id="dislikeButton<?php echo $thread['thread_id']; ?>"
+                                                  onclick="setLikeDislike('dislike', '<?php echo $thread['thread_id']; ?>')">
+                                                  <i class="fa fa-thumbs-down fa-lg" aria-hidden="true"></i>
+                                                  <span id="dislikeCount<?php echo $thread['thread_id']; ?>">
+                                                       <?php echo $thread['dislike_count']; ?>
+                                                  </span>
+                                             </button>
+                                        </div>
+
+
+
+
+
+
+
                                    </div>
                               </div>
                               <!-- Thread view section -End  -->
@@ -127,6 +175,11 @@ session_start();
                                              </div><br>
                                              <div class="mb-3">
                                                   <button type="submit" name="submit" class="btn btn-dark">Post comments</button>
+                                                  <!--Reply button trigger modal -->
+                                                  <button type="button" class="border-0 bg-light mx-2" data-bs-toggle="modal"
+                                                       data-bs-target="#exampleModal">
+                                                       <i class="ri-reply-fill" style="font-size:15px;"></i> Reply someone
+                                                  </button>
                                              </div>
                                         </form>
                                         <!-- Post a comment section -end  -->
@@ -240,12 +293,8 @@ session_start();
                                                                  <p style="font-size:12px;">
                                                                       <?php echo $thread['comment_content']; ?>
                                                                  </p>
-                                                                 <!-- Button trigger modal -->
-                                                                 <button type="button" class="btn btn-sm btn-dark" data-bs-toggle="modal"
-                                                                      data-bs-target="#exampleModal" style="font-size:10px;">
-                                                                      <i class="ri-reply-fill" style="font-size:10px;"></i> Reply
-                                                                 </button>
-                                                                 <br><br>
+
+
                                                                  <!-- Reply action -Start  -->
                                                                  <?php
                                                                  $alert = false;
@@ -294,6 +343,8 @@ session_start();
                                                                  //Success alert section -End 
                                                                  ?>
                                                                  <!-- Reply section -End  -->
+
+
 
                                                                  <!-- Modal form -Start -->
                                                                  <form class="modal fade" id="exampleModal"
@@ -398,6 +449,74 @@ session_start();
 
      <?php include "footer.php"; ?>
      <?php include "bootstrapjs.php"; ?>
+     <?php include "js/jQuery.js"; ?>
+     <script>
+          //Like & Disklike responce script
+          //Css responce script
+          // var btn1 = document.querySelector('#green');
+          // var btn2 = document.querySelector('#red');
+
+          // btn1.addEventListener('click', function () {
+
+          //      if (btn2.classList.contains('red')) {
+          //           btn2.classList.remove('red');
+          //      }
+          //      this.classList.toggle('green');
+
+          // });
+
+          // btn2.addEventListener('click', function () {
+
+          //      if (btn1.classList.contains('green')) {
+          //           btn1.classList.remove('green');
+          //      }
+          //      this.classList.toggle('red');
+
+          // });
+
+          //Ajax responce script
+          function setLikeDislike(type, id) {
+               jQuery.ajax({
+                    url: 'setLikeDislike.php',
+                    type: 'post',
+                    data: 'type=' + type + '&thread_id=' + id,
+                    success: function (result) {
+                         /*
+                         'operation' => $operation,
+                         'like_count' => $row['like_count'],
+                         'dislike_count' => $row['dislike_count']
+                         */
+                         result = jQuery.parseJSON(result);
+                         if (result.operation == 'like') {
+                              // Perform actions if the operation is 'like'
+                              jQuery('#post' + id + ' #like').html(result.like_count);
+                              jQuery('#post' + id + ' #dislike').html(result.dislike_count);
+                         }
+                         // Update the HTML elements with the updated like and dislike counts
+
+                    }
+               });
+          }
+
+          // function setLikeDislike(type, id) {
+          //      jQuery.ajax({
+          //           url: 'setLikeDislike.php',
+          //           type: 'post',
+          //           data: 'type=' + type + '&thread_id=' + id,
+          //           success: function (result) {
+          //                result = jQuery.parseJSON(result);
+          //                // Update like count
+          //                jQuery('#likeCount' + id).html(result.like_count);
+          //                // Update dislike count
+          //                jQuery('#dislikeCount' + id).html(result.dislike_count);
+          //           }
+          //      });
+          // }
+
+
+
+
+     </script>
 </body>
 
 </html>

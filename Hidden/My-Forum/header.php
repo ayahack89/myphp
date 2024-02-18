@@ -51,6 +51,42 @@ include "db_connection.php";
                                    class="ri-chat-3-fill"></i> Live Chat</a>
                     </li>
                     <li class="nav-item">
+                         <!-- All disks listing -Start  -->
+                         <div class="btn-group">
+                              <button class=" btn-sm my-2 border-0 bg-light text-dark" type="button">
+                                   <i class="ri-hard-drive-3-fill"></i> All disks
+                              </button>
+                              <button type="button"
+                                   class="border-0 dropdown-toggle dropdown-toggle-split my-2 bg-light text-dark"
+                                   data-bs-toggle="dropdown" aria-expanded="false">
+                                   <span class="visually-hidden">Toggle Dropdown</span>
+                              </button>
+                              <ul class="dropdown-menu">
+                                   <?php
+                                   $sql = "SELECT * FROM `catagory`";
+                                   $result = mysqli_query($conn, $sql);
+                                   if ($result) {
+                                        if (mysqli_num_rows($result) > 0) {
+                                             while ($list = mysqli_fetch_assoc($result)) {
+                                                  ?>
+                                                  <li> <a href="disk.php?Disk=<?php echo $list['catagory_id']; ?>"
+                                                            class="dropdown-item bg-dark text-light"
+                                                            style="text-decoration:none; color:black;"><i
+                                                                 class="ri-hard-drive-3-line"></i>
+                                                            <?php echo $list['catagory_name']; ?>
+                                                       </a></li>
+
+                                                  <?php
+                                             }
+                                        }
+                                   }
+                                   ?>
+
+                              </ul>
+                         </div>
+                         <!-- All disks listing -End  -->
+                    </li>
+                    <li class="nav-item">
                          <a class="nav-link active" href="reviews.php"><i class="ri-bar-chart-grouped-fill"></i>
                               Reviews</a>
                     </li>
@@ -60,6 +96,15 @@ include "db_connection.php";
                     <li class="nav-item">
                          <a class="nav-link active" href="#"><i class="ri-phone-fill"></i> Contact Us</a>
                     </li>
+
+
+                    <!-- <li class="nav-item">
+                         <a class="nav-link active" href="#" id="notification">
+                              <i class="ri-notification-2-fill"></i>
+                         </a>
+                    </li> -->
+
+
                     <!-- Navbar user login constraint -Start  -->
                     <?php if (isset($_SESSION['username'])) {
                          ?>
@@ -77,9 +122,11 @@ include "db_connection.php";
                               </a>
 
                               <ul class="dropdown-menu">
-                                   <li><a class="dropdown-item" href="login.php"><i class="ri-login-circle-fill"></i> Log
+                                   <li><a class="dropdown-item bg-dark text-light" href="login.php"><i
+                                                  class="ri-login-circle-line"></i> Log
                                              In</a></li>
-                                   <li><a class="dropdown-item" href="register.php"><i class="ri-login-box-fill"></i> Sign
+                                   <li><a class="dropdown-item bg-dark text-light" href="register.php"><i
+                                                  class="ri-login-box-line"></i> Sign
                                              Up</a></li>
 
                               </ul>
@@ -96,4 +143,7 @@ include "db_connection.php";
           </div>
      </div>
 </nav>
+
+
+
 <!-- Navbar -End  -->
