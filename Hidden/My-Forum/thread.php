@@ -87,24 +87,18 @@ session_start();
 
                                    <div class="card-footer text-body">
 
-
+                                        <!-- Voting System -Start  -->
 
                                         <div class="container">
-                                             <button class="btn" id="likeButton<?php echo $thread['thread_id']; ?>"
-                                                  onclick="setLikeDislike('like', '<?php echo $thread['thread_id']; ?>')">
-                                                  <i class="fa fa-thumbs-up fa-lg" aria-hidden="true"></i>
-                                                  <span id="likeCount<?php echo $thread['thread_id']; ?>">
-                                                       <?php echo $thread['like_count']; ?>
-                                                  </span>
-                                             </button>
-                                             <button class="btn" id="dislikeButton<?php echo $thread['thread_id']; ?>"
-                                                  onclick="setLikeDislike('dislike', '<?php echo $thread['thread_id']; ?>')">
-                                                  <i class="fa fa-thumbs-down fa-lg" aria-hidden="true"></i>
-                                                  <span id="dislikeCount<?php echo $thread['thread_id']; ?>">
-                                                       <?php echo $thread['dislike_count']; ?>
+                                             <button class="btn" id="VoteButton<?php echo $thread['thread_id']; ?>"
+                                                  onclick="setLikeDislike('vote', '<?php echo $thread['thread_id']; ?>')">
+                                                  <i class="ri-arrow-up-circle-fill"></i>
+                                                  <span id="VoteCount<?php echo $thread['thread_id']; ?>">
+                                                       <?php echo $thread['vote_count']; ?>
                                                   </span>
                                              </button>
                                         </div>
+                                        <!-- Voting System -End  -->
 
 
 
@@ -449,71 +443,32 @@ session_start();
 
      <?php include "footer.php"; ?>
      <?php include "bootstrapjs.php"; ?>
-     <?php include "js/jQuery.js"; ?>
+     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
      <script>
-          //Like & Disklike responce script
-          //Css responce script
-          // var btn1 = document.querySelector('#green');
-          // var btn2 = document.querySelector('#red');
-
-          // btn1.addEventListener('click', function () {
-
-          //      if (btn2.classList.contains('red')) {
-          //           btn2.classList.remove('red');
-          //      }
-          //      this.classList.toggle('green');
-
-          // });
-
-          // btn2.addEventListener('click', function () {
-
-          //      if (btn1.classList.contains('green')) {
-          //           btn1.classList.remove('green');
-          //      }
-          //      this.classList.toggle('red');
-
-          // });
-
-          //Ajax responce script
           function setLikeDislike(type, id) {
                jQuery.ajax({
-                    url: 'setLikeDislike.php',
+                    url: 'voting.php',
                     type: 'post',
                     data: 'type=' + type + '&thread_id=' + id,
                     success: function (result) {
-                         /*
-                         'operation' => $operation,
-                         'like_count' => $row['like_count'],
-                         'dislike_count' => $row['dislike_count']
-                         */
                          result = jQuery.parseJSON(result);
-                         if (result.operation == 'like') {
-                              // Perform actions if the operation is 'like'
-                              jQuery('#post' + id + ' #like').html(result.like_count);
-                              jQuery('#post' + id + ' #dislike').html(result.dislike_count);
+                         if (result.operation == 'vote') {
+                              // Perform actions if the operation is 'vote'
+                              jQuery('#VoteCount' + id).html(result.vote_count);
+                              // Reload the vote button after the vote count is updated
+                              reloadVoteButton(id);
                          }
                          // Update the HTML elements with the updated like and dislike counts
-
                     }
                });
           }
 
-          // function setLikeDislike(type, id) {
-          //      jQuery.ajax({
-          //           url: 'setLikeDislike.php',
-          //           type: 'post',
-          //           data: 'type=' + type + '&thread_id=' + id,
-          //           success: function (result) {
-          //                result = jQuery.parseJSON(result);
-          //                // Update like count
-          //                jQuery('#likeCount' + id).html(result.like_count);
-          //                // Update dislike count
-          //                jQuery('#dislikeCount' + id).html(result.dislike_count);
-          //           }
-          //      });
-          // }
-
-
+          function reloadVoteButton(id) {
+               // Reload the content of the vote button
+               var buttonId = 'VoteButton' + id;
+               var buttonContainer = $('#' + buttonId).parent(); // Get the parent container
+               buttonContainer.load(location.href + ' #' + buttonId);
+          }
 
 
      </script>
