@@ -33,6 +33,17 @@ session_start();
           color: red;
      }
 </style>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+     /*
+     $(document).ready(function () {
+          $('#myDiv').load('loadvotebtn.php');
+          setInterval(function () {
+               $('#myDiv').load('loadvotebtn.php');
+          }, 1000);
+     })
+     */
+</script>
 
 <body>
      <?php include "header.php"; ?>
@@ -89,15 +100,9 @@ session_start();
 
                                         <!-- Voting System -Start  -->
 
-                                        <div class="container">
-                                             <button class="btn" id="VoteButton<?php echo $thread['thread_id']; ?>"
-                                                  onclick="setLikeDislike('vote', '<?php echo $thread['thread_id']; ?>')">
-                                                  <i class="ri-arrow-up-circle-fill"></i>
-                                                  <span id="VoteCount<?php echo $thread['thread_id']; ?>">
-                                                       <?php echo $thread['vote_count']; ?>
-                                                  </span>
-                                             </button>
-                                        </div>
+                                        <div class="py-2"></div>
+
+
                                         <!-- Voting System -End  -->
 
 
@@ -169,13 +174,118 @@ session_start();
                                              </div><br>
                                              <div class="mb-3">
                                                   <button type="submit" name="submit" class="btn btn-dark">Post comments</button>
-                                                  <!--Reply button trigger modal -->
-                                                  <button type="button" class="border-0 bg-light mx-2" data-bs-toggle="modal"
-                                                       data-bs-target="#exampleModal">
-                                                       <i class="ri-reply-fill" style="font-size:15px;"></i> Reply someone
-                                                  </button>
                                              </div>
                                         </form>
+                                        <button type="button" class="border-0 bg-light mx-2" data-bs-toggle="modal"
+                                             data-bs-target="#exampleModal">
+                                             <i class="ri-reply-fill" style="font-size:15px;"></i> Reply someone
+                                        </button>
+                                        <!-- Reply action -Start  -->
+                                        <?php
+                                        $check = false;
+                                        $method = $_SERVER['REQUEST_METHOD'];
+                                        if ($method == 'POST') {
+                                             $thread_id = mysqli_real_escape_string($conn, $_GET['thread']);
+                                             if (isset($_POST['reply_submit'])) {
+                                                  $reply_content = mysqli_real_escape_string($conn, $_POST['reply']);
+                                                  $tag_someone = mysqli_real_escape_string($conn, $_POST['tag']);
+                                                  if (!empty($reply_content)) {
+                                                       $username = $_SESSION['username'];
+                                                       $sql_query = "SELECT * FROM `user` WHERE username = '{$username}'";
+                                                       $user = mysqli_query($conn, $sql_query);
+                                                       if (mysqli_num_rows($user) > 0) {
+                                                            $user_account = mysqli_fetch_assoc($user);
+                                                            $reply_by = $user_account['id'];
+                                                            $sql_insert_reply = "INSERT INTO `comments` (`comment_content`, `thread_id`, `comment_by`, `tag_someone`) VALUES ('{$reply_content}', '{$thread_id}', '{$reply_by}', '{$tag_someone}')";
+                                                            $result = mysqli_query($conn, $sql_insert_reply);
+                                                            if ($result) {
+                                                                 $check = true;
+                                                            } else {
+                                                                 echo "Oops! Something went wrong :(";
+                                                            }
+                                                       } else {
+                                                            echo "User not found!";
+                                                       }
+                                                  } else {
+                                                       echo "Please add a reply!";
+                                                  }
+                                             }
+                                        }
+                                        ?>
+
+
+                                        <!-- Reply section -End  -->
+
+
+                                        <!-- Modal form -Start -->
+                                        <form class="modal fade" id="exampleModal"
+                                             action="<?php echo htmlentities($_SERVER['PHP_SELF'] . '?thread=' . $thread_id); ?>" tabindex="-1"
+                                             aria-labelledby="exampleModalLabel" method="post" aria-hidden="true">
+                                             <div class="modal-dialog">
+                                                  <div class="modal-content">
+                                                       <div class="modal-header">
+                                                            <h1 class="modal-title fs-5" id="exampleModalLabel">
+                                                                 <?php echo '@' . $_SESSION['username']; ?> <b style="font-size:12px">(you)</b>
+                                                            </h1>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                                 aria-label="Close"></button>
+                                                       </div>
+                                                       <div class="modal-body">
+                                                            <select class="form-select" name="tag" aria-label="Default select example">
+                                                                 <option selected>@Tag Someone</option>
+                                                                 <?php
+                                                                 $sql_query = "SELECT * FROM `user`";
+                                                                 $query = mysqli_query($conn, $sql_query);
+                                                                 if ($query && mysqli_num_rows($query)) {
+                                                                      while ($username = mysqli_fetch_assoc($query)) {
+                                                                           ?>
+                                                                           <option value="<?php echo $username['username']; ?>">
+                                                                                <?php echo $username['username']; ?>
+                                                                           </option>
+                                                                           <?php
+                                                                      }
+
+                                                                 }
+                                                                 ?>
+                                                            </select>
+                                                       </div>
+
+
+                                                       <div class="modal-body">
+                                                            <div class="form-floating">
+                                                                 <textarea class="form-control" placeholder="Leave a reply here"
+                                                                      id="floatingTextarea" name="reply"></textarea>
+                                                                 <label for="floatingTextarea">Reply</label>
+                                                            </div>
+                                                       </div>
+                                                       <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary"
+                                                                 data-bs-dismiss="modal">Close</button>
+                                                            <button type="submit" class="btn btn-primary" name="reply_submit">Reply</button>
+                                                       </div>
+                                                  </div>
+                                             </div>
+
+                                        </form>
+                                        <!-- Model form -End  -->
+                                        <?php
+                                        // Reply success alert section -Start
+                                        if ($check) {
+                                             echo '<div id="alertMsg" class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>Success!</strong> Your reply has been added successfully. Wait for community response.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>';
+                                             ini_set('display_errors', 0);
+                                             echo '<script>
+            setTimeout(function() {
+                document.getElementById("alertMsg").style.display = "none";
+                window.location="thread.php?thread=' . $thread_id . '";
+            }, 2000);
+        </script>';
+                                        }
+                                        // Reply success alert section -End 
+                                        ?>
+
                                         <!-- Post a comment section -end  -->
                                         <?php
                                    } else {
@@ -191,237 +301,135 @@ session_start();
                                                   discussion.
                                              </div>
                                         </div>
+
                                         <!-- If you are not logged in -End  -->
                                         <?php
                                    }
                                    ?>
 
                               </div>
+                         </div>
 
 
 
 
 
-                              <!-- Comments section -Start  -->
-                              <div class="container my-3">
-                                   <h3>Comments
-                                   </h3>
-                              </div>
-                              <?php
-                              $thread_id = mysqli_real_escape_string($conn, $_GET['thread']);
-                              $sql_query = "SELECT * FROM `comments` WHERE thread_id = '{$thread_id}'";
-                              $result = mysqli_query($conn, $sql_query);
-                              if ($result) {
+                         <!-- Comments section -Start  -->
+                         <div class="container my-3">
+                              <h3>Comments
+                              </h3>
+                         </div>
+                         <?php
+                         $thread_id = mysqli_real_escape_string($conn, $_GET['thread']);
+                         $sql_query = "SELECT * FROM `comments` WHERE thread_id = '{$thread_id}'";
+                         $result = mysqli_query($conn, $sql_query);
+                         if ($result) {
 
-                                   if (mysqli_num_rows($result) > 0) {
-                                        $check_result = false;
-                                        while ($thread = mysqli_fetch_assoc($result)) {
-                                             $comment_id = $thread['comment_id'];
-                                             $comment_content = $thread['comment_content'];
-                                             $comment_by = $thread['comment_by'];
-                                             $comment_time = $thread['comment_time'];
-                                             $sql = "SELECT * FROM `user` WHERE id = '{$comment_by}'";
-                                             $run = mysqli_query($conn, $sql);
-                                             if ($run) {
-                                                  if (mysqli_num_rows($run) > 0) {
-                                                       $user = mysqli_fetch_assoc($run);
-                                                       ?>
-                                                       <!-- <div class="container d-flex bg-light border py-4 px-4">
+                              if (mysqli_num_rows($result) > 0) {
+                                   $check_result = false;
+                                   while ($thread = mysqli_fetch_assoc($result)) {
+                                        $comment_id = $thread['comment_id'];
+                                        $comment_content = $thread['comment_content'];
+                                        $comment_by = $thread['comment_by'];
+                                        $comment_time = $thread['comment_time'];
+                                        $sql = "SELECT * FROM `user` WHERE id = '{$comment_by}'";
+                                        $run = mysqli_query($conn, $sql);
+                                        if ($run) {
+                                             if (mysqli_num_rows($run) > 0) {
+                                                  $user = mysqli_fetch_assoc($run);
+                                                  ?>
+                                                  <!-- <div class="container d-flex bg-light border py-4 px-4">
                                                        <div class="px-3">
                                                             <img src="img/images/default.png" alt="" width="50px" height="50px">
                                                        </div>
                                                      
                                                   </div> -->
-                                                       <div class="container d-flex bg-light border py-4 px-4">
-                                                            <div class="px-3">
-                                                                 <?php
-                                                                 if (isset($_SESSION['username'])) {
-                                                                      ?>
-                                                                      <a href="allprofile.php?user=<?php echo $user['id']; ?>"><img
-                                                                                src="img/images/<?php echo $user['profile_pic']; ?>" alt="" width="50px"
-                                                                                height="50px"></a>
-                                                                      <h6 style="font-size:12px;">
-
-                                                                      </h6>
-                                                                      <?php
-                                                                 } else {
-                                                                      echo '<img src="img/images/default.png" alt="" width="50px" height="50px">';
-                                                                 }
+                                                  <div class="container d-flex bg-light border py-4 px-4">
+                                                       <div class="px-3">
+                                                            <?php
+                                                            if (isset($_SESSION['username'])) {
                                                                  ?>
-                                                            </div>
-                                                            <div class="text">
-                                                                 <h6 style="font-weight:bolder;">@
-                                                                      <a href="allprofile.php?user=<?php echo $user['id']; ?>"
-                                                                           style="color:black; text-decoration:none;">
-                                                                           <?php echo $user['username']; ?>
+                                                                 <a href="allprofile.php?user=<?php echo $user['id']; ?>"><img
+                                                                           src="img/images/<?php echo $user['profile_pic']; ?>" alt="" width="50px" height="50px"></a>
+                                                                 <h6 style="font-size:12px;">
+
+                                                                 </h6>
+                                                                 <?php
+                                                            } else {
+                                                                 echo '<img src="img/images/default.png" alt="" width="50px" height="50px">';
+                                                            }
+                                                            ?>
+                                                       </div>
+                                                       <div class="text">
+                                                            <h6 style="font-weight:bolder;">@
+                                                                 <a href="allprofile.php?user=<?php echo $user['id']; ?>" style="color:black; text-decoration:none;">
+                                                                      <?php echo $user['username']; ?>
 
 
+                                                                 </a>
+                                                                 <?php
+                                                                 if (empty($thread['tag_someone'])) {
+
+                                                                 } else {
+                                                                      ?>
+                                                                      <?php
+                                                                      $sql = "SELECT * FROM `user` WHERE username = '{$thread['tag_someone']}'";
+                                                                      if (mysqli_query($conn, $sql) && mysqli_num_rows(mysqli_query($conn, $sql))) {
+                                                                           $tag_user = mysqli_fetch_assoc(mysqli_query($conn, $sql));
+                                                                           ?>
+                                                                           <i class="ri-arrow-right-double-line"></i>
+                                                                           <a href="allprofile.php?user=<?php echo $tag_user['id'] ?>"
+                                                                                style="color:black; text-decoration:none;">
+                                                                                <?php
+                                                                      }
+                                                                      ?>
+                                                                           @
+                                                                           <?php echo $thread['tag_someone'] ?>
                                                                       </a>
                                                                       <?php
-                                                                      if (empty($thread['tag_someone'])) {
-
-                                                                      } else {
-                                                                           ?>
-                                                                           <?php
-                                                                           $sql = "SELECT * FROM `user` WHERE username = '{$thread['tag_someone']}'";
-                                                                           if (mysqli_query($conn, $sql) && mysqli_num_rows(mysqli_query($conn, $sql))) {
-                                                                                $tag_user = mysqli_fetch_assoc(mysqli_query($conn, $sql));
-                                                                                ?>
-                                                                                <i class="ri-arrow-right-double-line"></i>
-                                                                                <a href="allprofile.php?user=<?php echo $tag_user['id'] ?>"
-                                                                                     style="color:black; text-decoration:none;">
-                                                                                     <?php
-                                                                           }
-                                                                           ?>
-                                                                                @
-                                                                                <?php echo $thread['tag_someone'] ?>
-                                                                           </a>
-                                                                           <?php
-                                                                      }
-                                                                      ?>
-                                                                      <br> <b style="font-size:11px; font-weight:lighter;">at
-                                                                           <?php echo $thread['comment_time']; ?>
-                                                                      </b>
-                                                                 </h6>
-
-                                                                 <p style="font-size:12px;">
-                                                                      <?php echo $thread['comment_content']; ?>
-                                                                 </p>
-
-
-                                                                 <!-- Reply action -Start  -->
-                                                                 <?php
-                                                                 $alert = false;
-                                                                 $method = $_SERVER['REQUEST_METHOD'];
-                                                                 if ($method == 'POST') {
-                                                                      $thread_id = mysqli_real_escape_string($conn, $_GET['thread']);
-                                                                      if (isset($_POST['reply_submit'])) {
-                                                                           $reply_content = mysqli_real_escape_string($conn, $_POST['reply']);
-                                                                           $tag_someone = mysqli_real_escape_string($conn, $_POST['tag']);
-                                                                           if (!empty($reply_content)) {
-                                                                                $username = $_SESSION['username'];
-                                                                                $sql_query = "SELECT * FROM `user` WHERE username = '{$username}'";
-                                                                                $user = mysqli_query($conn, $sql_query);
-                                                                                if (mysqli_num_rows($user) > 0) {
-                                                                                     $user_account = mysqli_fetch_assoc($user);
-                                                                                     $reply_by = $user_account['id'];
-                                                                                     $sql_insert_reply = "INSERT INTO `comments` (`comment_content`, `thread_id`, `comment_by`, `tag_someone`) VALUES ('{$reply_content}', '{$thread_id}', '{$reply_by}', '{$tag_someone}')";
-                                                                                     $result = mysqli_query($conn, $sql_insert_reply);
-                                                                                     if ($result) {
-                                                                                          $alert = true;
-                                                                                     } else {
-                                                                                          echo "Oops! Something went wrong :(";
-                                                                                     }
-                                                                                } else {
-                                                                                     echo "User not found!";
-                                                                                }
-                                                                           } else {
-                                                                                echo "Please add a reply!";
-                                                                           }
-                                                                      }
                                                                  }
-                                                                 // Success alert section -Start
-                                                                 if ($alert) {
-                                                                      echo '<div id="alertMsg" class="alert alert-success alert-dismissible fade show" role="alert">
-            <strong>Success!</strong> Your reply has been added successfully. Wait for community response.
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>';
-                                                                      ini_set('display_errors', 0);
-                                                                      echo '<script>
-            setTimeout(function() {
-                document.getElementById("alertMsg").style.display = "none";
-                window.location="thread.php?thread=' . $thread_id . '";
-            }, 2000);
-        </script>';
-                                                                 }
-                                                                 //Success alert section -End 
                                                                  ?>
-                                                                 <!-- Reply section -End  -->
+                                                                 <br> <b style="font-size:11px; font-weight:lighter;">at
+                                                                      <?php echo $thread['comment_time']; ?>
+                                                                 </b>
+                                                            </h6>
 
-
-
-                                                                 <!-- Modal form -Start -->
-                                                                 <form class="modal fade" id="exampleModal"
-                                                                      action="<?php echo htmlentities($_SERVER['PHP_SELF'] . '?thread=' . $thread_id); ?>"
-                                                                      tabindex="-1" aria-labelledby="exampleModalLabel" method="post" aria-hidden="true">
-                                                                      <div class="modal-dialog">
-                                                                           <div class="modal-content">
-                                                                                <div class="modal-header">
-                                                                                     <h1 class="modal-title fs-5" id="exampleModalLabel">
-                                                                                          <?php echo '@' . $_SESSION['username']; ?> <b
-                                                                                               style="font-size:12px">(you)</b>
-                                                                                     </h1>
-                                                                                     <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                                                          aria-label="Close"></button>
-                                                                                </div>
-                                                                                <div class="modal-body">
-                                                                                     <select class="form-select" name="tag" aria-label="Default select example">
-                                                                                          <option selected>@Tag Someone</option>
-                                                                                          <?php
-                                                                                          $sql_query = "SELECT * FROM `user`";
-                                                                                          $query = mysqli_query($conn, $sql_query);
-                                                                                          if ($query && mysqli_num_rows($query)) {
-                                                                                               while ($username = mysqli_fetch_assoc($query)) {
-                                                                                                    ?>
-                                                                                                    <option value="<?php echo $username['username']; ?>">
-                                                                                                         <?php echo $username['username']; ?>
-                                                                                                    </option>
-                                                                                                    <?php
-                                                                                               }
-
-                                                                                          }
-                                                                                          ?>
-                                                                                     </select>
-                                                                                </div>
-
-
-                                                                                <div class="modal-body">
-                                                                                     <div class="form-floating">
-                                                                                          <textarea class="form-control" placeholder="Leave a reply here"
-                                                                                               id="floatingTextarea" name="reply"></textarea>
-                                                                                          <label for="floatingTextarea">Reply</label>
-                                                                                     </div>
-                                                                                </div>
-                                                                                <div class="modal-footer">
-                                                                                     <button type="button" class="btn btn-secondary"
-                                                                                          data-bs-dismiss="modal">Close</button>
-                                                                                     <button type="submit" class="btn btn-primary" name="reply_submit">Reply</button>
-                                                                                </div>
-                                                                           </div>
-                                                                      </div>
-                                                                 </form>
-                                                                 <!-- Modal form -End  -->
-
-                                                            </div>
+                                                            <p style="font-size:12px;">
+                                                                 <?php echo $thread['comment_content']; ?>
+                                                            </p>
                                                        </div>
+                                                  </div>
 
-                                                       <?php
-                                                  } else {
-                                                       echo "Invalid user!";
-                                                  }
+
+
+
+                                                  <?php
+                                             } else {
+                                                  echo "Invalid user!";
                                              }
-                                             $check_result = true;
                                         }
-
-                                        if (!$check_result) {
-
-                                        }
-                                   } else {
-                                        ?>
-                                        <div class="container px-4">
-                                             <h2>No Comments Found : (</h2>
-                                             <p style="font-size:12px;">Be the first person to add a comment....</p>
-                                        </div>
-
-                                        <?php
+                                        $check_result = true;
                                    }
 
+                                   if (!$check_result) {
 
-
+                                   }
                               } else {
-                                   echo "Somthing Went Wrong : (";
+                                   ?>
+                                   <div class="container px-4">
+                                        <h2>No Comments Found : (</h2>
+                                        <p style="font-size:12px;">Be the first person to add a comment....</p>
+                                   </div>
+
+                                   <?php
                               }
-                              ?>
+
+
+
+                         } else {
+                              echo "Somthing Went Wrong : (";
+                         }
+                         ?>
                          </div>
                          <?php
 
@@ -443,9 +451,9 @@ session_start();
 
      <?php include "footer.php"; ?>
      <?php include "bootstrapjs.php"; ?>
-     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
      <script>
-          function setLikeDislike(type, id) {
+          /*function setLikeDislike(type, id) {
                jQuery.ajax({
                     url: 'voting.php',
                     type: 'post',
@@ -461,14 +469,13 @@ session_start();
                          // Update the HTML elements with the updated like and dislike counts
                     }
                });
-          }
+          }*/
+          // Function to reload div width
 
-          function reloadVoteButton(id) {
-               // Reload the content of the vote button
-               var buttonId = 'VoteButton' + id;
-               var buttonContainer = $('#' + buttonId).parent(); // Get the parent container
-               buttonContainer.load(location.href + ' #' + buttonId);
-          }
+
+
+
+
 
 
      </script>
