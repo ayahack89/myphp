@@ -40,6 +40,16 @@ include "db_connection.php";
     $gender = mysqli_real_escape_string($conn, $_POST['gender']);
     $country = mysqli_real_escape_string($conn, $_POST['country']);
     $pContact = mysqli_real_escape_string($conn, $_POST['pcontact']);
+    $twitter = mysqli_real_escape_string($conn, $_POST['twitter']);
+    $facebook = mysqli_real_escape_string($conn, $_POST['facebook']);
+    $instagram = mysqli_real_escape_string($conn, $_POST['instagram']);
+    $github = mysqli_real_escape_string($conn, $_POST['github']);
+
+    //Social Media Links
+    $twitter_link = "https://twitter.com/" . $twitter;
+    $facebook_link = "https://www.facebook.com/" . $facebook;
+    $instagram_link = "https://www.instagram.com/" . $instagram;
+    $github_link = "https://github.com/" . $github;
     // User profile pic
     $imgName = $_FILES['profile_pic']['name'];
     $tempImgName = $_FILES['profile_pic']['tmp_name'];
@@ -73,11 +83,13 @@ include "db_connection.php";
 
 
               if (move_uploaded_file($tempImgName, $imageUpload)) {
-                $sql = "INSERT INTO `user` (`username`,`email`, `password`, `repassword`, `about`, `gender`, `country`, `personalcontact`, `profile_pic`) VALUES ('{$userName}','{$useremail}', '{$userpass_hash}', '{$repass_hash}',  '{$about}', '{$gender}', '{$country}', '{$pContact}', '{$newImgName}')";
+                $sql = "INSERT INTO `user` (`username`,`email`, `password`, `repassword`, `about`, `gender`, `country`, `personalcontact`, `profile_pic`, `twitter`,`facebook`,`instagram`,`github`) VALUES ('{$userName}','{$useremail}', '{$userpass_hash}', '{$repass_hash}',  '{$about}', '{$gender}', '{$country}', '{$pContact}', '{$newImgName}','{$twitter_link}', '{$facebook_link}', '{$instagram_link}','{$github_link}')";
                 $result = mysqli_query($conn, $sql);
 
                 if ($result) {
-                  header("Location: index.php");
+                  ?>
+                  <script>windows.location.href = "index.php";</script>
+                  <?php
                   exit(); // Exit to prevent further execution
                 } else {
                   echo "Error: " . mysqli_error($conn);
@@ -104,8 +116,8 @@ include "db_connection.php";
   ?>
   <!-- From -Start  -->
   <!-- Important section -Start  -->
-  <form class="container py-3 px-4 bg-light border rounded" action="register.php" method="post"
-    enctype="multipart/form-data">
+  <form class="container py-3 px-4 bg-light border rounded" action="<?php echo htmlentities($_SERVER['PHP_SELF']); ?>"
+    method="post" enctype="multipart/form-data">
     <h4 style="text-align:center;" class="py-2">Create your account <i class="ri-account-circle-line"
         style="font-size:1.8rem;"></i></h4>
     <div class="input-group mb-3">
@@ -421,7 +433,7 @@ include "db_connection.php";
       <label for="basic-url" class="form-label"><i class="ri-twitter-fill"></i> account</label>
       <div class="input-group">
         <span class="input-group-text" id="basic-addon3">https://twitter.com/</span>
-        <input type="text" class="form-control" id="basic-url" value="https://twitter.com/" name="twitter"
+        <input type="text" class="form-control" id="basic-url" name="twitter"
           aria-describedby="basic-addon3 basic-addon4">
       </div>
       <div class="form-text" id="basic-addon4">Just enter your account username.</div>
@@ -429,8 +441,9 @@ include "db_connection.php";
     <div class="mb-3">
       <label for="basic-url" class="form-label"><i class="ri-facebook-circle-fill"></i> profile</label>
       <div class="input-group">
-        <span class="input-group-text" id="basic-addon3">https://example.com/users/</span>
-        <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3 basic-addon4">
+        <span class="input-group-text" id="basic-addon3">https://www.facebook.com/</span>
+        <input type="text" class="form-control" id="basic-url" name="facebook"
+          aria-describedby="basic-addon3 basic-addon4">
       </div>
       <div class="form-text" id="basic-addon4">Just enter your profile username.</div>
     </div>
@@ -438,16 +451,7 @@ include "db_connection.php";
       <label for="basic-url" class="form-label"><i class="ri-instagram-fill"></i> profile</label>
       <div class="input-group">
         <span class="input-group-text" id="basic-addon3">https://www.instagram.com/</span>
-        <input type="text" class="form-control" id="basic-url" value="https://www.instagram.com/" name="instagram"
-          aria-describedby="basic-addon3 basic-addon4">
-      </div>
-      <div class="form-text" id="basic-addon4">Just enter your profile username.</div>
-    </div>
-    <div class="mb-3">
-      <label for="basic-url" class="form-label"><i class="ri-linkedin-box-fill"></i> profile</label>
-      <div class="input-group">
-        <span class="input-group-text" id="basic-addon3">https://www.linkedin.com/in/</span>
-        <input type="text" class="form-control" id="basic-url" value="https://www.linkedin.com/in/" name="linkedin"
+        <input type="text" class="form-control" id="basic-url" name="instagram"
           aria-describedby="basic-addon3 basic-addon4">
       </div>
       <div class="form-text" id="basic-addon4">Just enter your profile username.</div>
@@ -456,7 +460,7 @@ include "db_connection.php";
       <label for="basic-url" class="form-label"><i class="ri-github-fill"></i> account</label>
       <div class="input-group">
         <span class="input-group-text" id="basic-addon3">https://github.com/</span>
-        <input type="text" class="form-control" id="basic-url" value="https://github.com/" name="github"
+        <input type="text" class="form-control" id="basic-url" name="github"
           aria-describedby="basic-addon3 basic-addon4">
       </div>
       <div class="form-text" id="basic-addon4">Just enter your account username.</div>

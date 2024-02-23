@@ -71,25 +71,28 @@ session_start();
   }
 
   ?>
-  <div class="container  py-4 px-4 bg-light from-box border rounded">
-    <h4 style="text-align:center;">Log In</h4>
-    <form action="<?php echo htmlentities($_SERVER['PHP_SELF']); ?>" method="post">
-      <label for="email" class="form-label w-100">Email <br>
-        <input class="form-control" type="email" name="email" placeholder="....@gmail.com"
-          aria-label="default input example">
-      </label><br>
 
-      <label for="password" class="form-label w-100">Password <br>
-        <input type="password" name="password" placeholder="#password" id="inputPassword5" class="form-control"
-          aria-describedby="passwordHelpBlock">
-      </label><br>
-
-      <button type="submit" class="btn btn-dark w-100" name="submit">LogIn</button>
-    </form>
-
+  <form action="<?php echo htmlentities($_SERVER['PHP_SELF']); ?>"
+    class="container w-50 my-5 py-3 px-4 bg-light border rounded" method="post">
+    <h4 style="text-align:center;" class="py-2">LogIn <i class="ri-login-circle-line" style="font-size:1.8rem;"></i>
+    </h4>
+    <div class="mb-3">
+      <label for="exampleFormControlInput1" class="form-label"><i class="ri-mail-fill"></i> Email address</label>
+      <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="...@example.com" name="email"
+        required>
+    </div>
+    <div class="mb-3">
+      <label for="exampleFormControlInput1" class="form-label"><i class="ri-lock-2-fill"></i> Password</label>
+      <input type="password" class="form-control" id="exampleFormControlInput1" placeholder="password" name="password"
+        required>
+    </div>
+    <button type="submit" class="btn btn-dark w-100" name="submit">LogIn</button>
     <br>
-    <p>New to fSociety? At first you need to <a href="register.php">Register</a> </p>
-  </div>
+
+    <p style="font-size:15px; text-align:center;" class="py-4">New to ...? At first you need to <a
+        href="register.php">Register</a> </p>
+
+  </form>
   <!-- <div class="desc">
 
         <p> fSociety - a anonymus marketplace & a community like you can buy our services and discuss your product

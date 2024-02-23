@@ -189,6 +189,7 @@ ini_set('display_errors', 0);
 
                                    <div class="card-body">
                                         <h5 class="card-title">
+                                             <i class="ri-hard-drive-fill"></i>
                                              <?php echo $disk['catagory_name']; ?><br>
                                              <b style="font-size:11px; font-weight:lighter;">Disk added on:
                                                   <?php echo $disk['created']; ?>

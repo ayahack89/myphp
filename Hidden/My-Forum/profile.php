@@ -210,30 +210,22 @@ session_start();
                                              </span>
                                         </div>
                                         <div class="gap-3 mt-3 icons d-flex flex-row justify-content-center align-items-center">
-                                             <span><i class="fa fa-twitter"></i></span> <span><i class="fa fa-facebook-f"></i></span>
-                                             <span><i class="fa fa-instagram"></i></span> <span><i class="fa fa-linkedin"></i></span>
+                                             <span><a href="<?php echo $row['twitter']; ?>"><i class="fa fa-twitter"></i></a></span> <span><a href="<?php echo $row['facebook']; ?>"><i
+                                                            class="fa fa-facebook-f"></i></a></span>
+                                             <span><a href="<?php echo $row['instagram']; ?>"><i class="fa fa-instagram"></i></a></span> <span><a href="<?php echo $row['github']; ?>"><i
+                                                            class="fa fa-github"></i></a></span>
                                         </div>
                                         <div class=" px-2 rounded mt-4 date "> <span class="join">Joined
                                                   <?php echo $row['datetime']; ?>
-                                             </span> </div>
+                                             </span> 
+                                        </div>
                                    </div>
                               </div>
                          </div>
 
+                
 
-
-
-
-                    </div>
-
-
-
-
-
-
-                    </div>
-
-
+                   
 
                     <?php
                     $action = isset($_GET['action']) ? $_GET['action'] : "";
