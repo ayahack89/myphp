@@ -53,17 +53,15 @@ ini_set('display_errors', 0);
 
 
      <!-- Action Section -Start -->
-     <div class="container">
+     <div class="container w-100">
           <!-- Search-bar -Start -->
-          <form action="<?php echo htmlentities($_SERVER['PHP_SELF']); ?>" method="post"
-               class=" container  py-3 d-flex">
-               <button type="button" class=" btn btn-dark mx-5" style="width:200px;" data-bs-toggle="modal"
+          <form action="<?php echo htmlentities($_SERVER['PHP_SELF']); ?>" method="post" class=" container d-flex my-3">
+               <span type="button" class="w-50 btn btn-light rounded-0 border" l style="" data-bs-toggle="modal"
                     data-bs-target="#exampleModal">
                     Create a new disk
-               </button>
-               <input class="form-control rounded-0" style="width:800px;" type="search"
-                    placeholder="Search Disks by name, date, content.." name="search"
-                    aria-label="default input example">
+               </span>
+               <input class="form-control rounded-0" type="search" placeholder="Search Disks by name, date, content.."
+                    name="search" aria-label="default input example">
                <button type="submit" name="submit" class="btn btn-dark rounded-0"><i
                          class="ri-search-line"></i></button>
           </form>
@@ -77,11 +75,11 @@ ini_set('display_errors', 0);
                          if (mysqli_num_rows($result) > 0) {
                               while ($search_disk = mysqli_fetch_assoc($result)) {
                                    ?>
-                                   <a href="disk.php?Disk=<?php echo $search_disk['catagory_id']; ?>" style="text-decoration:none; color:white;"
-                                        class="">
+                                   <a href="disk.php?Disk=<?php echo $search_disk['catagory_id']; ?>" style="text-decoration:none; color:white;">
                                         <div class="card px-3 py-3 container" style="background-color:var(--success-result);">
                                              <div class="card-body">
                                                   <h5 class="card-title">
+                                                       <i class="ri-hard-drive-fill"></i>
                                                        <?php echo $search_disk['catagory_name']; ?><br>
                                                        <b style="font-size:11px; font-weight:lighter;">Disk added on:
                                                             <?php echo $search_disk['created']; ?>
@@ -143,7 +141,13 @@ ini_set('display_errors', 0);
                          <form action="<?php echo htmlentities($_SERVER['PHP_SELF']); ?>" method="post">
                               <div class="modal-body">
                                    <div class="mb-3">
-                                        <input type="text" value="<?php echo $_SESSION['username'] ?>" disabled>
+                                        <div class="input-group mb-3">
+                                             <span class="input-group-text" id="basic-addon1">@</span>
+                                             <input type="text" class="form-control"
+                                                  value="<?php echo $_SESSION['username']; ?>" aria-label="Username"
+                                                  aria-describedby="basic-addon1" disabled>
+                                        </div>
+
                                         <label for="exampleFormControlInput1" class="form-label">Disk name</label>
                                         <input type="text" class="form-control" name="catagory_name"
                                              id="exampleFormControlInput1" placeholder="Enter your disk name...">

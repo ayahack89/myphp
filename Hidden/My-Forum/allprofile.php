@@ -114,48 +114,12 @@ session_start();
                if (mysqli_num_rows($result) > 0) {
                     while ($row = mysqli_fetch_assoc($result)) {
                          ?>
-                         <!-- <div class="pro_image">
-                                                  <img src="img/images/<?php echo $row['profile_pic']; ?>" alt="yourimage" height="170px"
-                                                       width="180px" class="rounded border">
-                                             </div>
 
-                                             <div class="container">
-                                                  <ul>
-                                                       <li>
-                                                            <strong>User:</strong>
-                                                            <?php echo $row['username']; ?>
-                                                       </li>
-                                                       <li>
-                                                            <strong> Email:</strong>
-                                                            <?php echo $row['email']; ?>
-                                                       </li>
-                                                       <li>
-                                                            <strong>Joined at:</strong>
-                                                            <?php echo $row['datetime']; ?>
-                                                       </li>
-                                                       <li>
-                                                            <strong>About:</strong>
-                                                            <?php echo $row['about']; ?>
-                                                       </li>
-                                                       <li>
-                                                            <strong>Gender:</strong>
-                                                            <?php echo $row['gender']; ?>
-                                                       </li>
-                                                       <li>
-                                                            <strong> Country:</strong>
-                                                            <?php echo $row['country']; ?>
-                                                       </li>
-                                                       <li>
-                                                            <strong>Personal Contact:</strong>
-                                                            <?php echo $row['personalcontact']; ?>
-                                                       </li>
-                                                  </ul>
- -->
-                         <div class="container mt-4 mb-4 p-2 d-flex justify-content-center">
-                              <div class="card p-4 border">
+                         <div class="container d-flex p-2 py-5 bg-dark w-75 border my-2 rounded">
+                              <div class="container p-2 w-100 border rounded" style="background-color:white;">
                                    <div class="d-flex flex-column justify-content-center align-items-center">
-                                        <img src="img/images/<?php echo $row['profile_pic']; ?>" class="rounded-circle border" height="150"
-                                             width="150" />
+                                        <img src="img/images/<?php echo $row['profile_pic']; ?>" class="rounded-circle border" height="180"
+                                             width="180" />
                                         <span class="name mt-3">
                                              <?php echo $row['username']; ?>
                                         </span>
@@ -168,26 +132,30 @@ session_start();
                                              <i class="ri-flag-fill"></i>
                                              <?php echo $row['country']; ?>
                                         </span>
-                                        <div class="d-flex flex-row justify-content-center align-items-center mt-3"> <span
-                                                  class="number">1069 <span class="follow">Followers</span></span> </div>
+                                        <span style="font-size:8px;">Joined
+                                             <?php echo $row['datetime']; ?>
+                                        </span>
 
                                         <div class="text mt-3"> <span>
                                                   <?php echo $row['about']; ?>
                                              </span>
                                         </div>
                                         <div class="gap-3 mt-3 icons d-flex flex-row justify-content-center align-items-center">
-                                             <span><i class="fa fa-twitter"></i></span> <span><i class="fa fa-facebook-f"></i></span>
-                                             <span><i class="fa fa-instagram"></i></span> <span><i class="fa fa-linkedin"></i></span>
+                                             <span><a href="<?php echo $row['twitter']; ?>"><i class="fa fa-twitter"
+                                                            style="font-size:2rem; color:black;"></i></a></span>
+                                             <span><a style="text-decoration: none;" href="<?php echo $row['facebook']; ?>"><i
+                                                            class="ri-facebook-box-fill"
+                                                            style="font-size:2.2rem; color:black;"></i></a></span>
+                                             <span><a href="<?php echo $row['instagram']; ?>"><i class="fa fa-instagram"
+                                                            style="font-size:2rem; color:black;"></i></a></span>
+                                             <span><a href="<?php echo $row['github']; ?>"><i class="fa fa-github"
+                                                            style="font-size:2rem; color:black;"></i></a></span>
                                         </div>
-                                        <div class=" px-2 rounded mt-4 date "> <span class="join">Joined
-                                                  <?php echo $row['datetime']; ?>
-                                             </span> </div>
+
                                    </div>
                               </div>
                          </div>
 
-                         </div>
-                         </div>
 
                          <?php
 

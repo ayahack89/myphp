@@ -1,6 +1,9 @@
 <?php
 include "db_connection.php";
 session_start();
+// include "googleapiconfig.php";
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -73,7 +76,7 @@ session_start();
   ?>
 
   <form action="<?php echo htmlentities($_SERVER['PHP_SELF']); ?>"
-    class="container w-50 my-5 py-3 px-4 bg-light border rounded" method="post">
+    class="container w-75 my-5 py-3 px-4 bg-light border rounded" method="post">
     <h4 style="text-align:center;" class="py-2">LogIn <i class="ri-login-circle-line" style="font-size:1.8rem;"></i>
     </h4>
     <div class="mb-3">
@@ -93,29 +96,115 @@ session_start();
         href="register.php">Register</a> </p>
 
   </form>
-  <!-- <div class="desc">
 
-        <p> fSociety - a anonymus marketplace & a community like you can buy our services and discuss your product
-          quality with others, talk with real hackers, go to our chatroom and chat with others.
-          In the chatting section there are no restriction. It is very easy just go click on the 'Chatroom' & chose a
-          random name or you can chose your own user name and that's it now lets chats with others.</p>
+  <?php
+  /*
+    $login_button = '';
 
-        <p> It's a socity, a community and your anonymus marketplace where you can buy some crazy stuff using cryptos
-          like Bitcoin, Monaro etc.</p>
+    if (isset($_GET["code"])) {
 
-        <p> fSociety where you can find your own heven. In this community everyone has their own privacy, anonymity and
-          power like a darkside of Superman.</p>
-        <p> In this community everyone are Homelander - <i> "I can do what ever I want!"</i>. Yes! this is it. </p>
+      $token = $google_client->fetchAccessTokenWithAuthCode($_GET["code"]);
 
-        <p> It's very easy. Just you need to login (Loging if you have already registered! But if you are a new member
-          just click the 'Register' and go to the register form a create a new account then login) and create a anonymus
-          account and that's it.
-          Dont worry about the hole loging process, you just put a random user name like whaterver you want and a unique
-          password, it's totaly your choice and after login your all data will be deleted in 24 hours. We provide a
-          anonymus place of our users, total privacy no restriction.
-          Hope you like it & and don't forget to give your feedback of our review section : )</p>
 
-      </div> -->
+      if (!isset($token['error'])) {
+
+        $google_client->setAccessToken($token['access_token']);
+
+
+        $_SESSION['access_token'] = $token['access_token'];
+
+
+        $google_service = new Google_Service_Oauth2($google_client);
+
+
+        $data = $google_service->userinfo->get();
+
+
+        if (!empty($data['given_name'])) {
+          $_SESSION['user_first_name'] = $data['given_name'];
+        }
+
+        if (!empty($data['family_name'])) {
+          $_SESSION['user_last_name'] = $data['family_name'];
+        }
+
+        if (!empty($data['email'])) {
+          $_SESSION['user_email_address'] = $data['email'];
+        }
+        /*
+              if (!empty($data['gender'])) {
+                $_SESSION['user_gender'] = $data['gender'];
+              }
+              
+              if (!empty($data['age'])) {
+                $_SESSION['user_age'] = $data['age'];
+              }
+              if (!empty($data['location'])) {
+                $_SESSION['user_location'] = $data['location'];
+              }
+              if (!empty($data['contact'])) {
+                $_SESSION['user_contact'] = $data['contact'];
+              }*/
+
+  /*  if (!empty($data['picture'])) {
+      $_SESSION['user_image'] = $data['picture'];
+    }
+
+  }
+}
+
+
+if (!isset($_SESSION['access_token'])) {
+
+  $login_button = '<a href="' . $google_client->createAuthUrl() . '">Login With Google</a>';
+}
+*/
+  ?>
+
+  <!-- <div class="container">
+    <div class="panel panel-default"> -->
+  <?php
+  /*
+        if ($login_button == '') {
+
+          echo '<div class="panel-heading">Welcome User</div><div class="panel-body">';
+          echo '<img src="' . $_SESSION["user_image"] . '" class="img-responsive img-circle img-thumbnail" />';
+          echo '<h3><b>Name :</b> ' . $_SESSION['user_first_name'] . ' ' . $_SESSION['user_last_name'] . '</h3>';
+          echo '<h3><b>Email :</b> ' . $_SESSION['user_email_address'] . '</h3>';
+
+          // echo '<h3><b>Age:</b>' . $_SESSION['user_age'] . '</h3>';
+          // echo '<h3><b>Country:</b>' . $_SESSION['user_location'] . '</h3>';
+          // echo '<h3><b>Contact:</b>' . $_SESSION['user_contact'] . '</h3>';
+          echo '<h3><a href="logout.php">Logout</h3></div>';
+          //Insert user details by google api
+          $user_first_name = $_SESSION['user_first_name'];
+          $user_last_name = $_SESSION['user_last_name'];
+          $user_email = $_SESSION['user_email_address'];
+          $user_profile_pic = $_SESSION['user_image'];
+          //Creating a customize username
+          $user_username = $user_first_name . $user_last_name;
+
+          if (!empty($user_username) && !empty($user_email)) {
+            $sql_insert_query = "INSERT INTO `user` (`username`,`email`, `profile_pic`) VALUES ('{$user_username}','{$user_email}', '{$user_profile_pic}')";
+            $insert_db = mysqli_query($conn, $sql_insert_query);
+            if ($insert_db) {
+              ?>
+              <script>windows.location.href = "index.php";</script>
+              <?php
+              exit;
+            } else {
+              die("Error!" . mysqli_error($conn));
+            }
+          }
+
+
+        } else {
+          echo '<div align="center">' . $login_button . '</div>';
+        }*/
+  ?>
+  <!-- </div>
+  </div> -->
+
   <?php include "footer.php"; ?>
   <?php include "bootstrapjs.php"; ?>
 </body>

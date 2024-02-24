@@ -116,7 +116,7 @@ include "db_connection.php";
   ?>
   <!-- From -Start  -->
   <!-- Important section -Start  -->
-  <form class="container py-3 px-4 bg-light border rounded" action="<?php echo htmlentities($_SERVER['PHP_SELF']); ?>"
+  <form class="container py-3 px-4 bg-light border" action="<?php echo htmlentities($_SERVER['PHP_SELF']); ?>"
     method="post" enctype="multipart/form-data">
     <h4 style="text-align:center;" class="py-2">Create your account <i class="ri-account-circle-line"
         style="font-size:1.8rem;"></i></h4>
