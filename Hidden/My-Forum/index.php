@@ -177,9 +177,9 @@ ini_set('display_errors', 0);
 
 
      <!-- Middilbody -Start -->
-     <div class="container d-flex px-3 py-3 row" style="margin:auto;">
+     <div class="container d-flex px-3 py-3 row" style="margin:auto;" id="content">
           <?php
-          $sql = "SELECT * FROM `catagory`";
+          $sql = "SELECT * FROM `catagory` LIMIT 0,5";
           $print = mysqli_query($conn, $sql);
           if ($print) {
                if (mysqli_num_rows($print) > 0) {
@@ -224,6 +224,38 @@ ini_set('display_errors', 0);
      </div>
      <!-- Middlebody -End -->
 
+     <!-- Load more btn -Start  -->
+     <div class="text-center">
+          <button type="button" class="btn btn-dark" id="loadmore">Load more...</button>
+          <input type="hidden" id="startloading" value="0">
+     </div>
+     <!-- Load more btn -End -->
+
+
+
+     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+     <script>
+          //Load more btn script
+          $("#loadmore").click(function () {
+               $start_loading = parseInt($("#startloading").val());
+               $perpage = 5;
+               $start_loading = $start_loading + $perpage;
+
+               $.ajax({
+                    url: 'loadmore_disks.php',
+                    method: 'POST',
+                    data: {
+                         'starting': $start_loading,
+                         'page': $perpage
+                    },
+                    success: function (response) {
+                         $("#content").append(response);
+                    }
+               });
+          });
+
+     </script>
      <?php include "footer.php"; ?>
      <?php include "bootstrapjs.php"; ?>
 </body>
