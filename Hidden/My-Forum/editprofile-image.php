@@ -10,13 +10,15 @@ ini_set('display_errors', 1);
 <head>
      <meta charset="UTF-8" />
      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+     <?php include "bootstrapcss-and-icons.php"; ?>
      <title>Welcome to fSociety - "your hidden society" - register</title>
 </head>
+<?php include "fonts.php"; ?>
 
 <body>
      <!-- Profile picture edit -Start  -->
      <?php
-     $get_id = $_GET['update'];
+     $get_id = mysqli_real_escape_string($conn, $_GET['update']);
 
      if (isset($_POST['submit'])) {
           // echo "<pre>";
@@ -34,7 +36,11 @@ ini_set('display_errors', 1);
                $sql = "UPDATE `user` SET profile_pic = '{$name}' WHERE id = '{$get_id}' ";
                $result = mysqli_query($conn, $sql);
                if ($result) {
-                    header("Location: profile.php");
+                    ?>
+                    <script>windows.location.href = "profile.php"</script>
+                    <?php
+
+                    // header("Location: profile.php");
                     exit();
 
                } else {
@@ -50,9 +56,13 @@ ini_set('display_errors', 1);
 
      ?>
 
-     <form action="" method="post" enctype="multipart/form-data">
-          <input type="file" name="image" id="image"><br><br>
-          <input type="submit" name="submit" value="Update Profile Image">
+     <form class="input-group my-5 container bg-light border py-5 px-5" action="" method="post"
+          enctype="multipart/form-data">
+          <div class="input-group mb-3">
+               <input type="file" class="form-control" name="image" id="inputGroupFile02">
+               <label class="input-group-text" for="inputGroupFile02">Upload</label>
+          </div>
+          <button type="submit" name="submit" class="btn btn-dark rounded">Update your profile picture</button>
      </form>
 
      <!-- Profile picture edit -END  -->
@@ -60,7 +70,7 @@ ini_set('display_errors', 1);
 
 
 
-
+     <?php include "bootstrapjs.php"; ?>
 </body>
 
 </html>

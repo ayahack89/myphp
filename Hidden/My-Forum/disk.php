@@ -222,7 +222,7 @@ session_start();
      ?>
      <?php
      $disk_id = mysqli_real_escape_string($conn, $_GET['Disk']);
-     $sql_query = "SELECT * FROM `threads` WHERE thread_catagory_id = '{$disk_id}' LIMIT 0,5";
+     $sql_query = "SELECT * FROM `threads` WHERE thread_catagory_id = '{$disk_id}'";
      $result = mysqli_query($conn, $sql_query);
      if ($result) {
 
@@ -326,39 +326,7 @@ session_start();
      ?>
      <!-- Thread list -End  -->
 
-     <!-- Load more btn -Start  -->
-     <div class="text-center">
-          <button type="button" class="btn btn-dark" id="loadmore">Load more...</button>
-          <input type="hidden" id="startloading" value="0">
-     </div>
-     <!-- Load more btn -End -->
 
-
-
-     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-     <script>
-          //Load more btn script
-          $("#loadmore").click(function () {
-               $start_loading = parseInt($("#startloading").val());
-               $perpage = 5;
-               $start_loading = $start_loading + $perpage;
-
-               $.ajax({
-                    url: 'loadmore_threads.php',
-                    method: 'POST',
-                    data: {
-                         'starting': $start_loading,
-                         'page': $perpage
-                    },
-                    success: function (response) {
-                         $("#content").append(response);
-                         // console.log(response);
-                    }
-               });
-          });
-
-     </script>
      <?php include "footer.php"; ?>
      <?php include "bootstrapjs.php"; ?>
 </body>

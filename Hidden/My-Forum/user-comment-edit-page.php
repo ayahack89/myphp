@@ -48,8 +48,8 @@ session_start();
                     }
                }
                ?>
-               <form class="container my-5 w-75" action="<?php echo htmlentities($_SERVER['PHP_SELF'] . '?edit=' . $edit_id); ?>"
-                    method="post">
+               <form class="container my-5 w-75 bg-light py-5 px-5 border"
+                    action="<?php echo htmlentities($_SERVER['PHP_SELF'] . '?edit=' . $edit_id); ?>" method="post">
                     <div class="mb-3">
                     </div>
                     <div class="input-group">

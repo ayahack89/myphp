@@ -89,8 +89,9 @@ session_start();
                ?>
 
                <!-- HTML form for editing thread details -->
-               <form class="container my-5 w-75" action="<?php echo htmlentities($_SERVER['PHP_SELF'] . '?edit=' . $edit_id); ?>"
-                    method="post" enctype="multipart/form-data">
+               <form class="container my-5 w-75 bg-light py-5 px-5 border"
+                    action="<?php echo htmlentities($_SERVER['PHP_SELF'] . '?edit=' . $edit_id); ?>" method="post"
+                    enctype="multipart/form-data">
 
                     <div class="mb-3">
                          <div class="input-group">

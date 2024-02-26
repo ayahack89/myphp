@@ -37,6 +37,7 @@ include "db_connection.php";
     $userrepass = mysqli_real_escape_string($conn, $_POST["repassword"]);
     // Optional
     $about = mysqli_real_escape_string($conn, $_POST['about']);
+    $bday = mysqli_real_escape_string($conn, $_POST['bday']);
     $gender = mysqli_real_escape_string($conn, $_POST['gender']);
     $country = mysqli_real_escape_string($conn, $_POST['country']);
     $pContact = mysqli_real_escape_string($conn, $_POST['pcontact']);
@@ -83,7 +84,7 @@ include "db_connection.php";
 
 
               if (move_uploaded_file($tempImgName, $imageUpload)) {
-                $sql = "INSERT INTO `user` (`username`,`email`, `password`, `repassword`, `about`, `gender`, `country`, `personalcontact`, `profile_pic`, `twitter`,`facebook`,`instagram`,`github`) VALUES ('{$userName}','{$useremail}', '{$userpass_hash}', '{$repass_hash}',  '{$about}', '{$gender}', '{$country}', '{$pContact}', '{$newImgName}','{$twitter_link}', '{$facebook_link}', '{$instagram_link}','{$github_link}')";
+                $sql = "INSERT INTO `user` (`username`,`email`, `password`, `repassword`, `cake_day`, `about`, `gender`, `country`, `personalcontact`, `profile_pic`, `twitter`,`facebook`,`instagram`,`github`) VALUES ('{$userName}','{$useremail}', '{$userpass_hash}', '{$repass_hash}', '{$bday}', '{$about}', '{$gender}', '{$country}', '{$pContact}', '{$newImgName}','{$twitter_link}', '{$facebook_link}', '{$instagram_link}','{$github_link}')";
                 $result = mysqli_query($conn, $sql);
 
                 if ($result) {
@@ -146,7 +147,7 @@ include "db_connection.php";
     <h5 style="text-align:center;" class="py-2">Optional <i class="ri-user-fill"></i></h5>
     <label for="exampleFormControlInput1" class="form-label"><i class="ri-cake-2-fill"></i> Cake Day</label>
     <div id="date-picker-example" class="md-form md-outline input-with-post-icon datepicker" inline="true">
-      <input placeholder="Select date" type="date" id="example" class="form-control">
+      <input placeholder="Select date" type="date" name="bday" id="example" class="form-control">
     </div><br>
     <label for="exampleFormControlInput1" class="form-label"><i class="ri-men-line"></i><i class="ri-women-line"></i>
       Gendar</label>

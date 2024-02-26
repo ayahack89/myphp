@@ -1,6 +1,8 @@
 <?php
 include "db_connection.php";
 session_start();
+error_reporting(0);
+ini_set('display_errors', 0);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -147,9 +149,9 @@ session_start();
                                              aria-expanded="false">
                                              <i class="ri-user-settings-fill"></i> Account Setting
                                         </button>
-                                        <ul class="dropdown-menu text-light px-3 py-3">
+                                        <ul class="dropdown-menu text-light px-3 py-3 bg-dark">
                                              <li><a href="profile.php?action=edit" style="text-decoration:none;">Edit
-                                                       Profile</a></button></li>
+                                                       Profile</a></li>
                                              <li><a href="profile.php?action=change_profile_image" style="text-decoration:none;">Change
                                                        Profile Image</a>
                                              </li>
@@ -203,14 +205,14 @@ session_start();
                          } elseif ($action == "change_password") {
                               ?>
                               <p style="font-size:12px;">If you want to change your password just click on this <a
-                                        href="editprofile.php?change=<?php echo $row['id']; ?>">Change Password</a> button.
+                                        href="editprofile_password.php?change=<?php echo $row['id']; ?>">Change Password</a> button.
                               </p>
 
 
                               <?php
                          } elseif ($action == "change_profile_image") {
                               ?>
-                              <p style="font-size:12px;">If you want to delete your account just click on thon is <a
+                              <p style="font-size:12px;">If you want to delete your account just click on the is <a
                                         href="editprofile-image.php?update=<?php echo $row['id']; ?>">Change Profile Image</a>
                                    button.
                               </p>
@@ -219,8 +221,8 @@ session_start();
 
                          } elseif ($action == "delete") {
                               ?>
-                              <p style="font-size:12px;">If you want to delete your account just click on thon is <a
-                                        href="editprofile.php?update=<?php echo $row['id']; ?>">delete</a> button.
+                              <p style="font-size:12px;">If you want to delete your account just click on the is <a
+                                        href="deleteprofile.php?delete=<?php echo $row['id']; ?>">delete</a> button.
                               </p>
 
                               <?php
