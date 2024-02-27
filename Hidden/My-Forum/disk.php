@@ -14,7 +14,7 @@ session_start();
 </head>
 <?php include "fonts.php"; ?>
 
-<body>
+<body class="bg-light">
      <?php include "header.php"; ?>
      <!-- View Disk Hero -Start   -->
      <?php
@@ -26,8 +26,8 @@ session_start();
                while ($disk = mysqli_fetch_assoc($result)) {
                     ?>
 
-                    <div class="container px-2 py-2">
-                         <div class="card text-center">
+                    <div class="container px-2 py-2 ">
+                         <div class="card text-center ">
                               <div class="card-header">
                                    Disk
                                    <?php echo $disk['catagory_id']; ?><br>
@@ -42,7 +42,7 @@ session_start();
                                    <p class="card-text px-5">
                                         <?php echo $disk['catagory_desc']; ?>
                                    </p>
-                                   <a href="index.php" class="btn btn-dark">Go to another disk</a>
+                                   <a href="index.php" class="btn btn-dark rounded-0">Go to another disk</a>
                               </div>
 
                               <div class="card-footer text-body-secondary">
@@ -172,7 +172,7 @@ session_start();
                                         <input class="form-control" type="file" name="image" id="formFileMultiple" multiple>
                                    </div>
                                    <div class="mb-3">
-                                        <button type="submit" name="submit" class="btn btn-dark">Add Topic</button>
+                                        <button type="submit" name="submit" class="btn btn-danger rounded-0">Add Topic</button>
                                    </div>
                               </form>
 
@@ -241,7 +241,7 @@ session_start();
                          if (mysqli_num_rows($run) > 0) {
                               $user = mysqli_fetch_assoc($run);
                               ?>
-                              <div class="container d-flex bg-light border py-4 px-4" id="content">
+                              <div class="container d-flex border py-4 px-4" id="content">
                                    <div class="px-3">
                                         <?php
                                         if (isset($_SESSION['username'])) {
@@ -296,7 +296,8 @@ session_start();
 
 
                          } else {
-                              echo "No user found.";
+                              echo "No user found : (";
+
                          }
 
                     } else {

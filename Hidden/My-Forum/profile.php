@@ -103,7 +103,7 @@ ini_set('display_errors', 0);
 
 </head>
 
-<body>
+<body class="bg-light">
 
      <?php include "header.php"; ?>
 
@@ -145,11 +145,11 @@ ini_set('display_errors', 0);
                                         <?php echo $row['datetime']; ?>
                                    </span>
                                    <div class=" d-flex mt-2">
-                                        <button class="btn btn-dark btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                                             aria-expanded="false">
+                                        <button class="btn btn-dark btn-sm dropdown-toggle rounded-0" type="button"
+                                             data-bs-toggle="dropdown" aria-expanded="false">
                                              <i class="ri-user-settings-fill"></i> Account Setting
                                         </button>
-                                        <ul class="dropdown-menu text-light px-3 py-3 bg-dark">
+                                        <ul class="dropdown-menu text-light px-3 py-3 bg-dark rounded-0">
                                              <li><a href="profile.php?action=edit" style="text-decoration:none;">Edit
                                                        Profile</a></li>
                                              <li><a href="profile.php?action=change_profile_image" style="text-decoration:none;">Change

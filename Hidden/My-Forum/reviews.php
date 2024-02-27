@@ -13,11 +13,11 @@ session_start();
 </head>
 <?php include "fonts.php"; ?>
 
-<body>
+<body class="bg-light">
   <?php include "header.php"; ?>
 
 
-  <div class="container">
+  <div class="container my-3">
     <table class="table table-light table-striped border">
       <thead class="table-dark text-white">
         <th style="font-weight:lighter;">User</th>

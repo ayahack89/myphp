@@ -10,7 +10,8 @@ include "db_connection.php";
 <!-- Navbar -Start  -->
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
      <div class="container-fluid">
-          <a class="navbar-brand" href="index.php">Navbar</a>
+          <a class="navbar-brand my-1 mb-0" href="index.php"><b class="bg-danger px-1 py-2">Ag</b><b
+                    class="bg-dark px-1 py-2" style="color:white;">guora</b></a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                <span class="navbar-toggler-icon"></span>
@@ -47,7 +48,7 @@ include "db_connection.php";
                               Members</a>
                     </li>
                     <li class="nav-item">
-                         <a class="nav-link active" aria-current="page" href="Chats/chatroom.php"><i
+                         <a class="nav-link active" aria-current="page" href="chatroom.php"><i
                                    class="ri-chat-3-fill"></i> Live Chat</a>
                     </li>
                     <li class="nav-item">
@@ -86,16 +87,11 @@ include "db_connection.php";
                          </div>
                          <!-- All disks listing -End  -->
                     </li>
-                    <li class="nav-item">
-                         <a class="nav-link active" href="reviews.php"><i class="ri-bar-chart-grouped-fill"></i>
-                              Reviews</a>
-                    </li>
+
                     <li class="nav-item">
                          <a class="nav-link active" href="#"><i class="ri-questionnaire-fill"></i> FAQ</a>
                     </li>
-                    <li class="nav-item">
-                         <a class="nav-link active" href="#"><i class="ri-phone-fill"></i> Contact Us</a>
-                    </li>
+
 
 
                     <!-- <li class="nav-item">
@@ -116,8 +112,8 @@ include "db_connection.php";
                     } else {
                          ?>
                          <div class="dropdown">
-                              <a class="btn btn-secondary btn-sm my-2 btn-dark dropdown-toggle" href="#" role="button"
-                                   data-bs-toggle="dropdown" aria-expanded="false">
+                              <a class="btn  btn-sm my-2 btn-danger dropdown-toggle rounded-0 text-light" role="button"
+                                   data-bs-toggle="dropdown" aria-expanded="false" style="color:black;">
                                    <i class="ri-account-circle-line" style="font-size:1rem;"></i> Create your account
                               </a>
 

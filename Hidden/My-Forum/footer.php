@@ -1,3 +1,10 @@
+<style>
+     @media only screen and (max-width: 1000px) {
+          .footer {
+               font-size: 15px;
+          }
+     }
+</style>
 <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top container">
      <p class="col-md-4 mb-0 text-muted">© 2022 Company, Inc</p>
 
@@ -8,11 +15,19 @@
           </svg>
      </a>
 
-     <ul class="nav col-md-4 justify-content-end">
-          <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Home</a></li>
-          <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Features</a></li>
-          <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Pricing</a></li>
-          <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">FAQs</a></li>
-          <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">About</a></li>
+     <ul class="nav justify-content-end footer">
+          <li class="nav-item"><a href="#" class="nav-link px-2 text-muted"><i class="ri-questionnaire-line"></i>
+                    FAQs</a></li>
+          <li class="nav-item"><a href="reviews.php" class="nav-link px-2 text-muted"><i
+                         class="ri-bar-chart-grouped-fill"></i>
+                    Reviews</a></li>
+          <li class="nav-item"><a href="#" class="nav-link px-2 text-muted"><i
+                         class="ri-git-repository-private-line"></i> Privacy Policy</a></li>
+          <li class="nav-item"><a href="#" class="nav-link px-2 text-muted"><i class="ri-file-paper-2-line"></i> Terms &
+                    Conditions</a></li>
+          <li class="nav-item"><a href="#" class="nav-link px-2 text-muted"><i class="ri-file-list-3-line"></i>
+                    About</a></li>
+          <li class="nav-item"><a href="#" class="nav-link px-2 text-muted"><i class="ri-phone-line"></i>
+                    Contact Support</a></li>
      </ul>
 </footer>

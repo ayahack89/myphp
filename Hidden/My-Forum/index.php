@@ -18,26 +18,33 @@ ini_set('display_errors', 0);
      :root {
           --success-result: #86efac;
      }
+
+     .background {
+          background: rgba(0, 0, 0, 0.6) url("img/background/background.jpg");
+          background-size: cover;
+          background-blend-mode: darken;
+     }
 </style>
 
-<body>
+<body class="bg-light">
      <?php include "header.php"; ?>
      <!-- Hero Section -Start -->
-     <div class="px-4 py-5 my-1 text-center">
-          <img class="d-block mx-auto" src="/docs/5.0/assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">
-          <h1 class="display-5 fw-bold">Centered hero</h1>
-          <div class="col-lg-6 mx-auto">
-               <p class="lead mb-4">Quickly design and customize responsive mobile-first sites with Bootstrap, the
+     <div class="px-4 py-5 my-1 text-center  background">
+
+
+          <div class="col-lg-6 mx-auto" style="color:white; ">
+               <p class="lead mb-4" style="font-size:15px;">Quickly design and customize responsive mobile-first sites
+                    with Bootstrap, the
                     world’s most popular front-end open source toolkit, featuring Sass variables and mixins, responsive
                     grid system, extensive prebuilt components, and powerful JavaScript plugins.</p>
                <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
-                    <button type="button" class="btn btn-dark btn-lg px-4 gap-3"><a href="Chats/chatroom.php"
+                    <button type="button" class="btn btn-danger btn-lg px-4 gap-3 rounded-0"><a href="chatroom.php"
                               style="text-decoration:none; color:white;"><i class="ri-chat-3-fill"></i> Live
                               Chat</a></button>
                     <?php
                     if (!isset($_SESSION['username'])) {
                          ?>
-                         <button type="button" class="btn btn-secondary btn-lg px-4">
+                         <button type="button" class="btn btn-dark btn-lg px-4 rounded-0">
                               <a href="login.php" style="text-decoration:none; color:white;"><i
                                         class="ri-login-circle-line"></i> Log
                                    In</a>
@@ -58,7 +65,7 @@ ini_set('display_errors', 0);
           <form action="<?php echo htmlentities($_SERVER['PHP_SELF']); ?>" method="post" class=" container d-flex my-3">
                <span type="button" class="w-50 btn btn-light rounded-0 border" l style="" data-bs-toggle="modal"
                     data-bs-target="#exampleModal">
-                    Create a new disk
+                    Create new Disk
                </span>
                <input class="form-control rounded-0" type="search" placeholder="Search Disks by name, date, content.."
                     name="search" aria-label="default input example">
@@ -76,7 +83,7 @@ ini_set('display_errors', 0);
                               while ($search_disk = mysqli_fetch_assoc($result)) {
                                    ?>
                                    <a href="disk.php?Disk=<?php echo $search_disk['catagory_id']; ?>" style="text-decoration:none; color:white;">
-                                        <div class="card px-3 py-3 container" style="background-color:var(--success-result);">
+                                        <div class="card px-3 py-3 container rounded-0" style="background-color:var(--success-result);">
                                              <div class="card-body">
                                                   <h5 class="card-title">
                                                        <i class="ri-hard-drive-fill"></i>
@@ -188,13 +195,14 @@ ini_set('display_errors', 0);
                          <!-- Disk Fetch -Start -->
                          <a href="disk.php?Disk=<?php echo $disk['catagory_id']; ?>" style="text-decoration:none; color:white;"
                               class="row">
-                              <div class="card mx-2 my-2">
+                              <div class="card mx-2 my-2 rounded-0">
                                    <!-- Disk Card -Start -->
 
                                    <div class="card-body">
                                         <h5 class="card-title">
-                                             <i class="ri-hard-drive-fill"></i>
-                                             <?php echo $disk['catagory_name']; ?><br>
+                                             <b style="font-weight:lighter;" class="text-danger"><i class="ri-hard-drive-fill"></i>
+                                                  <?php echo $disk['catagory_name']; ?>
+                                             </b><br>
                                              <b style="font-size:11px; font-weight:lighter;">Disk added on:
                                                   <?php echo $disk['created']; ?>
                                              </b>
@@ -226,7 +234,7 @@ ini_set('display_errors', 0);
 
      <!-- Load more btn -Start  -->
      <div class="text-center">
-          <button type="button" class="btn btn-dark" id="loadmore">Load more...</button>
+          <button type="button" class="btn btn-dark rounded-0" id="loadmore">Load more</button>
           <input type="hidden" id="startloading" value="0">
      </div>
      <!-- Load more btn -End -->

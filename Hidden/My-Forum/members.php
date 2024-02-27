@@ -18,7 +18,7 @@ session_start();
      }
 </style>
 
-<body>
+<body class="bg-light">
      <?php include "header.php"; ?>
      <form class="container w-100 mt-3" action="<?php echo htmlentities($_SERVER['PHP_SELF']); ?>" method="post">
           <div class="input-group mb-3">

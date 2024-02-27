@@ -45,7 +45,7 @@ session_start();
      */
 </script>
 
-<body>
+<body class="bg-light">
      <?php include "header.php"; ?>
      <!-- Thread view section -Start -->
      <?php
@@ -91,7 +91,7 @@ session_start();
                                         </div>
 
 
-                                        <a href="disk.php?Disk=" class="btn btn-dark">Go
+                                        <a href="disk.php?Disk=" class="btn btn-dark rounded-0">Go
                                              back</a><br><br>
                                         <?php echo $thread['thread_time']; ?>
                                    </div>
@@ -173,10 +173,10 @@ session_start();
                                                   <label for="floatingTextarea2">Type your comments</label>
                                              </div><br>
                                              <div class="mb-3">
-                                                  <button type="submit" name="submit" class="btn btn-dark">Post comments</button>
+                                                  <button type="submit" name="submit" class="btn btn-dark rounded-0">Post comments</button>
                                              </div>
                                         </form>
-                                        <button type="button" class="border-0 bg-light mx-2" data-bs-toggle="modal"
+                                        <button type="button" class="border-0 text-dark mx-2" data-bs-toggle="modal"
                                              data-bs-target="#exampleModal">
                                              <i class="ri-reply-fill" style="font-size:15px;"></i> Reply someone
                                         </button>
