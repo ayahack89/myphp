@@ -2,50 +2,36 @@
 include "db_connection.php";
 session_start();
 ?>
-<!DOCTYPE html>
-<html lang="en">
+<!-- Disks -Delete action -Start  -->
+<?php
+if (isset($_GET['delete'])) {
+     $delete_id = mysqli_real_escape_string($conn, $_GET['delete']);
 
-<head>
-     <meta charset="UTF-8">
-     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-     <?php include "bootstrapcss-and-icons.php"; ?>
-     <title>Document</title>
-</head>
+     // Fetch category details
+     $sql = "SELECT * FROM `catagory` WHERE catagory_id = '{$delete_id}'";
+     $run = mysqli_query($conn, $sql);
 
-<body>
-     <!-- Disks -Delete action -Start  -->
-     <?php
-     if (isset($_GET['delete'])) {
-          $delete_id = mysqli_real_escape_string($conn, $_GET['delete']);
+     if ($run && mysqli_num_rows($run) > 0) {
+          $row = mysqli_fetch_assoc($run);
 
-          // Fetch category details
-          $sql = "SELECT * FROM `catagory` WHERE catagory_id = '{$delete_id}'";
-          $run = mysqli_query($conn, $sql);
+          $sql_delete_query = "DELETE FROM `catagory` WHERE catagory_id = '{$delete_id}'";
 
-          if ($run && mysqli_num_rows($run) > 0) {
-               $row = mysqli_fetch_assoc($run);
-
-               $sql_delete_query = "DELETE FROM `catagory` WHERE catagory_id = '{$delete_id}'";
-
-               $result = mysqli_query($conn, $sql_delete_query);
-               if ($result) {
-                    header("Location: your-disks.php");
-                    exit;
-
-               } else {
-                    echo "Opps! Somthing went wrong : (";
-               }
+          $result = mysqli_query($conn, $sql_delete_query);
+          if ($result) {
+               ?>
+               <script>window.location.href = "your-disks.php";</script>
+               <?php
+               exit;
 
           } else {
-               echo "No category found with the given ID.";
+               echo "Opps! Somthing went wrong : (";
           }
+
      } else {
-          echo "Edit ID is missing.";
+          echo "No category found with the given ID.";
      }
-     ?>
-     <!-- Delete action -End  -->
-
-     <?php include "bootstrapjs.php"; ?>
-</body>
-
-</html>
+} else {
+     echo "Edit ID is missing.";
+}
+?>
+<!-- Delete action -End  -->

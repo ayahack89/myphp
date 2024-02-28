@@ -1,5 +1,5 @@
 <?php
-include "db_connection.php";
+include "../db_connection.php";
 session_start();
 ?>
 <!-- Thread -Delete action -Start -->
@@ -19,7 +19,7 @@ if (isset($_GET['delete'])) {
           $result = mysqli_query($conn, $sql_delete_query);
           if ($result) {
                ?>
-               <script>window.location.href = "your-threads.php";</script>
+               <script>window.location.href = "view-all-threads.php";</script>
                <?php
                exit;
 

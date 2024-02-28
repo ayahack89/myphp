@@ -13,17 +13,20 @@ if ($print) {
           while ($disk = mysqli_fetch_assoc($print)) {
 
                $output .= '
-               <a href="disk.php?Disk=' . $disk['catagory_id'] . '" style="text-decoration:none; color:white;" class="row">
-                    <div class="card mx-2 my-2">
+              
+                    <div class="card mx-2 my-2 rounded-0">
                          <!-- Disk Card -Start -->
 
                          <div class="card-body">
                               <h5 class="card-title">
-                                   <i class="ri-hard-drive-fill"></i>
-                                   ' . $disk['catagory_name'] . '<br>
-                                   <b style="font-size:11px; font-weight:lighter;">Disk added on:
-                                        ' . $disk['created'] . '
-                                   </b>
+                              <a href="disk.php?Disk=' . $disk['catagory_id'] . '" style="text-decoration:none; color:white;">
+                              <b style="font-weight:lighter;" class="text-danger"><i class="ri-hard-drive-fill"></i>
+                                                  '.$disk['catagory_name'].'
+                                             </b></a><br>
+                                             <b style="font-size:11px; font-weight:lighter;">Disk added on:
+                                                  '. $disk['created'].'
+                                             </b>
+                                   
                               </h5>
                               <p class="card-text" style="font-size:12px;">
                                    ' . $disk['catagory_desc'] . '
@@ -33,7 +36,7 @@ if ($print) {
 
                        
                     </div>
-               </a>';
+               ';
 
           }
           echo $output;

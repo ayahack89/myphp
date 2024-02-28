@@ -1,6 +1,8 @@
 <?php 
 session_start();
 unset($_SESSION["name"]);
-header("Location: http://localhost/fsociety/admin/index.php");
+?>
+<script>window.location.href="index.php";</script>
+<?php 
 exit();
 ?>

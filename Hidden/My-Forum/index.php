@@ -71,7 +71,9 @@ ini_set('display_errors', 0);
                     name="search" aria-label="default input example">
                <button type="submit" name="submit" class="btn btn-dark rounded-0"><i
                          class="ri-search-line"></i></button>
+                         
           </form>
+
           <?php
           if (isset($_POST['submit'])) {
                $search = mysqli_real_escape_string($conn, $_POST['search']);
@@ -181,10 +183,56 @@ ini_set('display_errors', 0);
      </div>
      <!-- Action Section -End  -->
 
+<div class="container d-flex px-3 py-3 row" style="margin:auto;" id="content">
+<h4>Announcements</h4>
+<?php 
+$sql = "SELECT * FROM `announcement`";
+$print = mysqli_query($conn, $sql);
+if ($print) {
+     if (mysqli_num_rows($print) > 0) {
+          while ($anno = mysqli_fetch_assoc($print)) {
+               ?>
+               <!-- Disk Fetch -Start -->
+             
+                    <div class="card mx-2 my-2 rounded-0">
+                         <!-- Disk Card -Start -->
 
+                         <div class="card-body">
+                              <h5 class="card-title">
+                              <a href="disk.php?Disk=<?php echo $anno['anno_id']; ?>" style="text-decoration:none; color:white;">
+                                   <b style="font-weight:lighter;" class="text-danger"><i class="ri-hard-drive-fill"></i>
+                                        <?php echo $anno['anno_name']; ?>
+                                   </b>  </a><br>
+                                   <b style="font-size:11px; font-weight:lighter;">Disk added on:
+                                        <?php echo $anno['anno_date']; ?>
+                                   </b>
+                              </h5>
+                              <p class="card-text" style="font-size:12px;">
+                                   <?php echo $anno['anno_desc']; ?>
+                              </p>
+
+                         </div>
+
+                         <!-- Disk Card -End -->
+                    </div>
+             
+               <!-- Disk Fetch -End -->
+               <?php
+          }
+     } else {
+          echo "<h5>No Disk Found : (</h5>";
+     }
+} else {
+     echo "<h5>Somthing Went Wrong! : (</h5>";
+}
+
+?>
+</div>
 
      <!-- Middilbody -Start -->
+
      <div class="container d-flex px-3 py-3 row" style="margin:auto;" id="content">
+     <h4>Catagories</h4>
           <?php
           $sql = "SELECT * FROM `catagory` LIMIT 0,5";
           $print = mysqli_query($conn, $sql);
@@ -193,16 +241,16 @@ ini_set('display_errors', 0);
                     while ($disk = mysqli_fetch_assoc($print)) {
                          ?>
                          <!-- Disk Fetch -Start -->
-                         <a href="disk.php?Disk=<?php echo $disk['catagory_id']; ?>" style="text-decoration:none; color:white;"
-                              class="row">
+                       
                               <div class="card mx-2 my-2 rounded-0">
                                    <!-- Disk Card -Start -->
 
                                    <div class="card-body">
                                         <h5 class="card-title">
+                                        <a href="disk.php?Disk=<?php echo $disk['catagory_id']; ?>" style="text-decoration:none; color:white;">
                                              <b style="font-weight:lighter;" class="text-danger"><i class="ri-hard-drive-fill"></i>
                                                   <?php echo $disk['catagory_name']; ?>
-                                             </b><br>
+                                             </b>  </a><br>
                                              <b style="font-size:11px; font-weight:lighter;">Disk added on:
                                                   <?php echo $disk['created']; ?>
                                              </b>
@@ -215,7 +263,7 @@ ini_set('display_errors', 0);
 
                                    <!-- Disk Card -End -->
                               </div>
-                         </a>
+                       
                          <!-- Disk Fetch -End -->
                          <?php
                     }
