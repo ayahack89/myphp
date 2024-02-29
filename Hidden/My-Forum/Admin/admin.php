@@ -53,7 +53,7 @@
                <div>
                     <div class="card rounded-0">
                          <div class="card-body">
-                              <a href="announcement.php" class="btn btn-danger rounded-0 w-100"><i class="ri-question-answer-line" style="font-size:1.2rem;"></i>Announcement</a>
+                              <a href="announcement.php" class="btn btn-danger rounded-0 w-100"><i class="ri-mic-fill" style="font-size:1.2rem;"></i> Announcement</a>
                          </div>
                     </div>
                </div>

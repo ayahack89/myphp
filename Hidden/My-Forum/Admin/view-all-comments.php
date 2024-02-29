@@ -70,7 +70,7 @@ session_start();
                                         </p>
                                       
                                         <a href="delete-comments.php?delete=<?php echo $comment['comment_id']; ?>"
-                                             class="card-link text-danger" style="text-decoration:none; font-size: 2rem;"><i class="ri-delete-bin-5-line"></i></a>
+                                             class="card-link text-danger" style="text-decoration:none; font-size: 1rem;"><button type="button" class="btn btn-danger rounded-0">Banned <i class="ri-delete-bin-5-line"></i></button></a>
                                    </div>
                               </div>
                               <!-- Comment box -End  -->

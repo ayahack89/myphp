@@ -13,6 +13,15 @@ session_start();
      <title>Disk</title>
 </head>
 <?php include "fonts.php"; ?>
+<style>
+     /* .scroll{
+          overflow: scroll;
+          height: 80vh;
+     }
+     .scroll::-webkit-scrollbar{
+          display:;
+     } */
+</style>
 
 <body class="bg-light">
      <?php include "header.php"; ?>
@@ -27,18 +36,18 @@ session_start();
                     ?>
 
                     <div class="container px-2 py-2 ">
-                         <div class="card text-center ">
+                         <div class="card text-center rounded-0">
                               <div class="card-header">
-                                   Disk
-                                   <?php echo $disk['catagory_id']; ?><br>
-                                   Created by
-                                   <?php echo $disk['created_by'] ?>
+                                   <b style="font-size:12px">Disk ID
+                                   <?php echo $disk['catagory_id']; ?></b><br>
+                                   Created by <i class="ri-user-fill"></i>
+                                   <b><?php echo $disk['created_by'] ?></b>
                               </div>
                               <div class="card-body">
-                                   <h2 class="card-title">
-                                        Welcome to
-                                        <?php echo $disk['catagory_name']; ?> disk
-                                   </h2>
+                                   <h3 class="card-title">
+                                        <b class="text-danger">Welcome to
+                                        <?php echo $disk['catagory_name']; ?> community</b>
+                                   </h3>
                                    <p class="card-text px-5">
                                         <?php echo $disk['catagory_desc']; ?>
                                    </p>
@@ -46,7 +55,7 @@ session_start();
                               </div>
 
                               <div class="card-footer text-body-secondary">
-                                   <?php echo $disk['created']; ?>
+                              <b style="font-size:13px; font-weight:lighter;"> Created on : <?php echo $disk['created']; ?></b>
                               </div>
                          </div>
                     </div>
@@ -152,24 +161,24 @@ session_start();
                          <h3>Start A Discussion</h3>
                          <?php if (isset($_SESSION['username'])) { ?>
                               <form action="<?php echo htmlentities($_SERVER['REQUEST_URI']); ?>" method="post"
-                                   enctype="multipart/form-data">
+                                   enctype="multipart/form-data" class="border py-5 px-5">
                                    <div class="input-group mb-3">
-                                        <span class="input-group-text" id="basic-addon1">@</span>
-                                        <input type="text" class="form-control" value="<?php echo $_SESSION['username']; ?>"
+                                        <span class="input-group-text rounded-0" id="basic-addon1">@</span>
+                                        <input type="text" class="form-control rounded-0" value="<?php echo $_SESSION['username']; ?>"
                                              aria-label="Username" aria-describedby="basic-addon1" disabled>
                                    </div>
                                    <div class="mb-3">
-                                        <label for="exampleFormControlInput1" class="form-label">Topic</label>
-                                        <input type="text" class="form-control" id="exampleFormControlInput1" name="topic">
+                                        <label for="exampleFormControlInput1" class="form-label rounded-0">Topic</label>
+                                        <input type="text" class="form-control rounded-0" id="exampleFormControlInput1" name="topic">
                                    </div>
                                    <div class="mb-3">
                                         <label for="exampleFormControlTextarea1" class="form-label">Discussion</label>
-                                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
+                                        <textarea class="form-control rounded-0" id="exampleFormControlTextarea1" rows="3"
                                              name="topic_desc"></textarea>
                                    </div>
                                    <div class="mb-3">
-                                        <label class="form-label">Upload Image (optional)</label>
-                                        <input class="form-control" type="file" name="image" id="formFileMultiple" multiple>
+                                        <label class="form-label rounded-0">Upload Image (optional)</label>
+                                        <input class="form-control rounded-0" type="file" name="image" id="formFileMultiple" multiple>
                                    </div>
                                    <div class="mb-3">
                                         <button type="submit" name="submit" class="btn btn-danger rounded-0">Add Topic</button>
@@ -208,6 +217,7 @@ session_start();
                               <?php echo $disk['catagory_name']; ?> disk topics
                          </h3>
                     </div>
+                  
                     <?php
                }
 
@@ -292,11 +302,17 @@ session_start();
 
                                    </div>
                               </div>
+    
                               <?php
 
 
                          } else {
-                              echo "No user found : (";
+                             ?>
+                             <div class="container border px-2 py-2">
+                              <b class="text-secondary" style="font-weight:lighter;"><i class="ri-skull-2-fill"></i> Dead</b>
+
+                             </div>
+                             <?php 
 
                          }
 
@@ -311,22 +327,20 @@ session_start();
                }
           } else {
                ?>
+     
                <div class="container px-4">
                     <h2>No Result Found : (</h2>
                     <p style="font-size:12px;">Be the first person to add a topic....</p>
                </div>
-
+         
                <?php
           }
-
-
 
      } else {
           echo "Somthing Went Wrong : (";
      }
      ?>
      <!-- Thread list -End  -->
-
 
      <?php include "footer.php"; ?>
      <?php include "bootstrapjs.php"; ?>

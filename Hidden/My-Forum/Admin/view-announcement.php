@@ -28,7 +28,7 @@ session_start();
                     <div class="card rounded-0">
                          <div class="card-body">
                               <h5 class="card-title">
-                                   <?php echo $anno['anno_name']; ?>
+                              <a href="announcement-thread.php?announcement=<?php echo $anno['anno_id']; ?>" style="text-decoration:none;"><b><?php echo $anno['anno_name']; ?></b></a>
                               </h5>
                               <h6 class="card-subtitle mb-2 text-body-secondary">
                                    <b style="color:black;">
@@ -42,9 +42,9 @@ session_start();
                                    <?php echo $anno['anno_desc']; ?>
                               </p>
                               <a href="edit-announcement.php?edit=<?php echo $anno['anno_id']; ?>" class="card-link text-success"
-                                   style="text-decoration:none; font-size:2rem;"><i class="ri-edit-box-line"></i><a>
+                                   style="text-decoration:none; font-size:1.5rem;"><i class="ri-edit-box-line"></i><a>
                               <a href="delete-announcement.php?delete=<?php echo $anno['anno_id']; ?>" class="card-link text-danger"
-                                   style="text-decoration:none; font-size:2rem;"><i class="ri-delete-bin-5-line"></i></a>
+                                   style="text-decoration:none; font-size:1.5rem; padding-left:20px;"><i class="ri-delete-bin-5-line"></i></a>
                                  
                          </div>
                     </div>

@@ -19,7 +19,7 @@ session_start();
           $edit_id = mysqli_real_escape_string($conn, $_GET['edit']);
 
           // Fetch category details
-          $sql = "SELECT * FROM `announcement` WHERE anno_id = '{$edit_id}'";
+          $sql = "SELECT * FROM `announcement_threads` WHERE anno_thread_id = '{$edit_id}'";
           $run = mysqli_query($conn, $sql);
 
           if ($run && mysqli_num_rows($run) > 0) {
@@ -32,15 +32,15 @@ session_start();
 
                     // Update only if name or description is not empty
                     if (!empty($anno_name) || !empty($anno_desc)) {
-                         $sql_query = "UPDATE `announcement` 
-                              SET `anno_name` = '{$anno_name}', `anno_desc` = '{$anno_desc}' 
-                              WHERE `anno_id` = '{$edit_id}'";
+                         $sql_query = "UPDATE `announcement_threads` 
+                              SET `anno_thread_name` = '{$anno_name}', `anno_thread_desc` = '{$anno_desc}' 
+                              WHERE `anno_thread_id` = '{$edit_id}'";
 
                          $result = mysqli_query($conn, $sql_query);
 
                          if ($result) {
                               ?>
-                              <script>window.location.href="view-announcement.php";</script>
+                            <script>window.location.href = "announcement-thread.php?announcement=<?php echo $row['announcement_id']; ?>";</script>
                               <?php 
                               exit;
                          } else {
@@ -55,17 +55,17 @@ session_start();
                     action="<?php echo htmlentities($_SERVER['PHP_SELF'] . '?edit=' . $edit_id); ?>" method="post">
                     <div class="mb-3">
                          <div class="input-group">
-                              <span class="input-group-text" id="basic-addon3">Announcement name</span>
-                              <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3 basic-addon4"
-                                   name="anno_name" value="<?php echo $row['anno_name']; ?>">
+                              <span class="input-group-text rounded-0" id="basic-addon3">Announcement topic</span>
+                              <input type="text" class="form-control rounded-0" id="basic-url" aria-describedby="basic-addon3 basic-addon4"
+                                   name="anno_name" value="<?php echo $row['anno_thread_name']; ?>">
                          </div>
                     </div>
                     <div class="input-group">
-                         <span class="input-group-text">Announcement description</span>
-                         <textarea class="form-control" aria-label="With textarea"
-                              name="anno_desc"><?php echo $row['anno_desc']; ?></textarea>
+                         <span class="input-group-text rounded-0">Announcement description</span>
+                         <textarea class="form-control rounded-0" aria-label="With textarea"
+                              name="anno_desc"><?php echo $row['anno_thread_desc']; ?></textarea>
                     </div>
-                    <button type="submit" class="btn btn-dark my-3" name="submit">Update Category</button>
+                    <button type="submit" class="btn btn-danger my-3 rounded-0" name="submit">Update announcement </button>
                </form>
                <?php
           } else {

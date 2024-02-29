@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['message'])) {
   $message = htmlspecialchars($_POST['message']);
   $user = $_SESSION['username'];
 
-  file_put_contents('chatlog.txt', "<strong>$user:</strong> $message<br>", FILE_APPEND);
+  file_put_contents('chatlog.txt', "<div class='container py-2 px-2 border bg-lighter'><strong>$user:</strong> $message<br></div>", FILE_APPEND);
 
   // Redirect to prevent form resubmission
   header("Location: " . $_SERVER['PHP_SELF']);
@@ -34,17 +34,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['username'])) {
   <title>Chat-Page</title>
 </head>
 <?php include "fonts.php"; ?>
-
+<style>
+  .scroll{
+    height: 60vh;
+    overflow-y: scroll;
+  }
+  /* .scroll::-webkit-scrollbar{
+    display: none;
+  } */
+</style>
 <body class="bg-light">
   <?php include "header.php"; ?>
-  <div style="margin:auto; margin-top:20px;">
-    <div class="container py-5 px-5  border rounded-0">
-      <div class="scroll background">
+  <div style="margin:auto; margin-top:20px; scroll">
+  <div class="container py-5 px-5 border rounded-0 border" id="reloadDiv">
+    <div class="scroll background">
         <div class="messageBox" style="font-size:12px;">
-          <?php echo file_get_contents('chatlog.txt'); ?>
+            <?php echo file_get_contents('chatlog.txt'); ?>
         </div>
-      </div>
     </div>
+</div>
 
     <form method="post" action="<?php echo htmlentities($_SERVER['PHP_SELF']); ?>">
       <?php
@@ -78,6 +86,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['username'])) {
 
   <?php include "footer.php"; ?>
   <?php include "bootstrapjs.php"; ?>
+
+  <script>
+    // Function to reload the content of the div
+    function reloadDivContent() {
+        var reloadDiv = document.getElementById('reloadDiv');
+        var messageBox = reloadDiv.querySelector('.messageBox');
+        
+        // Fetch new content using AJAX
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                // Update the content of messageBox
+                messageBox.innerHTML = xhr.responseText;
+            }
+        };
+        xhr.open('GET', 'chatlog.txt', true);
+        xhr.send();
+    }
+
+    // Refresh the div content every 2 seconds
+    setInterval(reloadDivContent, 1000);
+</script>
 </body>
 
 </html>

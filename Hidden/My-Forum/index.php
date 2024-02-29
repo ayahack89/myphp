@@ -20,7 +20,7 @@ ini_set('display_errors', 0);
      }
 
      .background {
-          background: rgba(0, 0, 0, 0.6) url("img/background/background.jpg");
+          background: rgba(0, 0, 0, 0.6) url("img/background/bg.jpg");
           background-size: cover;
           background-blend-mode: darken;
      }
@@ -32,7 +32,7 @@ ini_set('display_errors', 0);
      <div class="px-4 py-5 my-1 text-center  background">
 
 
-          <div class="col-lg-6 mx-auto" style="color:white; ">
+          <div class="col-lg-5 mx-auto" style="color:white; ">
                <p class="lead mb-4" style="font-size:15px;">Quickly design and customize responsive mobile-first sites
                     with Bootstrap, the
                     world’s most popular front-end open source toolkit, featuring Sass variables and mixins, responsive
@@ -183,7 +183,9 @@ ini_set('display_errors', 0);
      </div>
      <!-- Action Section -End  -->
 
-<div class="container d-flex px-3 py-3 row" style="margin:auto;" id="content">
+<div class="container d-flex px-3 py-3 row" style="margin:auto;">
+
+<!-- Announcements -Start  -->
 <h4>Announcements</h4>
 <?php 
 $sql = "SELECT * FROM `announcement`";
@@ -199,7 +201,7 @@ if ($print) {
 
                          <div class="card-body">
                               <h5 class="card-title">
-                              <a href="disk.php?Disk=<?php echo $anno['anno_id']; ?>" style="text-decoration:none; color:white;">
+                              <a href="announcement-thread.php?announcement=<?php echo $anno['anno_id']; ?>" style="text-decoration:none; color:white;">
                                    <b style="font-weight:lighter;" class="text-danger"><i class="ri-hard-drive-fill"></i>
                                         <?php echo $anno['anno_name']; ?>
                                    </b>  </a><br>
@@ -228,6 +230,7 @@ if ($print) {
 
 ?>
 </div>
+<!-- Announcements -End  -->
 
      <!-- Middilbody -Start -->
 

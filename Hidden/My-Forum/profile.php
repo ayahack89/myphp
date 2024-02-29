@@ -144,6 +144,9 @@ ini_set('display_errors', 0);
                                    <span style="font-size:8px;">Joined
                                         <?php echo $row['datetime']; ?>
                                    </span>
+                                   <span style="font-size:13px;"><i class="ri-cake-2-fill"></i>
+                                        <?php echo $row['cake_day']; ?>
+                                   </span>
                                    <div class=" d-flex mt-2">
                                         <button class="btn btn-dark btn-sm dropdown-toggle rounded-0" type="button"
                                              data-bs-toggle="dropdown" aria-expanded="false">

@@ -22,9 +22,9 @@ session_start();
      <?php include "header.php"; ?>
      <form class="container w-100 mt-3" action="<?php echo htmlentities($_SERVER['PHP_SELF']); ?>" method="post">
           <div class="input-group mb-3">
-               <input type="text" class="form-control" placeholder="Search members by name, date, about..."
+               <input type="text" class="form-control rounded-0" placeholder="Search members by name, date, about..."
                     name="search" aria-label="Username" aria-describedby="basic-addon1">
-               <button class="btn btn-dark" type="submit" name="submit_search" id="basic-addon1"><i
+               <button class="btn btn-danger rounded-0" type="submit" name="submit_search" id="basic-addon1"><i
                          class="ri-user-search-line"></i></button>
           </div>
      </form>

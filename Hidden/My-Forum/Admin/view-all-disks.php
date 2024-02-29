@@ -41,8 +41,8 @@ session_start();
                                    <?php echo $disk['catagory_desc']; ?>
                               </p>
 
-                              <a href="delete-disks.php?delete=<?php echo $disk['catagory_id']; ?>" class="card-link text-danger"
-                                   style="text-decoration:none; font-size:2rem;"><i class="ri-delete-bin-5-line"></i></a>
+                              <a href="delete-disks.php?delete=<?php echo $disk['catagory_id']; ?>" class="card-link text-light"
+                                   style="text-decoration:none; font-size:1rem;"><button type="button" class="btn btn-danger rounded-0">Banned <i class="ri-delete-bin-5-line"></i></a></button>
                          </div>
                     </div>
                     <!-- Disk box -End  -->

@@ -52,8 +52,8 @@ session_start();
                               </p><br>
                               <img src="img/upload/<?php echo $thread['uploaded_image']; ?>" class="img-thumbnail" alt=""
                                    width="200vw"><br>
-                              <a href="delete-threads.php?delete=<?php echo $thread['thread_id']; ?>" class="card-link text-danger"
-                                   style="text-decoration:none; font-size:2rem;"><i class="ri-delete-bin-5-line"></i></a>
+                              <a href="delete-threads.php?delete=<?php echo $thread['thread_id']; ?>" class="card-link text-light"
+                                   style="text-decoration:none; font-size:1rem;"><button type="button" class="btn btn-danger rounded-0">Banned <i class="ri-delete-bin-5-line"></i></a></button>
                          </div>
                     </div>
                     <!-- Thread box -End  -->

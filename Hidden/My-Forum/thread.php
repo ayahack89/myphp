@@ -33,7 +33,6 @@ session_start();
           color: red;
      }
 </style>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
      /*
      $(document).ready(function () {
@@ -58,12 +57,13 @@ session_start();
                     while ($thread = mysqli_fetch_assoc($result)) {
                          ?>
                          <div class="container">
-                              <div class="card text-center">
+                              <div class="card text-center rounded-0">
                                    <div class="card-header">
-                                        Thread No.
-                                        <?php echo $thread['thread_id']; ?>
-                                        <h6 style="font-size:11px;">Posted by
-                                             <?php echo $thread['thread_created_by']; ?>
+                                        <b style="font-size:12px">Thread No.
+                                        <?php echo $thread['thread_id']; ?></b><br>
+                                        <h6 style="font-size:15px;">Posted by
+                                        <i class="ri-user-6-fill"></i>
+                                             <b><?php echo $thread['thread_created_by']; ?></b>
                                         </h6>
                                    </div>
                                    <div class="card-body">
@@ -93,24 +93,14 @@ session_start();
 
                                         <a href="disk.php?Disk=" class="btn btn-dark rounded-0">Go
                                              back</a><br><br>
-                                        <?php echo $thread['thread_time']; ?>
+                                      
                                    </div>
 
-                                   <div class="card-footer text-body">
-
+                                   <div class="card-footer text-body"><b style="font-size:13px; font-weight:lighter;">Created on :
+                                   <?php echo $thread['thread_time']; ?></b>
                                         <!-- Voting System -Start  -->
-
                                         <div class="py-2"></div>
-
-
                                         <!-- Voting System -End  -->
-
-
-
-
-
-
-
                                    </div>
                               </div>
                               <!-- Thread view section -End  -->
@@ -167,10 +157,10 @@ session_start();
                                    <?php if (isset($_SESSION['username'])) {
                                         ?>
                                         <form action="<?php echo htmlentities($_SERVER['REQUEST_URI']); ?>" method="post">
-                                             <div class="form-floating">
-                                                  <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2"
+                                             <div class="form-floating border py-5">
+                                                  <textarea class="form-control rounded-0" placeholder="Leave a comment here" id="floatingTextarea2"
                                                        style="height: 100px" name="comment"></textarea>
-                                                  <label for="floatingTextarea2">Type your comments</label>
+                                                  <label for="floatingTextarea2"><i class="ri-message-2-line"></i> comments</label>
                                              </div><br>
                                              <div class="mb-3">
                                                   <button type="submit" name="submit" class="btn btn-dark rounded-0">Post comments</button>
@@ -405,7 +395,12 @@ session_start();
 
                                                   <?php
                                              } else {
-                                                  echo "Invalid user!";
+                                                  ?>
+                                                  <div class="container border px-2 py-2">
+                                                  <b class="text-secondary" style="font-weight:lighter;"><i class="ri-skull-2-fill"></i> Dead</b>
+                    
+                                                 </div>
+                                                 <?php
                                              }
                                         }
                                         $check_result = true;
