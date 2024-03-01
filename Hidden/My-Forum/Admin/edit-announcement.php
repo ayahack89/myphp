@@ -1,19 +1,22 @@
+<?php 
+session_start();
+if(!isset($_SESSION['name'])){
+echo 'Opps! atfirst you need to <a href="index.php">login</a> & proof that you are an admin.';
+}else{ ?>
 <?php
 include "../db_connection.php";
-session_start();
+ini_set('display_errors', 0);
 ?>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
      <meta charset="UTF-8">
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
      <?php include "../bootstrapcss-and-icons.php"; ?>
      <title>Document</title>
 </head>
-
 <body>
-     <!-- User disk edit action -Start  -->
+     <!-- Edit action -Start  -->
      <?php
      if (isset($_GET['edit'])) {
           $edit_id = mysqli_real_escape_string($conn, $_GET['edit']);
@@ -44,10 +47,13 @@ session_start();
                               <?php 
                               exit;
                          } else {
-                              echo "Oops! Something went wrong while updating.";
+                              echo' <div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">Oops! Something went wrong while updating.</div>';
+
                          }
                     } else {
-                         echo "Please provide a name or description.";
+                     
+                         echo' <div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">Please provide a name or description.</div>';
+
                     }
                }
                ?>
@@ -69,15 +75,19 @@ session_start();
                </form>
                <?php
           } else {
-               echo "No category found with the given ID.";
+             
+               echo' <div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">No category found with the given ID.</div>';
+
           }
      } else {
-          echo "Edit ID is missing.";
+          
+          echo' <div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">Edit ID is missing.</div>';
+
      }
      ?>
      <!-- User disk edit action -End  -->
 
      <?php include "../bootstrapjs.php"; ?>
 </body>
-
 </html>
+<?php } ?>

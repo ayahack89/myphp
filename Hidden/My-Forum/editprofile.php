@@ -1,13 +1,10 @@
 <?php
 session_start();
 include "db_connection.php";
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
+ini_set('display_errors', 0);
 ?>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
      <meta charset="UTF-8">
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -70,23 +67,21 @@ ini_set('display_errors', 1);
                          <?php
 
                     } else {
-                         echo "Oops! Something went wrong :(";
-                         die("Error: " . mysqli_error($conn));
+                         echo' <div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">Opps! Somthing went wrong : (</div>';
                     }
                } else {
-                    echo "Please fill in all the details.";
+                    echo' <div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">Please fill in all the details.</div>';
+
                }
           }
      } else {
-          echo "No user found with ID: $update";
+          echo' <div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">No user found with ID:'. $update.'</div>';
+
      }
      ?>
-
      <?php
-
      $retrieve = "SELECT * FROM `user` WHERE id = '$update'";
      $result = mysqli_query($conn, $retrieve);
-
      if ($result) {
           if (mysqli_num_rows($result) > 0) {
                while ($row = mysqli_fetch_assoc($result)) {

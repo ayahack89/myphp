@@ -1,7 +1,6 @@
 <?php
 include "db_connection.php";
 session_start();
-error_reporting(0);
 ini_set('display_errors', 0);
 ?>
 <!DOCTYPE html>
@@ -102,14 +101,8 @@ ini_set('display_errors', 0);
      </style>
 
 </head>
-
 <body class="bg-light">
-
      <?php include "header.php"; ?>
-
-
-
-
      <?php
      $username = $_SESSION['username'];
 
@@ -120,33 +113,89 @@ ini_set('display_errors', 0);
 
      if ($result) {
           if (mysqli_num_rows($result) > 0) {
-               while ($row = mysqli_fetch_assoc($result)) {
+               while ($pro = mysqli_fetch_assoc($result)) {
                     ?>
-
-
                     <div class="container d-flex p-2 py-5 bg-dark w-75 border my-2 rounded">
                          <div class="container p-2 w-100 border rounded" style="background-color:white;">
                               <div class="d-flex flex-column justify-content-center align-items-center">
-                                   <img src="img/images/<?php echo $row['profile_pic']; ?>" class="rounded-circle border" height="180"
+                                   <?php if(empty($pro['profile_pic'])){
+                                        ?>
+                                   <img src="img/images/default.jpg" class="rounded-circle border" height="180"
                                         width="180" />
-                                   <span class="name mt-3">
-                                        <?php echo $row['username']; ?>
+                                        <?php 
+
+                                   }else{ ?>
+                                   <img src="img/images/<?php echo $pro['profile_pic']; ?>" class="rounded-circle border" height="180"
+                                        width="180" />
+                                        <?php } ?>
+                                   <span class="name mt-3 text-danger" style="font-size:1.8rem;">
+                                   <?php echo $pro['username']; ?>
                                    </span>
                                    <div class="d-flex flex-row justify-content-center align-items-center gap-2"> <span class="idd1">@
-                                             <?php echo $row['username']; ?>
+                                             <?php echo $pro['username']; ?>
                                         </span>
 
                                    </div>
                                    <span>
                                         <i class="ri-flag-fill"></i>
-                                        <?php echo $row['country']; ?>
+                                        <?php echo $pro['country']; ?>
                                    </span>
                                    <span style="font-size:8px;">Joined
-                                        <?php echo $row['datetime']; ?>
+                                        <?php echo $pro['datetime']; ?>
                                    </span>
                                    <span style="font-size:13px;"><i class="ri-cake-2-fill"></i>
-                                        <?php echo $row['cake_day']; ?>
+                                        <?php echo $pro['cake_day']; ?>
                                    </span>
+
+                                   <!-- Activety count -Start  -->
+                                   <div class="container border py-3 px-3 my-2" style="width:15vw;">
+                                        <b class="text-center">Your Activities</b></br>
+                                        <?php 
+                                        $username = $_SESSION['username'];
+                                        $sql_count = "SELECT COUNT(*) AS total_rows FROM `catagory` WHERE created_by = '{$username}'";
+                                        $result = mysqli_query($conn, $sql_count);
+                                        if ($result && mysqli_num_rows($result) > 0) {
+                                             $row = mysqli_fetch_assoc($result);
+                                             $disks=$row['total_rows'];
+                                             ?>
+                                             Disks(<?php echo $row['total_rows']; ?>)<br>
+                                             <?php }?>
+                                             <?php 
+                                        $username = $_SESSION['username'];
+                                        $sql_count = "SELECT COUNT(*) AS total_rows FROM `threads` WHERE thread_created_by = '{$username}'";
+                                        $result = mysqli_query($conn, $sql_count);
+                                        if ($result && mysqli_num_rows($result) > 0) {
+                                             $row = mysqli_fetch_assoc($result);
+                                             $threads=$row['total_rows'];
+                                             ?>
+                                             Threads (<?php echo $row['total_rows']; ?>)<br>
+                                             <?php }?>
+                                             <?php 
+                                       $sql = "SELECT * FROM `user` WHERE username = '{$username}'";
+                                       $run_query = mysqli_query($conn, $sql);
+                                       if($run_query && mysqli_num_rows($run_query)){
+                                        $user=mysqli_fetch_assoc($run_query);
+                                        $user_id = $user['id'];
+                                        $sql_count = "SELECT COUNT(*) AS total_rows FROM `comments` WHERE comment_by = '{$user_id}'";
+                                        $result = mysqli_query($conn, $sql_count);
+                                        if ($result && mysqli_num_rows($result) > 0) {
+                                             $row = mysqli_fetch_assoc($result);
+                                             $comments=$row['total_rows'];
+                                             ?>
+                                             Comments(<?php echo $row['total_rows']; ?>)<br>
+
+                                             <div>
+                                                  <b class="text-danger" style="font-size:1.2rem;">Karma: </b><b style="font-size:1.2rem;"><?php 
+                                                  $karma = $disks + $threads + $comments;
+                                                  echo $karma;
+                                                   ?></b>
+                                             </div>
+                                             <?php }}?>
+
+                                   </div>
+                                   <!-- Activity count -END  -->
+
+
                                    <div class=" d-flex mt-2">
                                         <button class="btn btn-dark btn-sm dropdown-toggle rounded-0" type="button"
                                              data-bs-toggle="dropdown" aria-expanded="false">
@@ -171,18 +220,18 @@ ini_set('display_errors', 0);
 
                                    </div>
                                    <div class="text mt-3"> <span>
-                                             <?php echo $row['about']; ?>
+                                             <?php echo $pro['about']; ?>
                                         </span>
                                    </div>
                                    <div class="gap-3 mt-3 icons d-flex flex-row justify-content-center align-items-center">
-                                        <span><a href="<?php echo $row['twitter']; ?>"><i class="fa fa-twitter"
+                                        <span><a href="<?php echo $pro['twitter']; ?>"><i class="fa fa-twitter"
                                                        style="font-size:2rem; color:black;"></i></a></span>
-                                        <span><a style="text-decoration: none;" href="<?php echo $row['facebook']; ?>"><i
+                                        <span><a style="text-decoration: none;" href="<?php echo $pro['facebook']; ?>"><i
                                                        class="ri-facebook-box-fill"
                                                        style="font-size:2.2rem; color:black;"></i></a></span>
-                                        <span><a href="<?php echo $row['instagram']; ?>"><i class="fa fa-instagram"
+                                        <span><a href="<?php echo $pro['instagram']; ?>"><i class="fa fa-instagram"
                                                        style="font-size:2rem; color:black;"></i></a></span>
-                                        <span><a href="<?php echo $row['github']; ?>"><i class="fa fa-github"
+                                        <span><a href="<?php echo $pro['github']; ?>"><i class="fa fa-github"
                                                        style="font-size:2rem; color:black;"></i></a></span>
                                    </div>
 
@@ -202,13 +251,13 @@ ini_set('display_errors', 0);
 
                               ?>
                               <p style="font-size:12px;">If you want to edit your profile pic and other informtions just click this <a
-                                        href="editprofile.php?update=<?php echo $row['id']; ?>">edit</a> button.
+                                        href="editprofile.php?update=<?php echo $pro['id']; ?>">edit</a> button.
                               </p>
                               <?php
                          } elseif ($action == "change_password") {
                               ?>
                               <p style="font-size:12px;">If you want to change your password just click on this <a
-                                        href="editprofile_password.php?change=<?php echo $row['id']; ?>">Change Password</a> button.
+                                        href="editprofile_password.php?change=<?php echo $pro['id']; ?>">Change Password</a> button.
                               </p>
 
 
@@ -216,7 +265,7 @@ ini_set('display_errors', 0);
                          } elseif ($action == "change_profile_image") {
                               ?>
                               <p style="font-size:12px;">If you want to delete your account just click on the is <a
-                                        href="editprofile-image.php?update=<?php echo $row['id']; ?>">Change Profile Image</a>
+                                        href="editprofile-image.php?update=<?php echo $pro['id']; ?>">Change Profile Image</a>
                                    button.
                               </p>
                               <?php
@@ -225,7 +274,7 @@ ini_set('display_errors', 0);
                          } elseif ($action == "delete") {
                               ?>
                               <p style="font-size:12px;">If you want to delete your account just click on the is <a
-                                        href="deleteprofile.php?delete=<?php echo $row['id']; ?>">delete</a> button.
+                                        href="deleteprofile.php?delete=<?php echo $pro['id']; ?>">delete</a> button.
                               </p>
 
                               <?php
@@ -234,22 +283,16 @@ ini_set('display_errors', 0);
                }
 
           } else {
-               header("Location: index.php");
+               ?>
+               <script>window.location.href="index.php";</script>
+               <?php 
           }
           ?>
           </div>
-
           <?php
-
-
      }
      ?>
-
-
-
-
-
-
+    
      <?php include "footer.php"; ?>
      <?php include "bootstrapjs.php"; ?>
 

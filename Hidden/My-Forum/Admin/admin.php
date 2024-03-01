@@ -1,4 +1,11 @@
-<?php session_start(); ?>
+<?php 
+session_start(); 
+if(!isset($_SESSION['name'])){
+echo 'Opps! atfirst you need to <a href="index.php">login</a> & proof that you are an admin.';
+}else{ ?>
+<?php 
+ini_set('display_errors', 0);
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -57,13 +64,19 @@
                          </div>
                     </div>
                </div>
+               <div>
+                    <div class="card rounded-0">
+                         <div class="card-body">
+                              <a href="checkreview.php" class="btn btn-danger rounded-0 w-100"><i class="ri-bar-chart-grouped-fill" style="font-size:1.2rem;"></i> Check user review</a>
+                         </div>
+                    </div>
+               </div>
           </div>
 
      </div>
-
-
 
      <?php include "../bootstrapjs.php"; ?>
 </body>
 
 </html>
+<?php } ?>

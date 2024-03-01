@@ -1,9 +1,9 @@
 <?php
 include "db_connection.php";
+ini_set('display_errors', 0);
 ?>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -17,104 +17,100 @@ include "db_connection.php";
     margin: auto;
   }
 </style>
-
 <body>
   <?php include "header.php"; ?>
-
   <?php
-  //From submission script -Start 
-  if (isset($_POST["submit"])) {
-
+//From submission script -Start 
+if (isset($_POST["submit"])) {
     if (!$conn) {
-      die("Connection failed: " . mysqli_connect_error());
+        die("Connection failed: " . mysqli_connect_error());
     }
 
-    // User details
-    // Required
+    // Mandatory fields
     $userName = mysqli_real_escape_string($conn, $_POST["uname"]);
     $useremail = mysqli_real_escape_string($conn, $_POST["email"]);
     $userpassword = mysqli_real_escape_string($conn, $_POST["password"]);
     $userrepass = mysqli_real_escape_string($conn, $_POST["repassword"]);
-    // Optional
-    $about = mysqli_real_escape_string($conn, $_POST['about']);
-    $bday = mysqli_real_escape_string($conn, $_POST['bday']);
-    $gender = mysqli_real_escape_string($conn, $_POST['gender']);
-    $country = mysqli_real_escape_string($conn, $_POST['country']);
-    $pContact = mysqli_real_escape_string($conn, $_POST['pcontact']);
-    $twitter = mysqli_real_escape_string($conn, $_POST['twitter']);
-    $facebook = mysqli_real_escape_string($conn, $_POST['facebook']);
-    $instagram = mysqli_real_escape_string($conn, $_POST['instagram']);
-    $github = mysqli_real_escape_string($conn, $_POST['github']);
-
-    //Social Media Links
-    $twitter_link = "https://twitter.com/" . $twitter;
-    $facebook_link = "https://www.facebook.com/" . $facebook;
-    $instagram_link = "https://www.instagram.com/" . $instagram;
-    $github_link = "https://github.com/" . $github;
-    // User profile pic
-    $imgName = $_FILES['profile_pic']['name'];
-    $tempImgName = $_FILES['profile_pic']['tmp_name'];
-    $imgSize = $_FILES['profile_pic']['size'];
-    $imgError = $_FILES['profile_pic']['error'];
 
     // Encrypt password
     $userpass_hash = password_hash($userpassword, PASSWORD_DEFAULT);
     $repass_hash = password_hash($userrepass, PASSWORD_DEFAULT);
 
     if (!empty($userName) && !empty($useremail) && !empty($userpassword) && !empty($userrepass)) {
-      $user_check = "SELECT * FROM `user` WHERE username = '$userName'";
-      $check = mysqli_query($conn, $user_check);
-      $user_exist_verification = mysqli_num_rows($check);
+        $user_check = "SELECT * FROM `user` WHERE username = '$userName'";
+        $check = mysqli_query($conn, $user_check);
+        $user_exist_verification = mysqli_num_rows($check);
 
-      if ($user_exist_verification > 0) {
-        echo "<h3>User already exists. Please choose a different username.</h3>";
-      } else {
-        if ($userpassword !== $userrepass) {
-          echo "<h5 style='font-family: Arial;'>Password not matched!</h5>";
+        if ($user_exist_verification > 0) {
+            echo' <div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">User already exists. Please choose a different username.</div>';
         } else {
-          if ($imgError === 0) {
-            $imgEx = pathinfo($imgName, PATHINFO_EXTENSION);
-            $imgExLowerStr = strtolower($imgEx);
-            // Allowed only image types
-            $allowedImageTypes = array('jpeg', 'png', 'jpg');
+            if ($userpassword !== $userrepass) {
+                echo "<h5 style='font-family: Arial;'>Password not matched!</h5>";
+                echo' <div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">Password not matched!</div>';
+            } else {
+                // Optional fields
+                $about = mysqli_real_escape_string($conn, $_POST['about']);
+                $bday = mysqli_real_escape_string($conn, $_POST['bday']);
+                $gender = mysqli_real_escape_string($conn, $_POST['gender']);
+                $country = mysqli_real_escape_string($conn, $_POST['country']);
+                $pContact = mysqli_real_escape_string($conn, $_POST['pcontact']);
+                $twitter = mysqli_real_escape_string($conn, $_POST['twitter']);
+                $facebook = mysqli_real_escape_string($conn, $_POST['facebook']);
+                $instagram = mysqli_real_escape_string($conn, $_POST['instagram']);
+                $github = mysqli_real_escape_string($conn, $_POST['github']);
 
-            if (in_array($imgExLowerStr, $allowedImageTypes)) {
-              $newImgName = uniqid($userName, true) . '.' . $imgExLowerStr;
-              $imageUpload = 'img/images/' . $newImgName;
+                // Social Media Links
+                $twitter_link = "https://twitter.com/" . $twitter;
+                $facebook_link = "https://www.facebook.com/" . $facebook;
+                $instagram_link = "https://www.instagram.com/" . $instagram;
+                $github_link = "https://github.com/" . $github;
 
+                // User profile pic (optional)
+                $newImgName = ''; // Default empty value
+                if ($_FILES['profile_pic']['error'] === 0) {
+                    $imgName = $_FILES['profile_pic']['name'];
+                    $tempImgName = $_FILES['profile_pic']['tmp_name'];
+                    $imgEx = pathinfo($imgName, PATHINFO_EXTENSION);
+                    $imgExLowerStr = strtolower($imgEx);
+                    $allowedImageTypes = array('jpeg', 'png', 'jpg');
+                    if (in_array($imgExLowerStr, $allowedImageTypes)) {
+                        $newImgName = uniqid($userName, true) . '.' . $imgExLowerStr;
+                        $imageUpload = 'img/images/' . $newImgName;
+                        if (move_uploaded_file($tempImgName, $imageUpload)) {
+                            // Image uploaded successfully
+                        } else {
+                            echo' <div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">Failed to upload your profile image :(</div>';
+                        }
+                    } else {
+                        echo' <div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">Please choose only jpeg, png, jpg types of images</div>';
+                    }
+                }
 
-              if (move_uploaded_file($tempImgName, $imageUpload)) {
-                $sql = "INSERT INTO `user` (`username`,`email`, `password`, `repassword`, `cake_day`, `about`, `gender`, `country`, `personalcontact`, `profile_pic`, `twitter`,`facebook`,`instagram`,`github`) VALUES ('{$userName}','{$useremail}', '{$userpass_hash}', '{$repass_hash}', '{$bday}', '{$about}', '{$gender}', '{$country}', '{$pContact}', '{$newImgName}','{$twitter_link}', '{$facebook_link}', '{$instagram_link}','{$github_link}')";
+                // Proceed with registration
+                $sql = "INSERT INTO `user` (`username`,`email`, `password`, `repassword`, `cake_day`, `about`, `gender`, `country`, `personalcontact`, `profile_pic`, `twitter`,`facebook`,`instagram`,`github`) VALUES ('$userName','$useremail', '$userpass_hash', '$repass_hash', '$bday', '$about', '$gender', '$country', '$pContact', '$newImgName','$twitter_link', '$facebook_link', '$instagram_link','$github_link')";
                 $result = mysqli_query($conn, $sql);
 
                 if ($result) {
-                  ?>
-                  <script>windows.location.href = "index.php";</script>
-                  <?php
-                  exit(); // Exit to prevent further execution
+                    ?>
+                    <script>window.location.href = "index.php";</script>
+                    <?php
+                    exit(); // Exit to prevent further execution
                 } else {
-                  echo "Error: " . mysqli_error($conn);
+                  echo' <div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">Opps! Somthing went wrong : (</div>';
                 }
-              } else {
-                echo "Failed to upload your profile image :(";
-              }
-            } else {
-              echo "Please choose only jpeg, png, jpg types of images";
             }
-          } else {
-            echo "File upload error: " . $imgError;
-          }
         }
-      }
     } else {
-      echo "Please fill in the required details carefully!";
+        echo' <div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">Please fill in the required details carefully!</div>';
     }
 
     // Close the database connection
     mysqli_close($conn);
-  }
-  //From subbmission script -End 
-  ?>
+}
+//From submission script -End 
+?>
+
+
   <!-- From -Start  -->
   <!-- Important section -Start  -->
   <form class="container py-3 px-4 bg-light border" action="<?php echo htmlentities($_SERVER['PHP_SELF']); ?>"
@@ -122,24 +118,24 @@ include "db_connection.php";
     <h4 style="text-align:center;" class="py-2">Create your account <i class="ri-account-circle-line"
         style="font-size:1.8rem;"></i></h4>
     <div class="input-group mb-3">
-      <span class="input-group-text" id="basic-addon1">@</span>
-      <input type="text" class="form-control" placeholder="Username" name="uname" aria-label="Username"
+      <span class="input-group-text rounded-0" id="basic-addon1">@</span>
+      <input type="text" class="form-control rounded-0" placeholder="Username" name="uname" aria-label="Username"
         aria-describedby="basic-addon1" required>
     </div>
     <div class="mb-3">
-      <label for="exampleFormControlInput1" class="form-label"><i class="ri-mail-fill"></i> Email address</label>
-      <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="...@example.com" name="email"
+      <label for="exampleFormControlInput1" class="form-label rounded-0"><i class="ri-mail-fill"></i> Email address</label>
+      <input type="email" class="form-control rounded-0" id="exampleFormControlInput1" placeholder="...@example.com" name="email"
         required>
     </div>
     <div class="mb-3">
-      <label for="exampleFormControlInput1" class="form-label"><i class="ri-lock-2-fill"></i> Password</label>
-      <input type="password" class="form-control" id="exampleFormControlInput1" placeholder="password" name="password"
+      <label for="exampleFormControlInput1" class="form-label rounded-0"><i class="ri-lock-2-fill"></i> Password</label>
+      <input type="password" class="form-control rounded-0" id="exampleFormControlInput1" placeholder="password" name="password"
         required>
     </div>
     <div class="mb-3">
-      <label for="exampleFormControlInput1" class="form-label"><i class="ri-lock-password-fill"></i> Retype
+      <label for="exampleFormControlInput1" class="form-label rounded-0"><i class="ri-lock-password-fill"></i> Retype
         Password</label>
-      <input type="password" class="form-control" id="exampleFormControlInput1" placeholder="retypepassword"
+      <input type="password" class="form-control rounded-0" id="exampleFormControlInput1" placeholder="retypepassword"
         name="repassword" required>
     </div>
     <!-- Important section -End  -->
@@ -147,11 +143,11 @@ include "db_connection.php";
     <h5 style="text-align:center;" class="py-2">Optional <i class="ri-user-fill"></i></h5>
     <label for="exampleFormControlInput1" class="form-label"><i class="ri-cake-2-fill"></i> Cake Day</label>
     <div id="date-picker-example" class="md-form md-outline input-with-post-icon datepicker" inline="true">
-      <input placeholder="Select date" type="date" name="bday" id="example" class="form-control">
+      <input placeholder="Select date" type="date" name="bday" id="example" class="form-control rounded-0">
     </div><br>
     <label for="exampleFormControlInput1" class="form-label"><i class="ri-men-line"></i><i class="ri-women-line"></i>
       Gendar</label>
-    <select name="gender" class="form-select" aria-label="Default select example">
+    <select name="gender" class="form-select rounded-0" aria-label="Default select example">
       <option selected>Select your Gender(Optional)</option>
       <option value="female">Female</option>
       <option value="male">Male</option>
@@ -162,7 +158,7 @@ include "db_connection.php";
 
     <br>
     <label for="exampleFormControlInput1" class="form-label"><i class="ri-flag-fill"></i> Country</label>
-    <select name="country" class="form-select" aria-label="Default select example">
+    <select name="country" class="form-select rounded-0" aria-label="Default select example">
       <option selected>Select your country(Optional)</option>
       <option value="Not mentioned">Not mentioned</option>
       <option value="Afghanistan">Afghanistan</option>
@@ -419,7 +415,7 @@ include "db_connection.php";
     </select>
     <br>
     <div class="form-floating">
-      <textarea class="form-control" placeholder="About your self(Optional)" id="floatingTextarea2" name="about"
+      <textarea class="form-control rounded-0" placeholder="About your self(Optional)" id="floatingTextarea2" name="about"
         style="height: 100px"></textarea>
       <label for="floatingTextarea2">About</label>
     </div>
@@ -427,14 +423,14 @@ include "db_connection.php";
 
     <div class="mb-3">
       <label for="exampleFormControlInput1" class="form-label"><i class="ri-phone-fill"></i> Contact</label>
-      <input type="number" class="form-control" id="exampleFormControlInput1" name="pcontact"
+      <input type="number" class="form-control rounded-0" id="exampleFormControlInput1" name="pcontact"
         placeholder="Contact number(Optional)">
     </div>
     <div class="mb-3">
-      <label for="basic-url" class="form-label"><i class="ri-twitter-fill"></i> account</label>
+      <label for="basic-url" class="form-label rounded-0"><i class="ri-twitter-fill"></i> account</label>
       <div class="input-group">
-        <span class="input-group-text" id="basic-addon3">https://twitter.com/</span>
-        <input type="text" class="form-control" id="basic-url" name="twitter"
+        <span class="input-group-text rounded-0" id="basic-addon3">https://twitter.com/</span>
+        <input type="text" class="form-control rounded-0" id="basic-url" name="twitter"
           aria-describedby="basic-addon3 basic-addon4">
       </div>
       <div class="form-text" id="basic-addon4">Just enter your account username.</div>
@@ -442,8 +438,8 @@ include "db_connection.php";
     <div class="mb-3">
       <label for="basic-url" class="form-label"><i class="ri-facebook-circle-fill"></i> profile</label>
       <div class="input-group">
-        <span class="input-group-text" id="basic-addon3">https://www.facebook.com/</span>
-        <input type="text" class="form-control" id="basic-url" name="facebook"
+        <span class="input-group-text rounded-0" id="basic-addon3">https://www.facebook.com/</span>
+        <input type="text" class="form-control rounded-0" id="basic-url" name="facebook"
           aria-describedby="basic-addon3 basic-addon4">
       </div>
       <div class="form-text" id="basic-addon4">Just enter your profile username.</div>
@@ -451,8 +447,8 @@ include "db_connection.php";
     <div class="mb-3">
       <label for="basic-url" class="form-label"><i class="ri-instagram-fill"></i> profile</label>
       <div class="input-group">
-        <span class="input-group-text" id="basic-addon3">https://www.instagram.com/</span>
-        <input type="text" class="form-control" id="basic-url" name="instagram"
+        <span class="input-group-text rounded-0" id="basic-addon3">https://www.instagram.com/</span>
+        <input type="text" class="form-control rounded-0" id="basic-url" name="instagram"
           aria-describedby="basic-addon3 basic-addon4">
       </div>
       <div class="form-text" id="basic-addon4">Just enter your profile username.</div>
@@ -460,20 +456,20 @@ include "db_connection.php";
     <div class="mb-3">
       <label for="basic-url" class="form-label"><i class="ri-github-fill"></i> account</label>
       <div class="input-group">
-        <span class="input-group-text" id="basic-addon3">https://github.com/</span>
-        <input type="text" class="form-control" id="basic-url" name="github"
+        <span class="input-group-text rounded-0" id="basic-addon3">https://github.com/</span>
+        <input type="text" class="form-control rounded-0" id="basic-url" name="github"
           aria-describedby="basic-addon3 basic-addon4">
       </div>
       <div class="form-text" id="basic-addon4">Just enter your account username.</div>
     </div>
     <div class="mb-3">
       <label for="formFile" class="form-label"><i class="ri-account-circle-fill"></i> Choose profile pic</label>
-      <input class="form-control" type="file" name="profile_pic" id="formFile">
+      <input class="form-control rounded-0" type="file" name="profile_pic" id="formFile">
     </div>
     <!-- Optional section -End  -->
-    <button type="submit" name="submit" class="btn btn-dark">Create Account</button>
+    <br>
+    <button type="submit" name="submit" class="btn btn-dark w-100 rounded-0">Create Account</button>
   </form>
-
   <!-- Form -End  -->
   <p style="font-size:15px; text-align:center;" class="py-4">Already a member! Go to <a href="index.php">LogIn</a> </p>
 

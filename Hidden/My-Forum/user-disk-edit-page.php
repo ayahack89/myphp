@@ -1,17 +1,16 @@
 <?php
 include "db_connection.php";
 session_start();
+ini_set('display_errors', 0);
 ?>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
      <meta charset="UTF-8">
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
      <?php include "bootstrapcss-and-icons.php"; ?>
      <title>Document</title>
 </head>
-
 <body>
      <!-- User disk edit action -Start  -->
      <?php
@@ -39,13 +38,15 @@ session_start();
                          $result = mysqli_query($conn, $sql_query);
 
                          if ($result) {
-                              header("Location: your-disks.php");
+                             ?>
+                             <script>window.location.href="your-disks.php";</script>
+                             <?php 
                               exit;
                          } else {
-                              echo "Oops! Something went wrong while updating.";
+                              echo' <div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">Opps! Somthing went wrong while updating : (</div>';
                          }
                     } else {
-                         echo "Please provide a name or description.";
+                         echo' <div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">Please provide a name or description.</div>';
                     }
                }
                ?>
@@ -67,10 +68,10 @@ session_start();
                </form>
                <?php
           } else {
-               echo "No category found with the given ID.";
+               echo' <div class="alert alert-warning rounded-0" role="alert" style="font-size:15px;">No catagory found of this given ID!</div>';
           }
      } else {
-          echo "Edit ID is missing.";
+          echo' <div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">Edit Id is missing!</div>';
      }
      ?>
      <!-- User disk edit action -End  -->

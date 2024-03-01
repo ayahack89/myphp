@@ -1,10 +1,10 @@
 <?php
 include "db_connection.php";
 session_start();
+ini_set('display_errors', 0);
 ?>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -46,13 +46,11 @@ session_start();
                 </td>
               </tr>
               <?php
-
               }
             }
           } else {
-            die("Somthing went wrong!" . mysqli_error($conn));
+            echo' <div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">Opps! Somthing went wrong : (</div>';
           }
-
           ?>
       </tbody>
     </table>

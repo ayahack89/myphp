@@ -1,12 +1,9 @@
 <?php
 include "db_connection.php";
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
+ini_set('display_errors', 0);
 ?>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
      <meta charset="UTF-8" />
      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -44,7 +41,8 @@ ini_set('display_errors', 1);
                     exit();
 
                } else {
-                    echo "Opps! Somthing went wrong : (";
+                    echo' <div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">Opps! Somthing went wrong : (</div>';
+
                }
 
 

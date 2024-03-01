@@ -5,7 +5,7 @@
 </style>
 <?php
 include "db_connection.php";
-
+ini_set('display_errors', 0);
 ?>
 <!-- Navbar -Start  -->
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
@@ -44,8 +44,17 @@ include "db_connection.php";
                     <!-- Navbar user constraint -End  -->
 
                     <li class="nav-item">
+                    <?php 
+     
+                      $sql_count = "SELECT COUNT(*) AS total_rows FROM user";
+                      $result = mysqli_query($conn, $sql_count);
+                      if ($result && mysqli_num_rows($result) > 0) {
+                      $row = mysqli_fetch_assoc($result);
+                      // Update this line to echo the count
+                       ?>
                          <a class="nav-link active" aria-current="page" href="members.php"><i class="ri-team-fill"></i>
-                              Members</a>
+                              Members(<?php echo $row['total_rows'];  ?>)</a>
+                              <?php } ?>
                     </li>
                     <li class="nav-item">
                          <a class="nav-link active" aria-current="page" href="chatroom.php"><i
@@ -54,9 +63,17 @@ include "db_connection.php";
                     <li class="nav-item">
                          <!-- All disks listing -Start  -->
                          <div class="btn-group">
+                         <!-- Disk count -Start  -->
+                         <?php 
+                         $sql_count = "SELECT COUNT(*) AS total_rows FROM catagory";
+                         $result = mysqli_query($conn, $sql_count);
+                         if ($result && mysqli_num_rows($result) > 0) {
+                              $row = mysqli_fetch_assoc($result);?>
                               <button class=" btn-sm my-2 border-0 bg-light text-dark" type="button">
-                                   <i class="ri-hard-drive-3-fill"></i> All disks
+                                   <i class="ri-hard-drive-3-fill"></i> Disks(<?php echo $row['total_rows'] ?>)
                               </button>
+                              <?php } ?>
+                         <!-- Disk count -End  -->
                               <button type="button"
                                    class="border-0 dropdown-toggle dropdown-toggle-split my-2 bg-light text-dark"
                                    data-bs-toggle="dropdown" aria-expanded="false">

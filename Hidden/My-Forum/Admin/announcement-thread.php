@@ -1,6 +1,11 @@
 <?php 
-include "../db_connection.php"; 
 session_start();
+if(!isset($_SESSION['name'])){
+echo 'Opps! atfirst you need to <a href="index.php">login</a> & proof that you are an admin.';
+}else{ ?>
+<?php 
+include "../db_connection.php"; 
+ini_set('display_errors', 0);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -23,8 +28,11 @@ session_start();
 </style>
 <body>
      <?php include "admin-header.php"; ?>
+
+<!-- Main-body -Start  -->
      <div class="container py-3">
     <?php
+    //Announcement insertdb script
     $alert = false;
     $method = $_SERVER['REQUEST_METHOD'];
     if ($method == 'POST') {
@@ -40,21 +48,23 @@ session_start();
                 if ($result) {
                     $alert = true;
                 } else {
-                    echo "Oops! Something went wrong :(";
+                    echo' <div class="alert alert-danger" role="alert" style="font-size:15px;">Opps! Somthing went wrong : (</div>';
+
                 }
             } else {
-                echo "Please properly fill out the form!";
+                
+                echo' <div class="alert alert-danger" role="alert" style="font-size:15px;">Please properly fill out the form!</div>';
+
             }
         }
     }
 
-    // Success message -start
+    // Success loading -start
     if ($alert) {
-        echo '<div id="alertMsg" class="alert alert-success alert-dismissible fade show" role="alert">
-        <strong>Success!</strong> Your thread has been added successfully. Wait for community response.
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>';
-        ini_set('display_errors', 0);
+        echo '<div class="w-100 text-success" type="button" id="alertMsg" disabled>
+        <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+        <span role="status">Loading...</span>
+      </div>';
         echo '<script>
         setTimeout(function() {
             document.getElementById("alertMsg").style.display = "none";
@@ -62,11 +72,13 @@ session_start();
         }, 2000);
     </script>';
     }
-    // Success message -end
+    // Success loading -end
     ?>
 
     <h3>Add an announcement</h3>
     <?php if (isset($_SESSION['name'])) { ?>
+
+        <!-- Announcement form -Start  -->
         <form action="<?php echo htmlentities($_SERVER['REQUEST_URI']); ?>" method="post" class="border px-5 py-5">
             <div class="mb-3">
                 <label for="exampleFormControlInput1" class="form-label">Announcement topic</label>
@@ -81,6 +93,7 @@ session_start();
                 <button type="submit" name="submit" class="btn btn-danger rounded-0">Add Topic</button>
             </div>
         </form>
+        <!-- Announcement form -End  -->
 
         <!-- Alert message if you are not logged in ... -start -->
     <?php } else { ?>
@@ -92,8 +105,11 @@ session_start();
             </div>
         </div>
     <?php } ?>
-    <!-- Alert message if you are not logged in ... -start -->
+    <!-- Alert message if you are not logged in ... -End -->
+
+<!-- Sub-body -Start  -->
 <div class="my-3">
+<!-- Scroll -Start  -->
 <div class="scroll">
     <?php 
 $get_id = mysqli_real_escape_string($conn, $_GET['announcement']);
@@ -103,6 +119,7 @@ $result = mysqli_query($conn, $sql_fetch);
 if($result && mysqli_num_rows($result) > 0){
     while($row = mysqli_fetch_assoc($result)){
 ?>
+<!-- Announcement thread container -Start  -->
 <div class="container bg-light border rounded-0 my-3 py-5 px-5">
 <h6><b><i class="ri-user-star-fill"></i><?php echo $row['anno_by'] ?></b></h6>
   <h4><b><?php echo $row['anno_thread_name'] ?></b><br>
@@ -115,6 +132,7 @@ if($result && mysqli_num_rows($result) > 0){
         style="text-decoration:none; font-size:1.5rem; padding-left:20px;"><i class="ri-delete-bin-5-line"></i></a>
 
 </div>
+<!-- Announcement thread container -End  -->
 <?php 
     }
 } else {
@@ -122,14 +140,12 @@ if($result && mysqli_num_rows($result) > 0){
 }
 ?>
 
-
-    </div>
-    </div>
 </div>
+<!-- Scroll -End  -->
+</div>
+<!-- Main-body -End  -->
 
-
-
-
-     <?php include "../bootstrapjs.php"; ?>
+<?php include "../bootstrapjs.php"; ?>
 </body>
 </html>
+<?php } ?>

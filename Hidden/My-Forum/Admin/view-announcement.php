@@ -1,6 +1,11 @@
+<?php 
+session_start();
+if(!isset($_SESSION['name'])){
+echo 'Opps! atfirst you need to <a href="index.php">login</a> & proof that you are an admin.';
+}else{ ?>
 <?php
 include "../db_connection.php";
-session_start();
+ini_set('display_errors', 0);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -15,7 +20,7 @@ session_start();
 
 <body>
 <?php include "admin-header.php"; ?>
-     <!-- All disks -Start -->
+     <!-- Main body -Start -->
      <div class="my-2">
      <?php
      $sql = "SELECT * FROM `announcement`";
@@ -24,7 +29,7 @@ session_start();
           if (mysqli_num_rows($result) > 0) {
                while ($anno = mysqli_fetch_assoc($result)) {
                     ?>
-                    <!-- Disk box -Start  -->
+                    <!-- Announcement box -Start  -->
                     <div class="card rounded-0">
                          <div class="card-body">
                               <h5 class="card-title">
@@ -48,7 +53,7 @@ session_start();
                                  
                          </div>
                     </div>
-                    <!-- Disk box -End  -->
+                    <!-- Announcement box -End  -->
 
                     <?php
                }
@@ -59,10 +64,10 @@ session_start();
      }
      ?>
      </div>
-     <!-- All disks -End  -->
+     <!--Main body -End  -->
 
 
      <?php include "../bootstrapjs.php"; ?>
 </body>
-
 </html>
+<?php } ?>

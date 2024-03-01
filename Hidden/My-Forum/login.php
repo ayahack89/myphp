@@ -2,12 +2,12 @@
 include "db_connection.php";
 session_start();
 // include "googleapiconfig.php";
+ini_set('display_errors', 0);
 
 
 ?>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -24,8 +24,6 @@ session_start();
 
 <body>
   <?php include "header.php"; ?>
-
-
   <?php
 
   if (isset($_POST["submit"])) {
@@ -59,16 +57,17 @@ session_start();
               mysqli_close($conn);
               exit();
             } else {
-              echo "Password Incorrect";
+              echo' <div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">Incorrect Password!</div>';
             }
           } else {
-            echo "Error: " . mysqli_error($conn);
+            echo' <div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">Opps! Somthing went wrong : (</div>';
           }
         } else {
-          echo "Please enter both your valid email and password";
+          echo' <div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">Please enter both your valid email and password.</div>';
         }
       } else {
-        echo "User not found! Please register first.";
+        echo' <div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">User not found : ( . Please register first!</div>';
+
       }
     }
   }
@@ -76,20 +75,20 @@ session_start();
   ?>
 
   <form action="<?php echo htmlentities($_SERVER['PHP_SELF']); ?>"
-    class="container w-75 my-5 py-3 px-4 bg-light border rounded" method="post">
+    class="container w-75 my-5 py-3 px-4 bg-light border rounded-0" method="post">
     <h4 style="text-align:center;" class="py-2">LogIn <i class="ri-login-circle-line" style="font-size:1.8rem;"></i>
     </h4>
     <div class="mb-3">
       <label for="exampleFormControlInput1" class="form-label"><i class="ri-mail-fill"></i> Email address</label>
-      <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="...@example.com" name="email"
+      <input type="email" class="form-control rounded-0" id="exampleFormControlInput1" placeholder="...@example.com" name="email"
         required>
     </div>
     <div class="mb-3">
       <label for="exampleFormControlInput1" class="form-label"><i class="ri-lock-2-fill"></i> Password</label>
-      <input type="password" class="form-control" id="exampleFormControlInput1" placeholder="password" name="password"
+      <input type="password" class="form-control rounded-0" id="exampleFormControlInput1" placeholder="password" name="password"
         required>
     </div>
-    <button type="submit" class="btn btn-dark w-100" name="submit">LogIn</button>
+    <button type="submit" class="btn btn-dark w-100 rounded-0" name="submit">LogIn</button>
     <br>
 
     <p style="font-size:15px; text-align:center;" class="py-4">New to ...? At first you need to <a

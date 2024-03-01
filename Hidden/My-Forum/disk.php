@@ -1,11 +1,11 @@
 <?php
 include "db_connection.php";
 session_start();
+ini_set('display_errors', 0);
 
 ?>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
      <meta charset="UTF-8">
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -48,14 +48,23 @@ session_start();
                                         <b class="text-danger">Welcome to
                                         <?php echo $disk['catagory_name']; ?> community</b>
                                    </h3>
-                                   <p class="card-text px-5">
+                                   <p class="card-text px-5" style="font-size:13px;">
                                         <?php echo $disk['catagory_desc']; ?>
                                    </p>
                                    <a href="index.php" class="btn btn-dark rounded-0">Go to another disk</a>
                               </div>
 
                               <div class="card-footer text-body-secondary">
-                              <b style="font-size:13px; font-weight:lighter;"> Created on : <?php echo $disk['created']; ?></b>
+                              <!-- Thread Count -Start  -->
+                              <?php 
+                              $sql_count = "SELECT COUNT(*) AS total_rows FROM threads WHERE thread_catagory_id = '{$disk_id}'";
+                              $result = mysqli_query($conn, $sql_count);
+                              if ($result && mysqli_num_rows($result) > 0) {
+                                   $row = mysqli_fetch_assoc($result);?>
+                              <b style="font-size:13px; font-weight:lighter;"> Created on : <?php echo $disk['created']; ?><br>
+                              Thread count(<?php echo $row['total_rows']; ?>)</b>
+                              <?php }?>
+                              <!-- Thread Count -End  -->
                               </div>
                          </div>
                     </div>
@@ -72,6 +81,7 @@ session_start();
                                    // Input details
                                    $topic_name = mysqli_real_escape_string($conn, $_POST['topic']);
                                    $topic_desc = mysqli_real_escape_string($conn, $_POST['topic_desc']);
+                                   $url = mysqli_real_escape_string($conn, $_POST['url']);
                                    // Image file handling
                                    $image_name = $_FILES['image']['name'];
                                    $tmp_name = $_FILES['image']['tmp_name'];
@@ -97,24 +107,25 @@ session_start();
                                                        if (mysqli_num_rows($user) > 0) {
                                                             $user_account = mysqli_fetch_assoc($user);
                                                             $thread_user_id = $user_account['id'];
-                                                            $sql_query = "INSERT INTO `threads` (`thread_name`, `thread_desc`, `thread_catagory_id`, `thread_user_id`,`thread_created_by`,`uploaded_image`) VALUES ('{$topic_name}', '{$topic_desc}', '{$get_id}', '{$thread_user_id}','{$username}','{$image_new_name}' )";
+                                                            $sql_query = "INSERT INTO `threads` (`thread_name`, `thread_desc`, `thread_catagory_id`, `thread_user_id`,`thread_created_by`,`uploaded_image`, `url`) VALUES ('{$topic_name}', '{$topic_desc}', '{$get_id}', '{$thread_user_id}','{$username}','{$image_new_name}', '{$url}' )";
                                                             $result = mysqli_query($conn, $sql_query);
                                                             if ($result) {
                                                                  $alert = true;
                                                             } else {
-                                                                 echo "Oops! Something went wrong :(";
+                                                                 echo' <div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">Opps! Somthing went wrong : (</div>';
                                                             }
                                                        } else {
-                                                            echo "User not found!";
+                                                            echo' <div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">User not found : (</div>';
                                                        }
                                                   } else {
-                                                       echo "Sorry, there was an error uploading your file!";
+                                                       echo' <div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">Sorry, there was an error uploading your file : (</div>';
                                                   }
                                              } else {
                                                   echo "File size exceeds limit!";
+                                                  echo' <div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">File size exceeds limit!</div>';
                                              }
                                         } else {
-                                             echo "Only JPG, JPEG, PNG, and GIF files are allowed!";
+                                             echo' <div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">Only JPG, JPEG, PNG, and GIF files are allowed!</div>';
                                         }
                                    } else if (!empty($topic_name) && !empty($topic_desc)) {
                                         // Insert data into database without image
@@ -124,18 +135,20 @@ session_start();
                                         if (mysqli_num_rows($user) > 0) {
                                              $user_account = mysqli_fetch_assoc($user);
                                              $thread_user_id = $user_account['id'];
-                                             $sql_query = "INSERT INTO `threads` (`thread_name`, `thread_desc`, `thread_catagory_id`, `thread_user_id`, `thread_created_by`) VALUES ('{$topic_name}', '{$topic_desc}', '{$get_id}', '{$thread_user_id}', '{$username}')";
+                                             $sql_query = "INSERT INTO `threads` (`thread_name`, `thread_desc`, `thread_catagory_id`, `thread_user_id`,`thread_created_by`, `url`) VALUES ('{$topic_name}', '{$topic_desc}', '{$get_id}', '{$thread_user_id}', '{$username}', '{$url}');";
                                              $result = mysqli_query($conn, $sql_query);
                                              if ($result) {
                                                   $alert = true;
                                              } else {
-                                                  echo "Oops! Something went wrong :(";
+                                                  
+                                                  echo' <div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">Opps! Somthing went wrong : (</div>';
                                              }
                                         } else {
-                                             echo "User not found!";
+                                             echo' <div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">User not found : (</div>';
                                         }
                                    } else {
-                                        echo "Please properly create a thread!";
+                                        echo' <div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">Please properly create a thread!</div>';
+
                                    }
                               }
                          }
@@ -145,7 +158,6 @@ session_start();
         <strong>Success!</strong> Your thread has been added successfully. Wait for community response.
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>';
-                              ini_set('display_errors', 0);
                               echo '<script>
         setTimeout(function() {
             document.getElementById("alertMsg").style.display = "none";
@@ -176,6 +188,13 @@ session_start();
                                         <textarea class="form-control rounded-0" id="exampleFormControlTextarea1" rows="3"
                                              name="topic_desc"></textarea>
                                    </div>
+                                   <div class="mb-3">
+                                         <div class="input-group">
+                                           <span class="input-group-text rounded-0" id="basic-addon3"><i class="ri-links-line"></i> URL</span>
+                                               <input type="text" class="form-control rounded-0" id="basic-url" name="url" aria-describedby="basic-addon3 basic-addon4">
+                                            </div>
+                                            <div class="form-text" id="basic-addon4">Post a valid url if you need.</div>
+                                          </div>
                                    <div class="mb-3">
                                         <label class="form-label rounded-0">Upload Image (optional)</label>
                                         <input class="form-control rounded-0" type="file" name="image" id="formFileMultiple" multiple>
@@ -209,12 +228,11 @@ session_start();
                          ?>
                          <!-- Alert message if you are not logged in ... -start -->
 
-
                     </div>
                     <!-- Thread list -Start -->
                     <div class="container my-3">
                          <h3>Browes
-                              <?php echo $disk['catagory_name']; ?> disk topics
+                              <?php echo $disk['catagory_name']; ?> threads
                          </h3>
                     </div>
                   
@@ -222,12 +240,10 @@ session_start();
                }
 
           } else {
-               echo "Invalid Disk ID";
+               echo' <div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">Invalid Disk ID!</div>';
           }
-
-
      } else {
-          echo "Somthing Went Wrong : (";
+          echo' <div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">Opps! Somthing went wrong : (</div>';
      }
      ?>
      <?php
@@ -288,6 +304,7 @@ session_start();
                                              <?php echo $thread['thread_desc']; ?>
                                         </p>
                                         <figure class="figure">
+                                             <a href="<?php echo $thread['url']; ?>"><?php echo $thread['url']; ?></a><br><br>
                                              <?php if (!empty($thread['uploaded_image'])) {
                                                   ?>
                                                   <img src="img/upload/<?php echo $thread['uploaded_image']; ?>" class="figure-img img-fluid rounded"
@@ -295,16 +312,12 @@ session_start();
                                                   <?php
                                              } else {
 
-
                                              }
                                              ?>
-
-
                                    </div>
                               </div>
     
                               <?php
-
 
                          } else {
                              ?>
@@ -317,7 +330,8 @@ session_start();
                          }
 
                     } else {
-                         echo "User ID Not Found!";
+                         echo' <div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">User not found : (</div>';
+
                     }
                     $check_result = true;
                }
@@ -337,7 +351,8 @@ session_start();
           }
 
      } else {
-          echo "Somthing Went Wrong : (";
+          echo' <div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">Opps! Somthing went wrong : (</div>';
+
      }
      ?>
      <!-- Thread list -End  -->

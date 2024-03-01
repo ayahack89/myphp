@@ -1,10 +1,10 @@
 <?php
 include "db_connection.php";
 session_start();
+ini_set('display_errors', 0);
 ?>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
      <meta charset="UTF-8">
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,7 +19,20 @@ session_start();
 </style>
 
 <body class="bg-light">
-     <?php include "header.php"; ?>
+<?php include "header.php"; ?>
+
+<?php 
+     if(!isset($_SESSION['username'])){
+     $sql_count = "SELECT COUNT(*) AS total_rows FROM user";
+     $result = mysqli_query($conn, $sql_count);
+     if ($result && mysqli_num_rows($result) > 0) {
+         $row = mysqli_fetch_assoc($result);
+         echo '<div class="alert alert-warning alert-dismissible fade show" role="alert">
+         <strong>We currently have ' . $row['total_rows'] . ' active members</strong>. <a href="login.php">Join us</a> now!
+         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+       </div>';
+     }}
+     ?>
      <form class="container w-100 mt-3" action="<?php echo htmlentities($_SERVER['PHP_SELF']); ?>" method="post">
           <div class="input-group mb-3">
                <input type="text" class="form-control rounded-0" placeholder="Search members by name, date, about..."
@@ -27,8 +40,7 @@ session_start();
                <button class="btn btn-danger rounded-0" type="submit" name="submit_search" id="basic-addon1"><i
                          class="ri-user-search-line"></i></button>
           </div>
-     </form>
-
+</form>
      <?php
      if (isset($_POST['submit_search'])) { // Changed 'search' to 'submit_search'
           $search = mysqli_real_escape_string($conn, $_POST['search']);
@@ -70,17 +82,16 @@ session_start();
                               <?php
                          }
                     } else {
-                         echo "No members found :(";
+                         echo' <div class="alert alert-warning rounded-0" role="alert" style="font-size:15px;">No Members Found : (</div>';
                     }
                } else {
-                    echo "Query failed: " . mysqli_error($conn); // Added error handling for query failure
+                    echo' <div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">Opps! Somthing went wrong : (</div>';
                }
           } else {
-               echo "Empty search is not allowed!";
+               echo' <div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">Empty search is not allowed!</div>';
           }
      }
      ?>
-
 
      <?php
      $query = "SELECT * FROM `user`";
@@ -94,7 +105,14 @@ session_start();
                     <div class="container d-flex p-2 bd-highlight border">
                          <div class="image mx-2 my-2">
                               <a href="allprofile.php?user=<?php echo $row['id']; ?>" style="text-decoration:none; color:black;">
+                              <?php if(empty($row['profile_pic'])){
+                                   ?>
+                                   <img src="img/images/default2.jpg" alt="" width="100" height="100">
+                                   <?php 
+
+                              }else{ ?>
                                    <img src="img/images/<?php echo $row['profile_pic']; ?>" alt="" width="100" height="100">
+                                   <?php } ?>
                               </a>
                          </div>
 
@@ -121,21 +139,11 @@ session_start();
                          </div>
                     </div>
 
-
-
                     <?php
                }
           }
      }
      ?>
-
-
-
-
-
-
-
-
 
 
      <?php include "footer.php"; ?>

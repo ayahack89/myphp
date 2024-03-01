@@ -1,9 +1,9 @@
 <?php include "db_connection.php"; ?>
+<?php ini_set('display_errors', 0); ?>
 <?php
 $perpage = $_POST['page'];
 $start_loading = $_POST['starting'];
 ?>
-
 <?php
 $sql = "SELECT * FROM `catagory` LIMIT $start_loading,$perpage";
 $print = mysqli_query($conn, $sql);
@@ -13,7 +13,6 @@ if ($print) {
           while ($disk = mysqli_fetch_assoc($print)) {
 
                $output .= '
-              
                     <div class="card mx-2 my-2 rounded-0">
                          <!-- Disk Card -Start -->
 
@@ -31,10 +30,7 @@ if ($print) {
                               <p class="card-text" style="font-size:12px;">
                                    ' . $disk['catagory_desc'] . '
                               </p>
-
                          </div>
-
-                       
                     </div>
                ';
 

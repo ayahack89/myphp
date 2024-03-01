@@ -1,6 +1,11 @@
+<?php 
+session_start();
+if(!isset($_SESSION['name'])){
+echo 'Opps! atfirst you need to <a href="index.php">login</a> & proof that you are an admin.';
+}else{ ?>
 <?php
 include "../db_connection.php";
-session_start();
+ini_set('display_errors', 0);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -13,8 +18,11 @@ session_start();
 <?php include "../fonts.php"; ?>
 <body class="bg-dark">
 <?php include "admin-header.php"; ?>
+
+<!-- Main-body -Start  -->
 <div class="container my-3 py-5 px-5 bg-light">
      <?php 
+     //Insert form script
      if(isset($_POST['submit'])){
           $anno_name = mysqli_real_escape_string($conn, $_POST['anno_name']);
           $anno_desc = mysqli_real_escape_string($conn, $_POST['anno_desc']);
@@ -30,14 +38,17 @@ session_start();
                     exit;
 
                }else{
-                    echo "<h5 class='text-danger'>Somthing Went Wrong : (</h5>";
+                    echo' <div class="alert alert-danger" role="alert" style="font-size:15px;">Somthing Went wrong : (</div>';
+
                }
           }else{
-               echo "<h5 class='text-danger'>Please fill the inputs.</h5>";
+               echo' <div class="alert alert-danger" role="alert" style="font-size:15px;">Please fill the inputs.</div>';
+
           }
      }
      ?>
-<form action="" method="post">
+     <!-- Announcement form -Start  -->
+<form action="<?php echo htmlentities($_SERVER['PHP_SELF']); ?>" method="post">
      <h3 class="text-center mb-3"><i class="ri-mic-fill"></i> Announcement</h3>
   <div class="form-group">
     <input type="text" class="form-control rounded-0" name="anno_name" id="exampleInputEmail1" aria-describedby="emailHelp">
@@ -50,9 +61,13 @@ session_start();
 </form>
 <a href="view-announcement.php">
 <button type="button" class="btn btn-dark rounded-0 w-100 border mt-2 py-2" >View announcements</button></a>
+<!-- Announcement form -End  -->
 
+</div>
+<!-- Main-body -End   -->
 
     
-     <?php include "../bootstrapjs.php"; ?>
+<?php include "../bootstrapjs.php"; ?>
 </body>
 </html>
+<?php } ?>

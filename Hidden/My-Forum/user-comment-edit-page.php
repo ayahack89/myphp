@@ -1,10 +1,10 @@
 <?php
 include "db_connection.php";
 session_start();
+ini_set('display_errors', 0);
 ?>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
      <meta charset="UTF-8">
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -38,13 +38,15 @@ session_start();
                          $result = mysqli_query($conn, $sql_query);
 
                          if ($result) {
-                              header("Location: your-comments.php");
+                              ?>
+                              <script>window.location.href="your-comments.php";</script>
+                              <?php
                               exit;
                          } else {
-                              echo "Oops! Something went wrong while updating.";
+                              echo' <div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">Opps! Somthing went wrong while updating : (</div>';
                          }
                     } else {
-                         echo "Please edit your comment or leave.";
+                         echo' <div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">Please edit your comment or leave.</div>';
                     }
                }
                ?>
@@ -62,9 +64,10 @@ session_start();
                <?php
           } else {
                echo "No comment found with the given ID.";
+               echo' <div class="alert alert-warning rounded-0" role="alert" style="font-size:15px;">No comment found with the given ID.</div>';
           }
      } else {
-          echo "Edit ID is missing.";
+          echo' <div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">Edit ID is missing!</div>';
      }
      ?>
      <!-- User comment edit action -End  -->

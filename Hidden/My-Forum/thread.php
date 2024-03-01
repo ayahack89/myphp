@@ -1,10 +1,10 @@
 <?php
 include "db_connection.php";
 session_start();
+ini_set('display_errors', 0);
 ?>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
      <meta charset="UTF-8">
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -43,7 +43,6 @@ session_start();
      })
      */
 </script>
-
 <body class="bg-light">
      <?php include "header.php"; ?>
      <!-- Thread view section -Start -->
@@ -68,13 +67,16 @@ session_start();
                                    </div>
                                    <div class="card-body">
                                         <h3 class="card-title">
+                                             <b>
                                              <?php echo $thread['thread_name']; ?>
+                                             </b>
                                         </h3>
-                                        <p class="card-text px-5">
+                                        <p class="card-text px-5" style="font-size:13px;">
                                              <?php echo $thread['thread_desc']; ?>
 
                                         </p>
                                         <div class="container">
+                                             <a href="<?php echo $thread['url']; ?>"><?php echo $thread['url']; ?></a><br><br>
                                              <?php
                                              if (empty($thread['uploaded_image'])) {
 
@@ -87,17 +89,18 @@ session_start();
 
                                              }
                                              ?>
-
                                         </div>
-
-
-                                        <a href="disk.php?Disk=" class="btn btn-dark rounded-0">Go
-                                             back</a><br><br>
-                                      
                                    </div>
 
                                    <div class="card-footer text-body"><b style="font-size:13px; font-weight:lighter;">Created on :
-                                   <?php echo $thread['thread_time']; ?></b>
+                                   <?php 
+                                     $sql_count = "SELECT COUNT(*) AS total_rows FROM comments WHERE thread_id = '{$thread_id}'";
+                                      $result = mysqli_query($conn, $sql_count);
+                                       if ($result && mysqli_num_rows($result) > 0) {
+                                        $row = mysqli_fetch_assoc($result);?>
+                                   <?php echo $thread['thread_time']; ?><br>
+                                   Total Comments(<?php echo $row['total_rows']; ?>)</b>
+                                   <?php } ?>
                                         <!-- Voting System -Start  -->
                                         <div class="py-2"></div>
                                         <!-- Voting System -End  -->
@@ -127,22 +130,22 @@ session_start();
                                                        if ($result) {
                                                             $alert = true;
                                                        } else {
-                                                            echo "Oops! Something went wrong :(";
+                                                            echo' <div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">Opps! Somthing went wrong : (</div>';
                                                        }
                                                   } else {
-                                                       echo "User not found!";
+                                                       echo' <div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">User not found : (</div>';
                                                   }
                                              } else {
-                                                  echo "Please add a comment!";
+                                                  echo' <div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">Please add a comment!</div>';
                                              }
                                         }
                                    }
                                    // Success alert section  -Start
                                    if ($alert) {
-                                        echo '<div id="alertMsg" class="alert alert-success alert-dismissible fade show" role="alert">
-                                      <strong>Success!</strong> Your comment has been added successfully. Wait for community response.
-                                      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                                  </div>';
+                                        echo '<div class="w-100 text-success" type="button" id="alertMsg" disabled>
+                                        <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+                                        <span role="status">Loading...</span>
+                                      </div>';
                                         echo '<script>
                                       setTimeout(function() {
                                           document.getElementById("alertMsg").style.display = "none";
@@ -191,21 +194,18 @@ session_start();
                                                             if ($result) {
                                                                  $check = true;
                                                             } else {
-                                                                 echo "Oops! Something went wrong :(";
+                                                                 echo' <div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">Opps! Somthing went wrong : (</div>';
                                                             }
                                                        } else {
-                                                            echo "User not found!";
+                                                            echo' <div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">User not found : (</div>';
                                                        }
                                                   } else {
-                                                       echo "Please add a reply!";
+                                                       echo' <div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">Please add a reply!</div>';
                                                   }
                                              }
                                         }
                                         ?>
-
-
                                         <!-- Reply section -End  -->
-
 
                                         <!-- Modal form -Start -->
                                         <form class="modal fade" id="exampleModal"
@@ -234,7 +234,6 @@ session_start();
                                                                            </option>
                                                                            <?php
                                                                       }
-
                                                                  }
                                                                  ?>
                                                             </select>
@@ -261,11 +260,10 @@ session_start();
                                         <?php
                                         // Reply success alert section -Start
                                         if ($check) {
-                                             echo '<div id="alertMsg" class="alert alert-success alert-dismissible fade show" role="alert">
-            <strong>Success!</strong> Your reply has been added successfully. Wait for community response.
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>';
-                                             ini_set('display_errors', 0);
+                                             echo '<div class="w-100 text-success" type="button" id="alertMsg" disabled>
+                                             <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+                                             <span role="status">Loading...</span>
+                                           </div>';
                                              echo '<script>
             setTimeout(function() {
                 document.getElementById("alertMsg").style.display = "none";
@@ -282,7 +280,6 @@ session_start();
                                         ?>
                                         <!-- If you are not logged in -start  -->
                                         <div class="alert alert-danger d-flex align-items-center" role="alert">
-
                                              <use xlink:href="#exclamation-triangle-fill" />
                                              </svg>
                                              <div>
@@ -299,9 +296,6 @@ session_start();
 
                               </div>
                          </div>
-
-
-
 
 
                          <!-- Comments section -Start  -->
@@ -354,8 +348,6 @@ session_start();
                                                             <h6 style="font-weight:bolder;">@
                                                                  <a href="allprofile.php?user=<?php echo $user['id']; ?>" style="color:black; text-decoration:none;">
                                                                       <?php echo $user['username']; ?>
-
-
                                                                  </a>
                                                                  <?php
                                                                  if (empty($thread['tag_someone'])) {
@@ -383,16 +375,11 @@ session_start();
                                                                       <?php echo $thread['comment_time']; ?>
                                                                  </b>
                                                             </h6>
-
                                                             <p style="font-size:12px;">
                                                                  <?php echo $thread['comment_content']; ?>
                                                             </p>
                                                        </div>
                                                   </div>
-
-
-
-
                                                   <?php
                                              } else {
                                                   ?>
@@ -422,7 +409,7 @@ session_start();
 
 
                          } else {
-                              echo "Somthing Went Wrong : (";
+                              echo' <div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">Opps! Somthing went wrong : (</div>';
                          }
                          ?>
                          </div>
@@ -430,15 +417,15 @@ session_start();
 
                     }
                } else {
-                    echo "Invalid Thread ID";
+                    echo' <div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">Invalid thread ID!</div>';
                }
 
 
           } else {
-               echo "Somthing Went Wrong : (";
+               echo' <div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">Opps! Somthing went wrong : (</div>';
           }
      } else {
-          echo "Invalid User ID";
+          echo' <div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">Invalid user ID!</div>';
      }
      ?>
 
@@ -466,12 +453,6 @@ session_start();
                });
           }*/
           // Function to reload div width
-
-
-
-
-
-
 
      </script>
 </body>

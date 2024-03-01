@@ -1,10 +1,10 @@
 <?php
 include "db_connection.php";
 session_start();
+ini_set('display_error', 0);
 ?>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
      <meta charset="UTF-8">
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -54,7 +54,7 @@ session_start();
                }
 
           } else {
-               echo "No threads Found !";
+               echo' <div class="alert alert-warning rounded-0" role="alert" style="font-size:15px;">No threads found!</div>';
           }
      }
      ?>

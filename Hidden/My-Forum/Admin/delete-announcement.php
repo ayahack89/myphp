@@ -1,13 +1,14 @@
 <?php
 include "../db_connection.php";
 session_start();
+ini_set('display_errors', 0);
 ?>
 <!-- Disks -Delete action -Start  -->
 <?php
 if (isset($_GET['delete'])) {
      $delete_id = mysqli_real_escape_string($conn, $_GET['delete']);
 
-     // Fetch category details
+     // Fetch announcements
      $sql = "SELECT * FROM `announcement` WHERE anno_id = '{$delete_id}'";
      $run = mysqli_query($conn, $sql);
 

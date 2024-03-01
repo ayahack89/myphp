@@ -6,7 +6,6 @@ ini_set('display_errors', 0);
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
      <meta charset="UTF-8">
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -97,17 +96,16 @@ ini_set('display_errors', 0);
                                                   <p class="card-text" style="font-size:12px;">
                                                        <?php echo $search_disk['catagory_desc']; ?>
                                                   </p>
-
                                              </div>
                                         </div>
                                    </a>
                                    <?php
                               }
                          } else {
-                              echo "No Search Found : (";
+                              echo' <div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">Opps! Somthing went wrong : (</div>';
                          }
                     } else {
-                         echo "Something went wrong!";
+                         echo' <div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">Opps! Somthing went wrong : (</div>';
                     }
                }
           }
@@ -123,7 +121,6 @@ ini_set('display_errors', 0);
                $catagory_name = mysqli_real_escape_string($conn, $_POST['catagory_name']);
                $catagory_desc = mysqli_real_escape_string($conn, $_POST['about']);
                if (!empty($_POST['catagory_name']) && !empty($_POST['about'] && !empty($catagory_created_by))) {
-
                     $sql_query = "INSERT INTO `catagory` (`catagory_name`, `catagory_desc` ,`created_by`) VALUES ( '{$catagory_name}', '{$catagory_desc}', '{$catagory_created_by}');";
                     $result = mysqli_query($conn, $sql_query);
                     if ($result) {
@@ -132,7 +129,7 @@ ini_set('display_errors', 0);
 
 
                     } else {
-                         echo "<s>alert('Somthing Went wrong : (');</script>";
+                         echo' <div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">Opps! Somthing went wrong : (</div>';
                     }
 
                }
@@ -174,8 +171,6 @@ ini_set('display_errors', 0);
                                    <button type="submit" name="submit" class="btn btn-dark">Create</button>
                               </div>
                          </form>
-
-
                     </div>
                </div>
           </div>
@@ -186,7 +181,15 @@ ini_set('display_errors', 0);
 <div class="container d-flex px-3 py-3 row" style="margin:auto;">
 
 <!-- Announcements -Start  -->
-<h4>Announcements</h4>
+<?php 
+     
+     $sql_count = "SELECT COUNT(*) AS total_rows FROM announcement";
+     $result = mysqli_query($conn, $sql_count);
+     if ($result && mysqli_num_rows($result) > 0) {
+         $row = mysqli_fetch_assoc($result);
+     ?>
+<h4>Announcements(<?php echo $row['total_rows']; ?>)</h4>
+<?php } ?>
 <?php 
 $sql = "SELECT * FROM `announcement`";
 $print = mysqli_query($conn, $sql);
@@ -212,20 +215,17 @@ if ($print) {
                               <p class="card-text" style="font-size:12px;">
                                    <?php echo $anno['anno_desc']; ?>
                               </p>
-
                          </div>
-
                          <!-- Disk Card -End -->
                     </div>
-             
                <!-- Disk Fetch -End -->
                <?php
           }
      } else {
-          echo "<h5>No Disk Found : (</h5>";
+          echo' <div class="alert alert-warning rounded-0" role="alert" style="font-size:15px;">No Disk Found : (</div>';
      }
 } else {
-     echo "<h5>Somthing Went Wrong! : (</h5>";
+     echo' <div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">Opps! Somthing went wrong : (</div>';
 }
 
 ?>
@@ -235,7 +235,15 @@ if ($print) {
      <!-- Middilbody -Start -->
 
      <div class="container d-flex px-3 py-3 row" style="margin:auto;" id="content">
-     <h4>Catagories</h4>
+     <?php 
+     
+     $sql_count = "SELECT COUNT(*) AS total_rows FROM catagory";
+     $result = mysqli_query($conn, $sql_count);
+     if ($result && mysqli_num_rows($result) > 0) {
+         $row = mysqli_fetch_assoc($result);
+     ?>
+     <h4>Catagories(<?php echo $row['total_rows']; ?>)</h4>
+     <?php } ?>
           <?php
           $sql = "SELECT * FROM `catagory` LIMIT 0,5";
           $print = mysqli_query($conn, $sql);
@@ -247,13 +255,12 @@ if ($print) {
                        
                               <div class="card mx-2 my-2 rounded-0">
                                    <!-- Disk Card -Start -->
-
                                    <div class="card-body">
                                         <h5 class="card-title">
                                         <a href="disk.php?Disk=<?php echo $disk['catagory_id']; ?>" style="text-decoration:none; color:white;">
                                              <b style="font-weight:lighter;" class="text-danger"><i class="ri-hard-drive-fill"></i>
                                                   <?php echo $disk['catagory_name']; ?>
-                                             </b>  </a><br>
+                                             </b></a><br>
                                              <b style="font-size:11px; font-weight:lighter;">Disk added on:
                                                   <?php echo $disk['created']; ?>
                                              </b>
@@ -261,9 +268,7 @@ if ($print) {
                                         <p class="card-text" style="font-size:12px;">
                                              <?php echo $disk['catagory_desc']; ?>
                                         </p>
-
                                    </div>
-
                                    <!-- Disk Card -End -->
                               </div>
                        
@@ -271,14 +276,13 @@ if ($print) {
                          <?php
                     }
                } else {
-                    echo "<h5>No Disk Found : (</h5>";
+                    echo' <div class="alert alert-warning rounded-0" role="alert" style="font-size:15px;">No Disks Found : (</div>';
+
                }
           } else {
-               echo "<h5>Somthing Went Wrong! : (</h5>";
+               echo' <div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">Opps! Somthing went wrong : (</div>';
+
           }
-
-
-
           ?>
      </div>
      <!-- Middlebody -End -->
@@ -293,7 +297,6 @@ if ($print) {
 
 
      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
      <script>
           //Load more btn script
           $("#loadmore").click(function () {

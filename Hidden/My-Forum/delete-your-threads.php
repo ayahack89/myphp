@@ -1,6 +1,7 @@
 <?php
 include "db_connection.php";
 session_start();
+ini_set('display_errors', 0);
 ?>
 <!-- Thread -Delete action -Start -->
 <?php

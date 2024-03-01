@@ -1,7 +1,10 @@
-<?php session_start(); ?>
+<?php 
+require "../db_connection.php";
+session_start(); 
+ini_set('display_errors', 0);
+?>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
      <meta charset="UTF-8">
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,9 +15,10 @@
 
 <body class="bg-dark">
      <?php include "admin-header-logout.php"; ?>
+<!-- Main-body -Start  -->
      <div class="container bg-light my-5  col-md-4  py-5 px-5">
           <?php
-          require "../db_connection.php";
+          //Login script
           if (isset($_POST["submit"])) {
                if (isset($_SERVER["REQUEST_METHOD"]) == "POST") {
                     $admin = mysqli_real_escape_string($conn, $_POST["name"]);
@@ -35,12 +39,13 @@
                               mysqli_close($conn);
                               exit();
                          } else {
-                              echo "Admin not found!";
-                              die("Somthing went wrong" . mysqli_error($conn));
+                              echo' <div class="alert alert-danger" role="alert" style="font-size:15px;">Admin not found : (</div>';
+                              
 
                          }
                     } else {
-                         echo "Please enter username and password very carefully";
+                        
+                        echo' <div class="alert alert-danger" role="alert" style="font-size:15px;">Please enter username and password very carefully</div>';
 
                     }
 
@@ -49,7 +54,7 @@
 
           ?>
 
-
+<!-- Admin login -start  -->
           <form action="<?php echo htmlentities($_SERVER['PHP_SELF']); ?>" method="post">
                <div class="form-group">
                     <label for="exampleInputEmail1">Admin user name</label>
@@ -65,8 +70,11 @@
                </div>
                <button type="submit" name="submit" class="btn btn-dark rounded-0 w-100 my-3">Log In</button>
           </form>
+          <!-- Admin signin -End  -->
      </div>
+     <!-- Main-body -End -->
      <?php include "../bootstrapjs.php"; ?>
-</body>
 
+
+</body>
 </html>

@@ -1,10 +1,14 @@
+<?php 
+session_start();
+if(!isset($_SESSION['name'])){
+echo 'Opps! atfirst you need to <a href="index.php">login</a> & proof that you are an admin.';
+}else{ ?>
 <?php
 include "../db_connection.php";
-session_start();
+ini_set('display_errors', 0);
 ?>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
      <meta charset="UTF-8">
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -61,7 +65,9 @@ session_start();
                }
 
           } else {
-               echo "No threads Found !";
+              
+               echo' <div class="alert alert-warning" role="alert" style="font-size:15px;">No Threads Found : (</div>';
+
           }
      }
      ?>
@@ -69,5 +75,5 @@ session_start();
 
      <?php include "../bootstrapjs.php"; ?>
 </body>
-
 </html>
+<?php } ?>

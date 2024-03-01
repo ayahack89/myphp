@@ -1,6 +1,7 @@
 <?php
 include "db_connection.php";
 session_start();
+ini_set('display_errors', 0)
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -75,18 +76,14 @@ session_start();
 
                          }
                     } else {
-                         echo "Invalid user";
+                         echo' <div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">Invalid user!</div>';
+
                     }
                }
-
-
-
-
-
           }
 
      } else {
-          echo "No comment Found !";
+          echo' <div class="alert alert-warning rounded-0" role="alert" style="font-size:15px;">No comment found : (</div>';
      }
 
      ?>

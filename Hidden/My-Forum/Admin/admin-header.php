@@ -1,3 +1,4 @@
+<?php ini_set('display_errors', 0); ?>
 <?php include "../bootstrapcss-and-icons.php"; ?>
 <?php include "../fonts.php"; ?>
 <nav class="navbar bg-body-tertiary">

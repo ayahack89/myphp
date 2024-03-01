@@ -1,17 +1,16 @@
 <?php
 include "db_connection.php";
 session_start();
+ini_set('display_error', 0);
 ?>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
      <meta charset="UTF-8">
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
      <?php include "bootstrapcss-and-icons.php"; ?>
      <title>Document</title>
 </head>
-
 <body>
 
      <!-- User thread edit action -Start  -->
@@ -57,13 +56,13 @@ session_start();
                                               SET `thread_name` = '{$disk_name}', `thread_desc` = '{$disk_desc}', `uploaded_image` = '{$image_new_name}' 
                                               WHERE `thread_id` = '{$edit_id}'";
                                         } else {
-                                             echo "Error uploading image.";
+                                             echo' <div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">Opps! Error uploading image!</div>';
                                         }
                                    } else {
-                                        echo "Image size too large. Maximum size allowed is 1MB.";
+                                        echo' <div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">Image size too large. Maximum size allowed is 1MB.</div>';
                                    }
                               } else {
-                                   echo "Invalid file type. Only JPG, JPEG, PNG, and GIF files are allowed.";
+                                   echo' <div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">Invalid file type. Only JPG, JPEG, PNG, and GIF files are allowed.</div>';
                               }
                          } else {
                               // Update database without image
@@ -77,13 +76,15 @@ session_start();
 
                          if ($result) {
                               // Redirect to a success page after update
-                              header("Location: your-threads.php");
+                              ?>
+                             <script>window.location.href="your-threads.php";</script>
+                              <?php 
                               exit;
                          } else {
-                              echo "Oops! Something went wrong while updating.";
+                              echo' <div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">Opps! Somthing went wrong while updating : (</div>';
                          }
                     } else {
-                         echo "Please provide a thread name or thread content.";
+                         echo' <div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">Please provide a thread name or thread content.</div>';
                     }
                }
                ?>
@@ -92,7 +93,6 @@ session_start();
                <form class="container my-5 w-75 bg-light py-5 px-5 border"
                     action="<?php echo htmlentities($_SERVER['PHP_SELF'] . '?edit=' . $edit_id); ?>" method="post"
                     enctype="multipart/form-data">
-
                     <div class="mb-3">
                          <div class="input-group">
                               <span class="input-group-text" id="basic-addon3">Thread name</span>
@@ -120,10 +120,10 @@ session_start();
 
                <?php
           } else {
-               echo "No thread found with the given ID.";
+               echo' <div class="alert alert-warning rounded-0" role="alert" style="font-size:15px;">No thread found with this given ID!</div>';
           }
      } else {
-          echo "Edit ID is missing.";
+          echo' <div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">Edit ID is missing!</div>';
      }
      ?>
 

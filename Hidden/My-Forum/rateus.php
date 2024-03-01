@@ -1,9 +1,10 @@
 <?php
 include "db_connection.php";
-session_start(); ?>
+session_start(); 
+ini_set('display_errors', 0);
+?>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
      <meta charset="UTF-8" />
      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -11,7 +12,6 @@ session_start(); ?>
      <title>fSociety review section</title>
 </head>
 <?php include "fonts.php"; ?>
-
 <body>
      <?php include "header.php"; ?>
      </div>
@@ -31,10 +31,10 @@ session_start(); ?>
                          mysqli_close($conn);
                          exit;
                     } else {
-                         die("Something went wrong!" . mysqli_error($conn));
+                         echo' <div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">Opps! Somthing went wrong : (</div>';
                     }
                } else {
-                    echo "Please select the ratings!";
+                    echo' <div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">Please select the ratings!</div>';
                }
           }
 
