@@ -1,6 +1,6 @@
 <?php
 include "db_connection.php";
-ini_set('display_errors', 0);
+ini_set('display_errors', 1);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -28,15 +28,17 @@ if (isset($_POST["submit"])) {
 
     // Mandatory fields
     $userName = mysqli_real_escape_string($conn, $_POST["uname"]);
-    $useremail = mysqli_real_escape_string($conn, $_POST["email"]);
     $userpassword = mysqli_real_escape_string($conn, $_POST["password"]);
     $userrepass = mysqli_real_escape_string($conn, $_POST["repassword"]);
 
+    //Cryptography generator
+    // $v_code = bin2hex(random_bytes(16));
+    
     // Encrypt password
     $userpass_hash = password_hash($userpassword, PASSWORD_DEFAULT);
     $repass_hash = password_hash($userrepass, PASSWORD_DEFAULT);
 
-    if (!empty($userName) && !empty($useremail) && !empty($userpassword) && !empty($userrepass)) {
+    if (!empty($userName) && !empty($userpassword) && !empty($userrepass)) {
         $user_check = "SELECT * FROM `user` WHERE username = '$userName'";
         $check = mysqli_query($conn, $user_check);
         $user_exist_verification = mysqli_num_rows($check);
@@ -87,12 +89,12 @@ if (isset($_POST["submit"])) {
                 }
 
                 // Proceed with registration
-                $sql = "INSERT INTO `user` (`username`,`email`, `password`, `repassword`, `cake_day`, `about`, `gender`, `country`, `personalcontact`, `profile_pic`, `twitter`,`facebook`,`instagram`,`github`) VALUES ('$userName','$useremail', '$userpass_hash', '$repass_hash', '$bday', '$about', '$gender', '$country', '$pContact', '$newImgName','$twitter_link', '$facebook_link', '$instagram_link','$github_link')";
+                $sql = "INSERT INTO `user` (`username`, `password`, `repassword`, `cake_day`, `about`, `gender`, `country`, `personalcontact`, `profile_pic`, `twitter`,`facebook`,`instagram`,`github`) VALUES ('{$userName}', '{$userpass_hash}', '{$repass_hash}', '{$bday}', '{$about}', '{$gender}', '{$country}', '{$pContact}', '{$newImgName}','{$twitter_link}', '{$facebook_link}', '{$instagram_link}','{$github_link}')";
                 $result = mysqli_query($conn, $sql);
 
                 if ($result) {
                     ?>
-                    <script>window.location.href = "index.php";</script>
+                    <script>window.location.href = "login.php";</script>
                     <?php
                     exit(); // Exit to prevent further execution
                 } else {
@@ -121,11 +123,6 @@ if (isset($_POST["submit"])) {
       <span class="input-group-text rounded-0" id="basic-addon1">@</span>
       <input type="text" class="form-control rounded-0" placeholder="Username" name="uname" aria-label="Username"
         aria-describedby="basic-addon1" required>
-    </div>
-    <div class="mb-3">
-      <label for="exampleFormControlInput1" class="form-label rounded-0"><i class="ri-mail-fill"></i> Email address</label>
-      <input type="email" class="form-control rounded-0" id="exampleFormControlInput1" placeholder="...@example.com" name="email"
-        required>
     </div>
     <div class="mb-3">
       <label for="exampleFormControlInput1" class="form-label rounded-0"><i class="ri-lock-2-fill"></i> Password</label>

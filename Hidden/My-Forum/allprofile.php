@@ -130,7 +130,7 @@ ini_set('display_errors', 0);
                                              <i class="ri-flag-fill"></i>
                                              <?php echo $member['country']; ?>
                                         </span>
-                                        <span style="font-size:8px;">Joined
+                                        <span style="font-size:8px;">Joined at
                                              <?php echo $member['datetime']; ?>
                                         </span>
 

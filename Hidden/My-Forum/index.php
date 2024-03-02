@@ -31,12 +31,21 @@ ini_set('display_errors', 0);
      <div class="px-4 py-5 my-1 text-center  background">
 
 
-          <div class="col-lg-5 mx-auto" style="color:white; ">
-               <p class="lead mb-4" style="font-size:15px;">Quickly design and customize responsive mobile-first sites
-                    with Bootstrap, the
-                    world’s most popular front-end open source toolkit, featuring Sass variables and mixins, responsive
-                    grid system, extensive prebuilt components, and powerful JavaScript plugins.</p>
+          <div class="col-lg-6 mx-auto" style="color:white; ">
+          <?php if(isset($_SESSION['username'])){
+               ?>
+              
+               <p class="lead mb-4" style="font-size:15px;"> <b style="font-size:2rem;"><i class="ri-user-4-fill" style="font-size:2rem;"></i><?php echo $_SESSION['username']; ?></b><br>
+               Hey there, <?php echo $_SESSION['username']; ?> ! Welcome to our awesome community! Feel free to dive into the endless threads, stir up some fun with new discussions, and rack up those sweet, sweet karmas. Don't miss out on the latest announcements, and hey, don't forget to read the tearms and conditions.</p>
+               <?php 
+          }else{
+               ?>
+               <p class="lead mb-4" style="font-size:15px;">Hey there, guest user! Ready to join the community? Dive in and become the ultimate sweet karma collector! Engage in community activities, mingle with fellow members, and who knows, you might just crown yourself the karma king! Let's make some virtual magic together!</p>
+               <?php 
+          } ?>
                <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+
+             
                     <button type="button" class="btn btn-danger btn-lg px-4 gap-3 rounded-0"><a href="chatroom.php"
                               style="text-decoration:none; color:white;"><i class="ri-chat-3-fill"></i> Live
                               Chat</a></button>
@@ -64,7 +73,7 @@ ini_set('display_errors', 0);
           <form action="<?php echo htmlentities($_SERVER['PHP_SELF']); ?>" method="post" class=" container d-flex my-3">
                <span type="button" class="w-50 btn btn-light rounded-0 border" l style="" data-bs-toggle="modal"
                     data-bs-target="#exampleModal">
-                    Create new Disk
+                    <b>Create +</b>
                </span>
                <input class="form-control rounded-0" type="search" placeholder="Search Disks by name, date, content.."
                     name="search" aria-label="default input example">
@@ -261,13 +270,13 @@ if ($print) {
                                              <b style="font-weight:lighter;" class="text-danger"><i class="ri-hard-drive-fill"></i>
                                                   <?php echo $disk['catagory_name']; ?>
                                              </b></a><br>
-                                             <b style="font-size:11px; font-weight:lighter;">Disk added on:
-                                                  <?php echo $disk['created']; ?>
-                                             </b>
                                         </h5>
-                                        <p class="card-text" style="font-size:12px;">
+                                        <span class="card-text" style="font-size:12px;">
                                              <?php echo $disk['catagory_desc']; ?>
-                                        </p>
+                                        </span><br>
+                                        <b style="font-size:11px; font-weight:lighter;">
+                                        <i class="ri-calendar-2-line" style="font-size:11px;"></i> <?php echo $disk['created']; ?>
+                                        </b>
                                    </div>
                                    <!-- Disk Card -End -->
                               </div>

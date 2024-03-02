@@ -61,9 +61,24 @@ ini_set('display_errors', 0);
                                         <b style="font-size:12px">Thread No.
                                         <?php echo $thread['thread_id']; ?></b><br>
                                         <h6 style="font-size:15px;">Posted by
-                                        <i class="ri-user-6-fill"></i>
-                                             <b><?php echo $thread['thread_created_by']; ?></b>
-                                        </h6>
+                                        <?php 
+                                   if(empty($thread['thread_created_by'])) {
+                                     echo '<b>User not found</b>';
+                                   } else {
+                                     $user = $thread['thread_created_by']; // Remove the extra $ from $thread['thread_created_by']
+                                     $sql_query = "SELECT * FROM `user` WHERE username = '{$user}'";
+                                     $retrieve = mysqli_query($conn, $sql_query);
+    
+                                  if($retrieve && mysqli_num_rows($retrieve) > 0) {
+                                  $row = mysqli_fetch_assoc($retrieve);
+                                  ?>
+                                  <b><a href="allprofile.php?user=<?php echo $row['id']; ?>" style="text-decoration:none;" class="text-dark"><?php echo $row['username']; ?></a></b>
+                                 <?php
+                                 }}
+                                 ?>
+
+
+                                        
                                    </div>
                                    <div class="card-body">
                                         <h3 class="card-title">
@@ -384,7 +399,7 @@ ini_set('display_errors', 0);
                                              } else {
                                                   ?>
                                                   <div class="container border px-2 py-2">
-                                                  <b class="text-secondary" style="font-weight:lighter;"><i class="ri-skull-2-fill"></i> Dead</b>
+                                                  <b class="text-secondary" style="font-weight:lighter;">User not found : (</b>
                     
                                                  </div>
                                                  <?php

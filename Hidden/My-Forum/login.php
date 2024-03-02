@@ -25,63 +25,60 @@ ini_set('display_errors', 0);
 <body>
   <?php include "header.php"; ?>
   <?php
+session_start(); // Start session
 
-  if (isset($_POST["submit"])) {
+if (isset($_POST["submit"])) {
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        include "db_connection.php"; // Include database connection
+        
+        // User input
+        $username = mysqli_real_escape_string($conn, $_POST['username']);
+        $password = mysqli_real_escape_string($conn, $_POST['password']);
 
-      // User input
-      $email = mysqli_real_escape_string($conn, $_POST['email']);
-      $password = mysqli_real_escape_string($conn, $_POST['password']);
+        // User Verification
+        $sql = "SELECT * FROM `user` WHERE username = '{$username}'";
+        $result = mysqli_query($conn, $sql);
 
-      // User Verification
-      $user_check = "SELECT * FROM `user` WHERE email = '{$email}'";
-      $user_exist_verification = mysqli_query($conn, $user_check);
-      $check = mysqli_num_rows($user_exist_verification);
-
-      if ($check > 0) {
-        if (!empty($email) && !empty($password)) {
-          $sql = "SELECT * FROM user WHERE email = '{$email}'";
-          $result = mysqli_query($conn, $sql);
-
-          if ($result) {
+        if ($result && mysqli_num_rows($result) > 0) {
             $user_pass = mysqli_fetch_assoc($result);
             $dbpass = $user_pass['password'];
 
             // Verify the password using password_verify
             if (password_verify($password, $dbpass)) {
-              // Login Successful
-              $_SESSION['username'] = $user_pass['username'];
-              // Page redirect
-              // header("Location: index.php");
-              echo '<script>window.location="index.php";</script>';
-              mysqli_close($conn);
-              exit();
+                // Login Successful
+                $_SESSION['username'] = $user_pass['username'];
+                // Redirect to index.php
+               ?>
+               <script>window.location.href="index.php";</script>
+               <?php 
+                exit();
             } else {
-              echo' <div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">Incorrect Password!</div>';
+                echo '<div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">Incorrect Password!</div>';
             }
-          } else {
-            echo' <div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">Opps! Somthing went wrong : (</div>';
-          }
         } else {
-          echo' <div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">Please enter both your valid email and password.</div>';
+            echo '<div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">User not found. Please register first!</div>';
         }
-      } else {
-        echo' <div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">User not found : ( . Please register first!</div>';
-
-      }
     }
-  }
+}
+?>
 
-  ?>
 
   <form action="<?php echo htmlentities($_SERVER['PHP_SELF']); ?>"
     class="container w-75 my-5 py-3 px-4 bg-light border rounded-0" method="post">
     <h4 style="text-align:center;" class="py-2">LogIn <i class="ri-login-circle-line" style="font-size:1.8rem;"></i>
     </h4>
-    <div class="mb-3">
-      <label for="exampleFormControlInput1" class="form-label"><i class="ri-mail-fill"></i> Email address</label>
-      <input type="email" class="form-control rounded-0" id="exampleFormControlInput1" placeholder="...@example.com" name="email"
-        required>
+    <?php
+    $sql = "SELECT * FROM `user`";
+    $result = mysqli_query($conn, $sql);
+    if($result && mysqli_num_rows($result) > 0){
+      $row=mysqli_fetch_assoc($result);
+    ?>
+    <input type="hidden" name="userid" value="<?php echo $row['id']; ?>" >
+    <?php } ?>
+    <div class="input-group mb-3">
+      <span class="input-group-text rounded-0" id="basic-addon1">@</span>
+      <input type="text" class="form-control rounded-0" placeholder="Username" name="username" aria-label="Username"
+        aria-describedby="basic-addon1" required>
     </div>
     <div class="mb-3">
       <label for="exampleFormControlInput1" class="form-label"><i class="ri-lock-2-fill"></i> Password</label>

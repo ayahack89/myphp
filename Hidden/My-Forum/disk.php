@@ -41,7 +41,23 @@ ini_set('display_errors', 0);
                                    <b style="font-size:12px">Disk ID
                                    <?php echo $disk['catagory_id']; ?></b><br>
                                    Created by <i class="ri-user-fill"></i>
-                                   <b><?php echo $disk['created_by'] ?></b>
+                                   <?php 
+                                   if(empty($disk['created_by'])){
+                                        ?>
+                                       <b>User not found</b>
+                                        <?php }else{ ?>
+                                             <?php 
+                                             $user = $disk['created_by']; // Remove the extra $ from $disk['$created_by']
+                                             $sql_query = "SELECT * FROM `user` WHERE username = '{$user}'";
+                                             $retrieve = mysqli_query($conn, $sql_query);
+                                             if($retrieve && mysqli_num_rows($retrieve) > 0) {
+                                                  $row = mysqli_fetch_assoc($retrieve);?>
+                                                  <b><a href="allprofile.php?user=<?php echo $row['id']; ?>" style="text-decoration:none;" class="text-dark"><?php echo $disk['created_by']; ?></a></b>
+<?php
+}}
+?>
+
+                                   
                               </div>
                               <div class="card-body">
                                    <h3 class="card-title">
@@ -61,11 +77,21 @@ ini_set('display_errors', 0);
                               $result = mysqli_query($conn, $sql_count);
                               if ($result && mysqli_num_rows($result) > 0) {
                                    $row = mysqli_fetch_assoc($result);?>
-                              <b style="font-size:13px; font-weight:lighter;"> Created on : <?php echo $disk['created']; ?><br>
-                              Thread count(<?php echo $row['total_rows']; ?>)</b>
+                              <b style="font-size:15px; font-weight:lighter;"> <i class="ri-calendar-2-line"></i> <?php echo $disk['created']; ?><br>
+                              Thread count(<?php echo $row['total_rows']; ?>)</b><br>
                               <?php }?>
                               <!-- Thread Count -End  -->
+
+                          <!-- **Like btn is unded development process**  -->
+                              <!-- Like count -Start  -->
+                              <!-- <div id="likeContainer<?php echo $disk['catagory_id']; ?>" class="d-flex align-items-center justify-content-center" style="width: 100px; height: 50px; border: 1px solid #ccc;">
+                              <button id="likeButton<?php echo $disk['catagory_id']; ?>" onclick="setLikeDislike('like', '<?php echo $disk['catagory_id']; ?>')" class="btn btn-danger rounded-0 mx-2">Like</button>
+                              <span id="likeCount<?php echo $disk['catagory_id']; ?>" style="font-size:1rem;"><?php echo $disk['count']; ?></span>
+                              </div> -->
+                              <!-- Like count -End  -->
+
                               </div>
+                              
                          </div>
                     </div>
                     <!-- View Disk Hero -End  -->
@@ -322,7 +348,7 @@ ini_set('display_errors', 0);
                          } else {
                              ?>
                              <div class="container border px-2 py-2">
-                              <b class="text-secondary" style="font-weight:lighter;"><i class="ri-skull-2-fill"></i> Dead</b>
+                              <b class="text-secondary" style="font-weight:lighter;">User not found : (</b>
 
                              </div>
                              <?php 
@@ -355,10 +381,40 @@ ini_set('display_errors', 0);
 
      }
      ?>
+
      <!-- Thread list -End  -->
 
      <?php include "footer.php"; ?>
      <?php include "bootstrapjs.php"; ?>
+     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+     <script>
+          // **Incomplete**
+          // Like btn JSON script 
+          /*
+function setLikeDislike(type, id) {
+    $.ajax({
+        url: 'setLikeDislike.php',
+        type: 'POST',
+        data: { type: type, id: id },
+        dataType: 'json', // Expect JSON response
+        success: function(result) {
+            if (result && result.status === 'success' && typeof result.count !== 'undefined') {
+                // Update like count
+                $('#likeCount' + id).text(result.count);
+            } else {
+                alert('Failed to update like count!');
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error(xhr.responseText); // Log detailed error message
+            alert('Failed to update like count!'); // Notify user about the error
+        }
+    });
+}
+*/
+
+
+     </script>
 </body>
 
 </html>

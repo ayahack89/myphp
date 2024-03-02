@@ -129,7 +129,6 @@ ini_set('display_errors', 0);
                                    <b style="font-size:10px; font-weight:lighter;">Joined at
                                         <?php echo $row['datetime']; ?>
                                    </b>
-
                               </span> <br>
                               <span class="about">
                                    <b style="font-size:12px; font-weight:lighter;">

@@ -140,12 +140,16 @@ ini_set('display_errors', 0);
                                         <i class="ri-flag-fill"></i>
                                         <?php echo $pro['country']; ?>
                                    </span>
-                                   <span style="font-size:8px;">Joined
+                                   <span style="font-size:8px;">Joined at
                                         <?php echo $pro['datetime']; ?>
                                    </span>
                                    <span style="font-size:13px;"><i class="ri-cake-2-fill"></i>
                                         <?php echo $pro['cake_day']; ?>
                                    </span>
+                                   <div class="text mt-3"> <span>
+                                             <?php echo $pro['about']; ?>
+                                        </span>
+                                   </div>
 
                                    <!-- Activety count -Start  -->
                                    <div class="container border py-3 px-3 my-2" style="width:15vw;">
@@ -219,10 +223,7 @@ ini_set('display_errors', 0);
                                         </ul>
 
                                    </div>
-                                   <div class="text mt-3"> <span>
-                                             <?php echo $pro['about']; ?>
-                                        </span>
-                                   </div>
+                                  
                                    <div class="gap-3 mt-3 icons d-flex flex-row justify-content-center align-items-center">
                                         <span><a href="<?php echo $pro['twitter']; ?>"><i class="fa fa-twitter"
                                                        style="font-size:2rem; color:black;"></i></a></span>
