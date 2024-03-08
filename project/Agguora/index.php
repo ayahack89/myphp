@@ -17,28 +17,32 @@ ini_set('display_errors', 0);
      :root {
           --success-result: #86efac;
      }
+     .center{
+          width: 80vw;
+          margin: auto;
+     }
+     @media only screen and (max-width:1000px){
+     .center{
+          width: 100vw;
+          margin: auto;
+     }
 
-     .background {
-          background: rgba(0, 0, 0, 0.6) url("img/background/bg.jpg");
-          background-size: cover;
-          background-blend-mode: darken;
      }
 </style>
 
-<body class="bg-light">
+<body class="bg-black">
+     <div class="container px-3 py-3 bg-light center">
      <?php include "header.php"; ?>
      <!-- Hero Section -Start -->
-     <div class="px-4 py-5 my-1 text-center  background">
-
-
-          <div class="col-lg-6 mx-auto" style="color:white; ">
+     <div class="px-4 py-5 my-1 text-center border">
+          <div class="col-lg-6 mx-auto">
           <!-- Hero description -Start  -->
           <?php 
 if(isset($_SESSION['username'])){
     ?>
     <p class="lead mb-4" style="font-size:15px;"> 
     
-        <b style="font-size:2rem;"><a href="profile.php" style="text-decoration:none; color: white;"><i class="ri-user-4-fill" style="font-size:2rem;"></i><?php echo $_SESSION['username']; ?></a></b>
+        <b style="font-size:2rem;"><a href="profile.php" style="text-decoration:none;"><i class="ri-user-4-fill" style="font-size:2rem;"></i><?php echo $_SESSION['username']; ?></a></b>
         <br>
         Hey there, <?php echo $_SESSION['username']; ?> ! Welcome to our awesome community! Feel free to dive into the endless threads, stir up some fun with new discussions, and rack up those sweet, sweet karmas. Don't miss out on the latest announcements, and hey, don't forget to read the terms and conditions.
     </p>
@@ -312,8 +316,8 @@ if ($print) {
      </div>
      <!-- Load more btn -End -->
 
-
-
+     <?php include "footer.php"; ?>
+     </div>
      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
      <script>
           //Load more btn script
@@ -336,7 +340,6 @@ if ($print) {
           });
 
      </script>
-     <?php include "footer.php"; ?>
      <?php include "bootstrapjs.php"; ?>
 </body>
 
