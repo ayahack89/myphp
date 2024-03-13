@@ -21,6 +21,13 @@ ini_set('display_errors', 0);
           width: 80vw;
           margin: auto;
      }
+     .section-flex{
+          display: flex;
+     }
+     .scroll{
+          height: 50vh;
+          overflow-y: scroll;
+     }
      @media only screen and (max-width:1000px){
      .center{
           width: 100vw;
@@ -30,8 +37,7 @@ ini_set('display_errors', 0);
      }
 </style>
 
-<body class="bg-black">
-     <div class="container px-3 py-3 bg-light center">
+<body>
      <?php include "header.php"; ?>
      <!-- Hero Section -Start -->
      <div class="px-4 py-5 my-1 text-center border">
@@ -81,7 +87,9 @@ if(isset($_SESSION['username'])){
 
 
      <!-- Action Section -Start -->
+    
      <div class="container w-100">
+        
           <!-- Search-bar -Start -->
           <form action="<?php echo htmlentities($_SERVER['PHP_SELF']); ?>" method="post" class=" container d-flex my-3">
                <span type="button" class="w-50 btn btn-light rounded-0 border" l style="" data-bs-toggle="modal"
@@ -200,7 +208,9 @@ if(isset($_SESSION['username'])){
      </div>
      <!-- Action Section -End  -->
 
-<div class="container d-flex px-3 py-3 row" style="margin:auto;">
+<div class="container d-flex px-3 py-3 row section-flex" style="margin:auto;">
+<!-- Section1 -Start -->
+<div class="container section1 w-50">
 
 <!-- Announcements -Start  -->
 <?php 
@@ -252,6 +262,34 @@ if ($print) {
 
 ?>
 </div>
+<!-- Section1 -End  -->
+
+<!-- Section2 -Start  -->
+<div class="container section2 w-50">
+<h5>Recent announcements</h5>
+<div class="scroll">
+     <?php 
+     $sql = "SELECT * FROM `announcement_threads`";
+     $result = mysqli_query($conn, $sql);
+     if($result && mysqli_num_rows($result) > 0){
+          while($row=mysqli_fetch_assoc($result)){
+               ?>
+     <div class="px-2 py-2 border">
+          <a href="announcement-thread.php?announcement=<?php echo $row['announcement_id']; ?>"><?php echo $row['anno_thread_name']; ?></a>
+
+          </div>
+               <?php 
+          }
+     }
+     ?>
+     
+
+</div>
+
+
+</div>
+<!-- Section2 -End  -->
+</div>
 <!-- Announcements -End  -->
 
      <!-- Middilbody -Start -->
@@ -267,7 +305,7 @@ if ($print) {
      <h4>Catagories(<?php echo $row['total_rows']; ?>)</h4>
      <?php } ?>
           <?php
-          $sql = "SELECT * FROM `catagory` LIMIT 0,5";
+          $sql = "SELECT * FROM `catagory`";
           $print = mysqli_query($conn, $sql);
           if ($print) {
                if (mysqli_num_rows($print) > 0) {
@@ -310,14 +348,9 @@ if ($print) {
      <!-- Middlebody -End -->
 
      <!-- Load more btn -Start  -->
-     <div class="text-center">
-          <button type="button" class="btn btn-dark rounded-0" id="loadmore">Load more</button>
-          <input type="hidden" id="startloading" value="0">
-     </div>
      <!-- Load more btn -End -->
 
      <?php include "footer.php"; ?>
-     </div>
      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
      <script>
           //Load more btn script
