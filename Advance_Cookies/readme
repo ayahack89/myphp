@@ -1,7 +1,0 @@
-//Create Cookies
-
-setcookie(name, value, expire, path, domain, secure, httponly);
-
-//View cookie value
-
-$_COOKIE['name'];
