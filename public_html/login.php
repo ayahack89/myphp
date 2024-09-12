@@ -1,10 +1,29 @@
 <?php
 include "db_connection.php";
 session_start();
+if (!isset($_SESSION['username']) && isset($_COOKIE['session_token'])) {
+  // Fetch the session token from the cookie
+  $session_token = $_COOKIE['session_token'];
+
+  // Query the database for a matching session token
+  $sql = "SELECT * FROM `user` WHERE session_token = '{$session_token}'";
+  $result = mysqli_query($conn, $sql);
+
+  if ($result && mysqli_num_rows($result) > 0) {
+      // If the token is valid, log the user in automatically
+      $user_data = mysqli_fetch_assoc($result);
+      $_SESSION['username'] = $user_data['username'];
+      $_SESSION['email'] = $user_data['email'];
+      $_SESSION['id'] = $user_data['id'];
+
+      ?>
+      <script>window.location.href = "http://127.0.0.1/php/public_html/main.php";</script>
+      <?php
+      exit();
+  }
+}
 // include "googleapiconfig.php";
-ini_set('display_errors', 0);
-
-
+ini_set('display_errors', 1);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -36,46 +55,58 @@ ini_set('display_errors', 0);
 
 <body>
   <?php include "header.php"; ?>
-  <?php
-session_start(); // Start session
+ <?php 
+ if (isset($_POST["submit"])) {
+  if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-if (isset($_POST["submit"])) {
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        include "db_connection.php"; // Include database connection
-        
-        // User input
-        $username = htmlspecialchars(mysqli_real_escape_string($conn, $_POST['username']));
-        $user_email = htmlspecialchars(mysqli_real_escape_string($conn, $_POST['log_email']));
-        $password = htmlspecialchars(mysqli_real_escape_string($conn, $_POST['password']));
+      $username = htmlspecialchars(mysqli_real_escape_string($conn, $_POST['username']));
+      $password = htmlspecialchars(mysqli_real_escape_string($conn, $_POST['password']));
 
-        // User Verification
-        $sql = "SELECT * FROM `user` WHERE username = '{$username}'";
-        $result = mysqli_query($conn, $sql);
+      $sql = "SELECT * FROM `user` WHERE username = '{$username}'";
+      $result = mysqli_query($conn, $sql);
+      if ($result && mysqli_num_rows($result) > 0) {
+          $user_data = mysqli_fetch_assoc($result);
+          $dbpass = $user_data['password'];
 
-        if ($result && mysqli_num_rows($result) > 0) {
-            $user_pass = mysqli_fetch_assoc($result);
-            $dbpass = $user_pass['password'];
+          // Verifying the password
+          if (password_verify($password, $dbpass)) {
+              // Set session variables
+              $_SESSION['username'] = $user_data['username'];
+              $_SESSION['email'] = $user_data['email'];
+              $_SESSION['id'] = $user_data['id'];
 
-            // Verify the password using password_verify
-            if (password_verify($password, $dbpass)) {
-                
-                $_SESSION['username'] = $user_pass['username'];
-                
-               ?>
-               <script>window.location.href="http://127.0.0.1/public_html/main.php";</script>
-               <?php 
-                exit();
-            } else {
-                echo '<div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">Incorrect Password!</div>';
-            }
-        } else {
-            echo '<div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">User not found. Please register first!</div>';
-            echo '<div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">If you are a new user, please register. If you are a returning user, please provide your valid email on this page.</div>';
-        }
-    }
+              // Generate a unique session token
+              $session_token = bin2hex(random_bytes(32));
+
+              // Store the session token in the database for persistence
+              $user_id = $user_data['id'];
+              $update_sql = "UPDATE `user` SET session_token = '$session_token' WHERE id = '$user_id'";
+              mysqli_query($conn, $update_sql);
+
+              // Set a cookie with the session token that lasts 30 days
+              setcookie("session_token", $session_token, time() + (86400 * 30), "/", "", true, true);
+
+              // Checking if the username matches the email
+              if (!empty($user_data['email'])) {
+                  ?>
+                  <script>window.location.href = "http://127.0.0.1/php/public_html/main.php";</script>
+                  <?php
+                  exit();
+              } else {
+                  ?>
+                  <script>window.location.href = "http://127.0.0.1/php/public_html/user_email_insert.php";</script>
+                  <?php 
+              }
+          } else {
+              echo '<div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">Incorrect Password!</div>';
+          }
+      } else {
+          echo '<div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">User not found. Please register first!</div>';
+      }
+  }
 }
-?>
-
+ 
+ ?>
 
 <div class="container py-5">
 <div class="row justify-content-center">
@@ -96,10 +127,6 @@ if (isset($_POST["submit"])) {
       <span class="input-group-text rounded-0" id="basic-addon1">@</span>
       <input type="text" class="form-control rounded-0" placeholder="Username" name="username" aria-label="Username"
         aria-describedby="basic-addon1" required>
-    </div>
-    <div class="input-group mb-3">
-      <input type="text" class="form-control rounded-0" placeholder="Enter your email ID" name="log_email" aria-label="email"
-        aria-describedby="basic-addon1">
     </div>
     <div class="mb-3">
       <label for="exampleFormControlInput1" class="form-label"><i class="ri-lock-2-fill"></i> Password</label>

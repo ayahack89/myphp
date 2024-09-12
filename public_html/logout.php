@@ -4,7 +4,7 @@ session_start();
 session_destroy();
 unset($_SESSION['username']);
 ?>
-<script>window.location.href="https://www.agguora.site/login.php";</script>
+<script>window.location.href="login.php";</script>
 //header("Location: index.php");
 <?php 
 exit();

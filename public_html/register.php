@@ -28,6 +28,35 @@ ini_set('display_errors', 1);
     width: 50vw;
     margin: auto;
   }
+  .form-container {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+        }
+        .form-heading {
+            font-size: 1.5rem;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+        .form-heading i {
+            font-size: 1.8rem;
+        }
+        .form-label i {
+            margin-right: 0.5rem;
+        }
+        .form-control, .form-select {
+            border-radius: 0.375rem;
+        }
+        .btn-custom {
+            background-color: #343a40;
+            color: white;
+            border: none;
+        }
+        .btn-custom:hover {
+            background-color: #23272b;
+        }
 </style>
 <body>
   <?php include "header.php"; ?>
@@ -44,14 +73,11 @@ if (isset($_POST["submit"])) {
     $userpassword = htmlspecialchars(mysqli_real_escape_string($conn, $_POST["password"]));
     $userrepass = htmlspecialchars(mysqli_real_escape_string($conn, $_POST["repassword"]));
 
-    //Cryptography generator
-    // $v_code = bin2hex(random_bytes(16));
-    
     // Encrypt password
     $userpass_hash = password_hash($userpassword, PASSWORD_DEFAULT);
     $repass_hash = password_hash($userrepass, PASSWORD_DEFAULT);
 
-    if (!empty($userName) && !empty($userpassword) && !empty($userrepass)) {
+    if (!empty($userName) && !empty($userEmail) && !empty($userpassword) && !empty($userrepass)) {
         $user_check = "SELECT * FROM `user` WHERE username = '$userName'";
         $check = mysqli_query($conn, $user_check);
         $user_exist_verification = mysqli_num_rows($check);
@@ -67,6 +93,11 @@ if (isset($_POST["submit"])) {
                 $bday = htmlspecialchars(mysqli_real_escape_string($conn, $_POST['bday']));
                 $gender = htmlspecialchars(mysqli_real_escape_string($conn, $_POST['gender']));
                 $country = htmlspecialchars(mysqli_real_escape_string($conn, $_POST['country']));
+                $school = htmlspecialchars(mysqli_real_escape_string($conn, $_POST['school']));
+                $clg_university = htmlspecialchars(mysqli_real_escape_string($conn, $_POST['clg_uni']));
+                $status = htmlspecialchars(mysqli_real_escape_string($conn, $_POST['status']));
+                $looking_for = htmlspecialchars(mysqli_real_escape_string($conn, $_POST['lookingFor']));
+                $interest_in = htmlspecialchars(mysqli_real_escape_string($conn, $_POST['interestIn']));
                 $pContact = htmlspecialchars(mysqli_real_escape_string($conn, $_POST['pcontact']));
                 
 
@@ -92,12 +123,12 @@ if (isset($_POST["submit"])) {
                 }
 
                 // Proceed with registration
-                $sql = "INSERT INTO `user` (`username`, `password`, `repassword`, `cake_day`, `about`, `gender`, `country`, `personalcontact`, `profile_pic`) VALUES ('{$userName}', '{$userpass_hash}', '{$repass_hash}', '{$bday}', '{$about}', '{$gender}', '{$country}', '{$pContact}', '{$newImgName}')";
+                $sql = "INSERT INTO `user` (`username`, `password`, `repassword`, `profile_pic`, `about`, `gender`, `country`, `personalcontact`, `cake_day`, `email`, `school`, `clg_university`, `status`, `looking_for`, `interest_in`) VALUES ('{$userName}', '{$userpass_hash}', '{$repass_hash}', '{$newImgName}', '{$about}', '{$gender}', '{$country}', '{$pContact}', '{$bday}', '{$userEmail}', '{$school}', '{$clg_university}', '{$status}', '{$looking_for}', '{$interest_in}');";
                 $result = mysqli_query($conn, $sql);
 
                 if ($result) {
                     ?>
-                    <script>window.location.href = "http://127.0.0.1/public_html/login.php";</script>
+                    <script>window.location.href = "http://127.0.0.1/php/public_html/login.php";</script>
                     <?php
                     exit(); // Exit to prevent further execution
                 } else {
@@ -115,56 +146,54 @@ if (isset($_POST["submit"])) {
 //From submission script -End 
 ?>
 
+<!-- form-start -->
+<div class="container mt-5">
+        <form class="form-container" action="<?php echo htmlentities($_SERVER['PHP_SELF']); ?>" method="post" enctype="multipart/form-data">
+            <h1 class="form-heading">Create your account <i class="fas fa-user-circle"></i></h1>
+            <span class="d-block text-center mb-3" style="font-size: 0.875rem;">Please select a unique username</span>
 
-  <!-- From -Start  -->
-  <!-- Important section -Start  -->
-  <form class="container py-3 px-4 bg-light border" action="<?php echo htmlentities($_SERVER['PHP_SELF']); ?>"
-    method="post" enctype="multipart/form-data">
-    <h1 style="text-align:center; font-size:1.5rem;" class="py-2">Create your account <i class="ri-account-circle-line"
-        style="font-size:1.8rem;"></i></h1>
-        <span style='font-size:12px;'>Please select a unique username</span>
-    <div class="input-group mb-3">
-      <span class="input-group-text rounded-0" id="basic-addon1">@</span>
-      <input type="text" class="form-control rounded-0" placeholder="Username" name="uname" aria-label="Username"
-        aria-describedby="basic-addon1" required>
-    </div>
-    <div class="input-group mb-3">
-      <input type="email" class="form-control rounded-0" placeholder="Enter a valid email ID" name="email" aria-label="email"
-        aria-describedby="basic-addon1" required>
-    </div>
-    <div class="mb-3">
-      <label for="exampleFormControlInput1" class="form-label rounded-0"><i class="ri-lock-2-fill"></i> Password</label>
-      <input type="password" class="form-control rounded-0" id="exampleFormControlInput1" placeholder="password" name="password"
-        required>
-    </div>
-    <div class="mb-3">
-      <label for="exampleFormControlInput1" class="form-label rounded-0"><i class="ri-lock-password-fill"></i> Retype
-        Password</label>
-      <input type="password" class="form-control rounded-0" id="exampleFormControlInput1" placeholder="retypepassword"
-        name="repassword" required>
-    </div>
-    <!-- Important section -End  -->
-    <!-- Optional section -Start  -->
-    <h5 style="text-align:center;" class="py-2">Optional <i class="ri-user-fill"></i></h5>
-    <label for="exampleFormControlInput1" class="form-label"><i class="ri-cake-2-fill"></i> Cake Day</label>
-    <div id="date-picker-example" class="md-form md-outline input-with-post-icon datepicker" inline="true">
-      <input placeholder="Select date" type="date" name="bday" id="example" class="form-control rounded-0">
-    </div><br>
-    <label for="exampleFormControlInput1" class="form-label"><i class="ri-men-line"></i><i class="ri-women-line"></i>
-      Gendar</label>
-    <select name="gender" class="form-select rounded-0" aria-label="Default select example">
-      <option selected>Select your Gender(Optional)</option>
-      <option value="female">Female</option>
-      <option value="male">Male</option>
-      <option value="non-binary">Non-Binary</option>
-      <option value="other">Other</option>
-      <option value="Prefer not to answer">Perfer not to Answer</option>
-    </select>
+            <!-- Required fields -->
+            <div class="mb-3">
+                <label for="username" class="form-label"><i class="fas fa-user"></i> Username</label>
+                <div class="input-group">
+                    <span class="input-group-text">@</span>
+                    <input type="text" class="form-control" id="username" name="uname" placeholder="Username" required>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label"><i class="fas fa-envelope"></i> Email</label>
+                <input type="email" class="form-control" id="email" name="email" placeholder="Enter a valid email ID" required>
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label"><i class="fas fa-lock"></i> Password</label>
+                <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
+            </div>
+            <div class="mb-3">
+                <label for="repassword" class="form-label"><i class="fas fa-lock"></i> Retype Password</label>
+                <input type="password" class="form-control" id="repassword" name="repassword" placeholder="Retype Password" required>
+            </div>
 
-    <br>
-    <label for="exampleFormControlInput1" class="form-label"><i class="ri-flag-fill"></i> Country</label>
-    <select name="country" class="form-select rounded-0" aria-label="Default select example">
-      <option selected>Select your country(Optional)</option>
+            <!-- Optional fields -->
+            <h5 class="text-center mb-3">Optional <i class="fas fa-user"></i></h5>
+            <div class="mb-3">
+                <label for="bday" class="form-label"><i class="fas fa-birthday-cake"></i> Cake Day</label>
+                <input type="date" class="form-control" id="bday" name="bday">
+            </div>
+            <div class="mb-3">
+                <label for="gender" class="form-label"><i class="fas fa-venus-mars"></i> Gender</label>
+                <select id="gender" name="gender" class="form-select">
+                    <option value="" selected>Select your Gender</option>
+                    <option value="female">Female</option>
+                    <option value="male">Male</option>
+                    <option value="non-binary">Non-Binary</option>
+                    <option value="other">Other</option>
+                    <option value="prefer-not-to-answer">Prefer not to Answer</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="country" class="form-label"><i class="fas fa-flag"></i> Country</label>
+                <select id="country" name="country" class="form-select">
+      <option selected>Select your country</option>
       <option value="Not mentioned">Not mentioned</option>
       <option value="Afghanistan">Afghanistan</option>
       <option value="Albania">Albania</option>
@@ -418,25 +447,64 @@ if (isset($_POST["submit"])) {
       <option value="Zimbabwe">Zimbabwe</option>
 
     </select>
-    <br>
-    <div class="form-floating">
-      <textarea class="form-control rounded-0" placeholder="About your self(Optional)" id="floatingTextarea2" name="about"
-        style="height: 100px"></textarea>
-      <label for="floatingTextarea2">About</label>
+               
+            </div>
+            <div class="mb-3">
+                <label for="about" class="form-label"><i class="fas fa-info-circle"></i> About</label>
+                <textarea id="about" name="about" class="form-control" placeholder="About yourself (Optional)" rows="3"></textarea>
+            </div>
+            <div class="mb-3">
+                <label for="school" class="form-label"><i class="fas fa-school"></i> School</label>
+                <input type="text" class="form-control" id="school" name="school" placeholder="Your school name?" required>
+            </div>
+            <div class="mb-3">
+                <label for="clg_uni" class="form-label"><i class="fas fa-university"></i> College / University</label>
+                <input type="text" class="form-control" id="clg_uni" name="clg_uni" placeholder="Your college / University name?" required>
+            </div>
+            <div class="mb-3">
+                <label for="status" class="form-label"><i class="fas fa-user-tag"></i> Status</label>
+                <select id="status" name="status" class="form-select">
+                    <option value="" selected>Select your status</option>
+                    <option value="student">Student</option>
+                    <option value="employed">Employed</option>
+                    <option value="housewife">Housewife</option>
+                    <option value="robot">Robot</option>
+                    <option value="prefer-not-to-answer">Prefer not to Answer</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="lookingFor" class="form-label"><i class="fas fa-search"></i> Looking For</label>
+                <select id="lookingFor" name="lookingFor" class="form-select">
+                    <option value="" selected>Looking for?</option>
+                    <option value="friends">Friends</option>
+                    <option value="teacher">Teacher</option>
+                    <option value="husband">Husband</option>
+                    <option value="wife">Wife</option>
+                    <option value="girlfriend">Girlfriend</option>
+                    <option value="boyfriend">Boyfriend</option>
+                    <option value="prefer-not-to-answer">Prefer not to Answer</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="interestIn" class="form-label"><i class="fas fa-heart"></i> Interest In</label>
+                <select id="interestIn" name="interestIn" class="form-select">
+                    <option value="" selected>Select your Interest</option>
+                    <option value="woman">Woman</option>
+                    <option value="man">Man</option>
+                    <option value="gay">Gay</option>
+                    <option value="lesbian">Lesbian</option>
+                    <option value="chappri">Chappri</option>
+                    <option value="prefer-not-to-answer">Prefer not to Answer</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="pcontact" class="form-label"><i class="fas fa-phone"></i> Contact</label>
+                <input type="tel" class="form-control" id="pcontact" name="pcontact" placeholder="Contact number (Optional)">
+            </div>
+            <button type="submit" name="submit" class="btn btn-custom w-100">Create Account</button>
+        </form>
     </div>
-    <br>
-
-    <div class="mb-3">
-      <label for="exampleFormControlInput1" class="form-label"><i class="ri-phone-fill"></i> Contact</label>
-      <input type="number" class="form-control rounded-0" id="exampleFormControlInput1" name="pcontact"
-        placeholder="Contact number(Optional)">
-    </div>
-   
-    <!-- Optional section -End  -->
-    <br>
-    <button type="submit" name="submit" class="btn btn-dark w-100 rounded-0">Create Account</button>
-  </form>
-  <!-- Form -End  -->
+    <!-- form-end -->
   <p style="font-size:15px; text-align:center;" class="py-4">Already a member! Go to <a href="login.php">LogIn</a> </p>
 
   <?php include "footer.php"; ?>

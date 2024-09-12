@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
      <meta charset="UTF-8">
-     <meta http-equiv="refresh" content="3; url=http://127.0.0.1/public_html/main.php">
+     <meta http-equiv="refresh" content="3; url=http://127.0.0.1/php/public_html/main.php">
      <meta name="google-site-verification" content="2MFbMdbyunwBJ4iibPaO_wI5PoMj08UC1i-W3iTEO1U" />
      <meta name="description" content="Find some privacy? You are in the right place. Join us now share your thoughts and be an active user in this community & collect sweets karmas...">
      <meta name="viewport" content="width=device-width, initial-scale=1.0">

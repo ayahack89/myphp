@@ -119,6 +119,39 @@ body {
     text-decoration: none;
     color: inherit;
 }
+.container.search-form {
+    max-width: 600px;
+    margin: 20px auto;
+    background-color: #fff;
+    border-radius: 10px;
+}
+
+.search-input {
+    border: 1px solid #ddd;
+    padding: 12px 20px;
+    transition: border-color 0.3s ease;
+}
+
+.search-input:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    border-color: #dc3545;
+    transition: background-color 0.3s ease;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+    border-color: #bd2130;
+}
+
+.shadow-sm {
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
 
 @media (max-width: 600px) {
     .user-container {
@@ -160,12 +193,15 @@ if(!isset($_SESSION['username'])){
     }
 }
 ?>
-<form class="container search-form" action="<?php echo htmlentities($_SERVER['PHP_SELF']); ?>" method="post">
+<form class="container search-form p-4 shadow-sm rounded" action="<?php echo htmlentities($_SERVER['PHP_SELF']); ?>" method="post">
     <div class="input-group">
-        <input type="text" class="form-control rounded search-input" placeholder="Search members by name, date, about..." name="search" aria-label="Search" aria-describedby="basic-addon1">
-        <button class="btn btn-danger btn-sm search-button rounded" type="submit" name="submit_search" id="basic-addon1"><i class="ri-user-search-line"></i></button>
+        <input type="text" class="form-control rounded-pill search-input" placeholder="Search members by name, date, about..." name="search" aria-label="Search" aria-describedby="basic-addon1">
+        <button class="btn btn-danger btn-lg rounded-pill ms-2 d-flex align-items-center px-4" type="submit" name="submit_search" id="basic-addon1">
+            <i class="ri-user-search-line me-2"></i> Search
+        </button>
     </div>
 </form>
+
 
 <?php
 if (isset($_POST['submit_search'])) {
@@ -220,44 +256,6 @@ if (isset($_POST['submit_search'])) {
 }
 ?>
 
-
-<div class="mb-5 py-3">
-<div class="container members-list">
-<?php
-$sql_members = "SELECT * FROM `user` ORDER BY datetime DESC";
-$result_members = mysqli_query($conn, $sql_members);
-if ($result_members && mysqli_num_rows($result_members) > 0) {
-    while ($member = mysqli_fetch_assoc($result_members)) {
-?>
-        <div class="user-container">
-            <div class="image">
-                <a href="allprofile.php?user=<?php echo $member['id']; ?>" class="profile-link">
-                    <?php if(empty($member['profile_pic'])){ ?>
-                        <img src="img/images/default2.jpg" alt="Default profile picture" class="profile-pic">
-                    <?php } else { ?>
-                        <img src="img/images/<?php echo $member['profile_pic']; ?>" alt="<?php echo $member['about']; ?>" class="profile-pic">
-                    <?php } ?>
-                </a>
-            </div>
-            <div class="text">
-                <span class="username">
-                    <a href="allprofile.php?user=<?php echo $member['id']; ?>" class="profile-link">
-                        <b><?php echo $member['username']; ?></b>
-                    </a>
-                </span> <br>
-                <span class="joined_at">
-                    <b>Joined at <?php echo $member['datetime']; ?></b>
-                </span> <br>
-                <span class="about">
-                    <b><?php echo $member['about']; ?></b>
-                </span>
-            </div>
-        </div>
-<?php
-    }
-}
-?>
-</div>
 
 
 
