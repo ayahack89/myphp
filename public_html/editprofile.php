@@ -5,7 +5,7 @@ echo 'Opps! atfirst you need to <a href="login.php">login</a> & proof that you a
 }else{ ?>
 <?php 
 include "db_connection.php";
-ini_set('display_errors', 0);
+ini_set('display_errors', 1);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -48,39 +48,41 @@ ini_set('display_errors', 0);
                $username = htmlspecialchars(mysqli_real_escape_string($conn, $_POST["uname"]));
                // Optional
                $about = htmlspecialchars(mysqli_real_escape_string($conn, $_POST['about']));
-               $bday = htmlspecialchars(mysqli_real_escape_string($conn, $_POST['bday']));
+               $cake_day = htmlspecialchars(mysqli_real_escape_string($conn, $_POST['cake_day']));
                $gender = htmlspecialchars(mysqli_real_escape_string($conn, $_POST['gender']));
                $country = htmlspecialchars(mysqli_real_escape_string($conn, $_POST['country']));
-               $pContact = htmlspecialchars(mysqli_real_escape_string($conn, $_POST['pcontact']));
-               $twitter = htmlspecialchars(mysqli_real_escape_string($conn, $_POST['twitter']));
-               $facebook = htmlspecialchars(mysqli_real_escape_string($conn, $_POST['facebook']));
-               $instagram = htmlspecialchars(mysqli_real_escape_string($conn, $_POST['instagram']));
-               $github = htmlspecialchars(mysqli_real_escape_string($conn, $_POST['github']));
+               $pContact = htmlspecialchars(mysqli_real_escape_string($conn, $_POST['pContact']));
+               $school = htmlspecialchars(mysqli_real_escape_string($conn, $_POST['school']));
+               $collage_university = htmlspecialchars(mysqli_real_escape_string($conn, $_POST['clg_university']));
+               $status = htmlspecialchars(mysqli_real_escape_string($conn, $_POST['status']));
+               $looking_for = htmlspecialchars(mysqli_real_escape_string($conn, $_POST['looking_for']));
+               $interest_in = htmlspecialchars(mysqli_real_escape_string($conn, $_POST['interest_in']));
 
                if (!empty($username)) {
                     $sql = "UPDATE `user` SET 
-                `username` = '$username',
-                `about` = '$about',
-                `cake_day` = '$bday',
-                `gender` = '$gender',
-                `country` = '$country',
-                `personalcontact` = '$pContact',
-                `twitter` = '$twitter',
-                `facebook` = '$facebook',
-                `instagram` = '$instagram',
-                `github` = '$github'
+                `username` = '{$username}',
+                `about` = '{$about}',
+                `cake_day` = '{$cake_day}',
+                `gender` = '{$gender}',
+                `country` = '{$country}',
+                `personalcontact` = '{$pContact}',
+                `school` = `{$school}`,
+                `clg_university` = '{$collage_university}',
+                `status` = '{$status}',
+                `looking_for` = '{$looking_for}',
+                `interest_in` = '{$interest_in}'
                 WHERE `id` = $update_id";
 
                     $result = mysqli_query($conn, $sql);
 
                     if ($result) {
                          ?>
-                         <script>window.location.href = "https://www.agguora.site/profile.php?update=<?php echo $update_id ?>";</script>
+                         <script>window.location.href = "http://php/public_html/profile.php?update=<?php echo $update_id ?>";</script>
 
                          <?php
 
                     } else {
-                         echo' <div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">Opps! Somthing went wrong : (</div>';
+                         echo' <div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">Oops! Something went wrong : (</div>';
                     }
                } else {
                     echo' <div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">Please fill in all the details.</div>';
@@ -103,37 +105,33 @@ ini_set('display_errors', 0);
                          <!-- Important section -Start  -->
                          <h4 style="text-align:center;" class="py-2">Edit your profile</h4>
                          <div class="input-group mb-3">
-                              <input type="hidden" class="form-control" value="<?php echo $row['username']; ?>" name="uname"
+                              <input type="text" class="form-control" value="<?php echo $row['username']; ?>" name="uname"
                                    aria-label="Username" aria-describedby="basic-addon1" required>
                          </div>
                          
-                         <!-- Importent section -End  -->
+                         <!-- Impotent section -End  -->
 
                          <!-- Optional section -Start  -->
-                         <label for="exampleFormControlInput1" class="form-label"><i class="ri-cake-2-fill"></i> Cake Day</label>
-                         <div id="date-picker-example" class="md-form md-outline input-with-post-icon datepicker" inline="true">
-                              <input value="<?php echo $row['cake_day']; ?>" name="bday" type="text" id="example" class="form-control">
-                         </div><br>
-                         <label for="exampleFormControlInput1" class="form-label"><i class="ri-men-line"></i><i
-                                   class="ri-women-line"></i>
-                              Gendar</label>
-                         <select name="gender" class="form-select" aria-label="Default select example">
-                              <option value="<?php echo $row['gender']; ?>" selected>
-                                   <?php echo $row['gender']; ?>
-                              </option>
-                              <option value="female">Female</option>
-                              <option value="male">Male</option>
-                              <option value="non-binary">Non-Binary</option>
-                              <option value="other">Other</option>
-                              <option value="Prefer not to answer">Perfer not to Answer</option>
-                         </select>
+            <div class="mb-3">
+                <label for="bday" class="form-label"><i class="fas fa-birthday-cake"></i> Cake Day</label>
+                <input type="date" class="form-control" value="<?php echo $row['cake_day'] ?>" id="bday" name="cake_day">
+            </div>
+            <div class="mb-3">
+                <label for="gender" class="form-label"><i class="fas fa-venus-mars"></i> Gender</label>
+                <select id="gender" name="gender" class="form-select">
+                    <option value="" selected><?php echo $row['gender']; ?></option>
+                    <option value="female">Female</option>
+                    <option value="male">Male</option>
+                    <option value="non-binary">Non-Binary</option>
+                    <option value="other">Other</option>
+                    <option value="prefer-not-to-answer">Prefer not to Answer</option>
+                </select>
+            </div>
                          <br>
-                         <label for="exampleFormControlInput1" class="form-label"><i class="ri-flag-fill"></i> Country</label>
-                         <select name="country" class="form-select" aria-label="Default select example">
-                              <option value="<?php echo $row['country']; ?>" selected>
-                                   <?php echo $row['country']; ?>
-                              </option>
-                              <option value="Not mentioned">Not mentioned</option>
+                         <div class="mb-3">
+                <label for="country" class="form-label"><i class="fas fa-flag"></i> Country</label>
+                <select id="country" name="country" class="form-select">
+                              <option value=""><?php echo $row['country']; ?></option>
                               <option value="Afghanistan">Afghanistan</option>
                               <option value="Albania">Albania</option>
                               <option value="Algeria">Algeria</option>
@@ -388,48 +386,63 @@ ini_set('display_errors', 0);
                          </select>
                          <br>
 
-                         <div class="form-floating">
-                              <textarea class="form-control" placeholder="About your self(Optional)" id="floatingTextarea2"
-                                   name="about" style="height: 100px"><?php echo $row['about']; ?></textarea>
-                              <label for="floatingTextarea2">About</label>
-                         </div>
+                         <div class="mb-3">
+                <label for="about" class="form-label"><i class="fas fa-info-circle"></i> About</label>
+                <textarea id="about" name="about" class="form-control" placeholder="About yourself (Optional)" rows="3"><?php echo $row['about']; ?></textarea>
+            </div>
                          <br>
-                         <!-- Social media account -Start  -->
                          <div class="mb-3">
-                              <label for="exampleFormControlInput1" class="form-label"><i class="ri-phone-fill"></i> Contact</label>
-                              <input type="number" class="form-control" id="exampleFormControlInput1"
-                                   value="<?php echo $row['personalcontact']; ?>" name="pcontact">
-                         </div>
-                         <div class="mb-3">
-                              <label for="basic-url" class="form-label"><i class="ri-twitter-fill"></i> account</label>
-                              <div class="input-group">
-                                   <input type="text" class="form-control" id="basic-url" name="twitter"
-                                        value="<?php echo $row['twitter']; ?>" aria-describedby="basic-addon3 basic-addon4">
-                              </div>
-                         </div>
-                         <div class="mb-3">
-                              <label for="basic-url" class="form-label"><i class="ri-facebook-circle-fill"></i> profile</label>
-                              <div class="input-group">
-                                   <input type="text" class="form-control" id="basic-url" name="facebook"
-                                        value="<?php echo $row['facebook']; ?>" aria-describedby="basic-addon3 basic-addon4">
-                              </div>
+                <label for="school" class="form-label"><i class="fas fa-school"></i> School</label>
+                <input type="text" class="form-control" value="<?php echo $row['school']; ?>" id="school" name="school" placeholder="Your school name?">
+            </div>
+            <div class="mb-3">
+                <label for="clg_uni" class="form-label"><i class="fas fa-university"></i> College / University</label>
+                <input type="text" class="form-control" value="<?php echo $row['clg_university']; ?>" id="clg_uni" name="clg_university" placeholder="Your college / University name?">
+            </div>
+            <div class="mb-3">
+                <label for="status" class="form-label"><i class="fas fa-user-tag"></i> Status</label>
+                <select id="status" name="status" class="form-select">
+                    <option value="" selected><?php echo $row['status']; ?></option>
+                    <option value="student">Student</option>
+                    <option value="employed">Employed</option>
+                    <option value="housewife">Housewife</option>
+                    <option value="robot">Robot</option>
+                    <option value="prefer-not-to-answer">Prefer not to Answer</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="lookingFor" class="form-label"><i class="fas fa-search"></i> Looking For</label>
+                <select id="lookingFor" name="looking_for" class="form-select">
+                    <option value="" selected><?php echo $row['looking_for']; ?></option>
+                    <option value="friends">Friends</option>
+                    <option value="teacher">Teacher</option>
+                    <option value="husband">Husband</option>
+                    <option value="wife">Wife</option>
+                    <option value="girlfriend">Girlfriend</option>
+                    <option value="boyfriend">Boyfriend</option>
+                    <option value="prefer-not-to-answer">Prefer not to Answer</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="interestIn" class="form-label"><i class="fas fa-heart"></i> Interest In</label>
+                <select id="interestIn" name="interest_in" class="form-select">
+                    <option value="" selected><?php echo $row['interest_in']; ?></option>
+                    <option value="woman">Woman</option>
+                    <option value="man">Man</option>
+                    <option value="gay">Gay</option>
+                    <option value="lesbian">Lesbian</option>
+                    <option value="chappri">Chappri</option>
+                    <option value="prefer-not-to-answer">Prefer not to Answer</option>
+                </select>
+            </div>
 
-                         </div>
-                         <div class="mb-3">
-                              <label for="basic-url" class="form-label"><i class="ri-instagram-fill"></i> profile</label>
-                              <div class="input-group">
-                                   <input type="text" class="form-control" id="basic-url" name="instagram"
-                                        value="<?php echo $row['instagram']; ?>" aria-describedby="basic-addon3 basic-addon4">
-                              </div>
-                         </div>
-                         <div class="mb-3">
-                              <label for="basic-url" class="form-label"><i class="ri-github-fill"></i> account</label>
-                              <div class="input-group">
-                                   <input type="text" class="form-control" id="basic-url" name="github"
-                                        value="<?php echo $row['github']; ?>" aria-describedby="basic-addon3 basic-addon4">
-                              </div>
-                         </div>
-                         <!-- Social media account -End  -->
+            <div class="mb-3">
+                <label for="pcontact" class="form-label"><i class="fas fa-phone"></i> Contact</label>
+                <input type="tel" class="form-control" id="pcontact" name="pContact" placeholder="Contact number (Optional)">
+            </div>
+                         
+                       
+
 
                          <!-- Optional section -End  -->
                          <button type="submit" name="submit" class="btn btn-dark w-100 rounded-0">Update profile details</button>
