@@ -47,11 +47,11 @@ ini_set('display_errors', 0)
                          while ($comment = mysqli_fetch_assoc($result)) {
                               ?>
                               <!-- Comment box -Start  -->
-                              <div class="card rounded-0">
+                              <div class="card rounded p-2 m-2">
                                    <div class="card-body">
                                         <h6 class="card-subtitle mb-2 text-body-secondary">
                                              <b style="color:black;">
-                                                  <?php echo '@' . $_SESSION['username']; ?>
+                                                  <?php echo $_SESSION['username']; ?>
                                              </b>
                                              <?php
                                              if (empty($comment['tag_someone'])) {
@@ -69,8 +69,24 @@ ini_set('display_errors', 0)
                                                                  <?php
                                                   }
                                                   ?>
-                                                            @
-                                                            <?php echo $comment['tag_someone'] ?>
+                                                            
+                                                            <?php
+                                                            
+                                                            $sql = "SELECT * FROM `user` WHERE id = '{$comment['tag_someone']}'";
+                                                            $tag_run = mysqli_query($conn, $sql);
+                                                            if ($tag_run && mysqli_num_rows($tag_run) > 0) {
+                                                                $tag_user = mysqli_fetch_assoc($tag_run);
+                                                                ?>
+                                                                <span class="text-secondary fw-light" style="font-size: 14px;">replied to</span>
+                                                                <a href="allprofile.php?user=<?php echo $tag_user['id']; ?>"
+                                                                    class="text-dark text-decoration-none">
+                                                                    <strong><?php echo $tag_user['username']; ?></strong>
+                                                                </a>
+                                                                <?php
+                                                            }else{
+                                                                 
+                                                            }
+                                                            ?>
                                                        </a></b>
                                              <?php } ?><br>
                                              <b style="font-weight:lighter; font-size:12px;">

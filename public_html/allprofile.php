@@ -225,100 +225,133 @@ if (isset($_GET['user'])) {
                     while ($member = mysqli_fetch_assoc($result)) {
                          ?>
 
-                         <div class="container d-flex py-5 bg-dark border my-2 rounded">
-                              <div class="container p-2 w-100 border rounded" style="background-color:white;">
-                                   <div class="d-flex flex-column justify-content-center align-items-center">
-                                        <?php if(empty($member['profile_pic'])){?>
-                                        <img src="img/images/default.jpg" alt="Default user profile image: a blank silhouette on a light background, representing a generic user without a personalized photo." class="rounded-circle border" height="180"
-                                        width="180" />
-                                             <?php }else{ ?>
-                                        <img src="img/images/<?php echo $member['profile_pic']; ?>" class="rounded-circle border" alt="<?php echo $member['about']; ?>" height="180"
-                                             width="180" />
-                                             <?php } ?>
-                              <h1 class="name mt-3 text-danger" style="font-size:1.8rem;">
-                                   <?php echo $member['username']; ?>
-                              </h1>
-                              
-                              
-                                        <div class="d-flex flex-row justify-content-center align-items-center gap-2"> 
+<div class="container d-flex flex-column py-4 my-3">
+                        <!-- Profile Card -->
+                        <center>
+                            <div class=" shadow-sm rounded-lg border-0 bg-white">
+                                <div class="card bg-white p-4">
+                                    <div class="d-flex flex-column justify-content-center align-items-center text-center">
+
+                                        <!-- Profile Image -->
+                                        <?php if (empty($member['profile_pic'])) { ?>
+                                            <img src="img/images/default.jpg" class="rounded-circle border mb-3"
+                                                alt="Default Profile Picture" height="150" width="150" />
+                                        <?php } else { ?>
+                                            <img src="img/images/<?php echo $member['profile_pic']; ?>" class="rounded-circle border mb-3"
+                                                alt="<?php echo $member['about']; ?>" height="150" width="150" />
+                                        <?php } ?>
+
+                                        <!-- Username and Bio -->
+                                        <h2 class="text-dark mt-3 mb-1"><?php echo $member['username']; ?></h2>
+                                        <p class="text-muted mb-2"><strong><?php echo $member['about']; ?></strong></p>
+
+                                        <!-- User Details -->
+                                        <div class="d-flex justify-content-center gap-3">
+                                            
+                                            
                                         </div>
-                                        <span class="text-center">
-                                             <i class="ri-flag-fill"></i>
-                                             <?php echo $member['country']; ?>
-                                        </span>
-                                        <span style="font-size:8px;">Joined at
-                                             <?php echo $member['datetime']; ?>
-                                        </span>
-                                        <span style="font-size:13px;"><i class="ri-cake-2-fill"></i>
-                                        <?php echo $member['cake_day']; ?>
-                                        </span>
-                                        <div class="text mt-3"> 
-                                             <span>
-                                                  <?php echo $member['about']; ?>
-                                             </span>
+                                        <span class="text-muted">Joined at <?php echo $member['datetime']; ?></span>
+                                        
+
+                                        <!-- Education -->
+                                        <div class="my-3 text-start">
+                                        <span class="text-muted"><strong> <i class="ri-flag-fill"></i>Citizen </strong> <?php echo $pro['country']; ?></span><br>
+                                        <span class="text-muted"><strong> <i class="ri-cake-2-fill"></i>Born at</strong> <?php echo $pro['cake_day']; ?></span><br>
+                                        <?php 
+                                            if(!empty($member['clg_university'])){
+                                                echo '<span class="text-muted"><strong><i class="fas fa-university"></i> Studied at
+                                        </strong>'.$member['clg_university'].'</span><br>';
+                                            }else{
+
+                                            }
+                                            ?>
+                                            <?php
+                                            if (!empty($member['clg_university'])){
+                                                if(!empty($member['school'])){
+                                                    echo '<span class="text-muted"><strong><i class="fas fa-school"></i> Went to
+                                                </strong>'.$member['school'].'</span><br>';
+
+                                                }else{
+
+                                                }
+                                            }else{
+                                                 if(!empty($member['school'])){
+                                                    echo '<span class="text-muted"><strong><i class="fas fa-school"></i> Studied at 
+                                                </strong>'.$member['school'].'</span>';
+
+                                                }else{
+                                                    
+                                                }
+                                            }
+                                            ?>
+                         <span class="text-muted"><strong> <i class="fas fa-user-tag"></i> I am a </strong> <?php echo $member['status']; ?></span><br>
+                         <span class="text-muted"><strong> <i class="fas fa-search"></i> I am looking for a </strong> <?php echo $member['looking_for']; ?></span><br>
+                         <span class="text-muted"><strong> <i class="fas fa-heart"></i> I have a interest in </strong> <?php echo $member['interest_in']; ?></span><br>
+
+                                        
+                                            
+                                            
+                                        </div>
+
+                                        <!-- Activity Count -->
+                                        <div class="w-100 mt-4">
+                                            <h4 class="text-dark">Your Activities</h4>
+                                            <div class="d-flex justify-content-around">
+                                                <?php
+                                                $user_id = $member['id'];
+
+                                                // Drives
+                                                $sql_count = "SELECT COUNT(*) AS total_rows FROM `catagory` WHERE created_by = '{$user_id}'";
+                                                $result = mysqli_query($conn, $sql_count);
+                                                $row = mysqli_fetch_assoc($result);
+                                                $disks = $row['total_rows'];
+                                                ?>
+                                                <div>
+                                                    <h5 class="text-primary"><?php echo $disks; ?></h5>
+                                                    <p class="text-muted">Drives</p>
+                                                </div>
+                                                <?php
+                                                // Threads
+                                                $sql_count = "SELECT COUNT(*) AS total_rows FROM `threads` WHERE thread_user_id = '{$user_id}'";
+                                                $result = mysqli_query($conn, $sql_count);
+                                                $row = mysqli_fetch_assoc($result);
+                                                $threads = $row['total_rows'];
+                                                ?>
+                                                <div>
+                                                    <h5 class="text-primary"><?php echo $threads; ?></h5>
+                                                    <p class="text-muted">Threads</p>
+                                                </div>
+                                                <?php
+                                                // Comments
+                                                $sql_count = "SELECT COUNT(*) AS total_rows FROM `comments` WHERE comment_by = '{$user_id}'";
+                                                $result = mysqli_query($conn, $sql_count);
+                                                $row = mysqli_fetch_assoc($result);
+                                                $comments = $row['total_rows'];
+                                                ?>
+                                                <div>
+                                                    <h5 class="text-primary"><?php echo $comments; ?></h5>
+                                                    <p class="text-muted">Comments</p>
+                                                </div>
+                                            </div>
+
+                                            <!-- Karma -->
+                                            <?php
+                                            $karma = $disks + $threads + $comments;
+                                            ?>
+                                            <div class="mt-3">
+                                                <p class="text-danger" style="font-size:1.2rem;">
+                                                    <i class="ri-trophy-line"></i> Karma: <strong><?php echo $karma; ?></strong>
+                                                </p>
+                                            </div>
                                         </div>
                                         
-                                        <!-- Activity count -Start -->
-<div class="container py-2 px-2 my-2">
-    <center>
-        <b class="text-center"><?php echo htmlspecialchars($member['username']); ?>'s activity</b> <br>
-        <?php 
-        // Ensure database connection
-        if ($conn) {
-            // Fetch user data based on userId
-            $sql_user = "SELECT username FROM `user` WHERE id = '{$userId}'";
-            $run_query = mysqli_query($conn, $sql_user);
-            
-            if ($run_query && mysqli_num_rows($run_query) > 0) {
-                $userr = mysqli_fetch_assoc($run_query);
-                $userrname = htmlspecialchars($userr['username']);
-                
-                // Count categories created by the user
-                $sql_count = "SELECT COUNT(*) AS total_rows FROM `catagory` WHERE created_by = '{$userrname}'";
-                $result = mysqli_query($conn, $sql_count);
-                if ($result && mysqli_num_rows($result) > 0) {
-                    $row = mysqli_fetch_assoc($result);
-                    $disks = $row['total_rows'];
-                    echo "Drives({$disks}) <br>";
-                }
 
-                // Count threads created by the user
-                $sql_count = "SELECT COUNT(*) AS total_rows FROM `threads` WHERE thread_created_by = '{$userId}'";
-                $result = mysqli_query($conn, $sql_count);
-                if ($result && mysqli_num_rows($result) > 0) {
-                    $row = mysqli_fetch_assoc($result);
-                    $threads = $row['total_rows'];
-                    echo "Threads({$threads}) <br>";
-                }
+                                    </div>
+                                </div>
 
-                // Count comments made by the user
-                $sql_count = "SELECT COUNT(*) AS total_rows FROM `comments` WHERE comment_by = '{$userId}'";
-                $result = mysqli_query($conn, $sql_count);
-                if ($result && mysqli_num_rows($result) > 0) {
-                    $row = mysqli_fetch_assoc($result);
-                    $comments = $row['total_rows'];
-                    echo "Comments({$comments}) <br>";
-                }
-
-                // Calculate and display karma
-                $karma = ($disks ?? 0) + ($threads ?? 0) + ($comments ?? 0);
-                echo '<div><b class="text-danger" style="font-size:1.2rem;"><i class="ri-trophy-line"></i> Karma: </b><b style="font-size:1.2rem;">' . $karma . '</b></div>';
-            } else {
-                echo '<div class="alert alert-warning rounded-0" role="alert" style="font-size:15px;">User not found!</div>';
-            }
-        } else {
-            echo '<div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">Database connection failed.</div>';
-        }
-        ?>
-    </center>
-</div>
-<!-- Activity count -End -->
-
-
-
-                                   </div>
-                              </div>
-                         </div>
+                            </div>
+                        </center>
+                    </div>
                          <?php
 
                     }

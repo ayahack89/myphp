@@ -52,31 +52,47 @@ if ($conn) {
             if (mysqli_num_rows($result) > 0) {
                 while ($thread = mysqli_fetch_assoc($result)) {
 ?>
-                    <!-- Thread box - Start -->
-                    <div class="card rounded-0">
-                        <div class="card-body">
-                            <h5 class="card-title"><?php echo htmlspecialchars($thread['thread_name']); ?></h5>
-                            <h6 class="card-subtitle mb-2 text-body-secondary">
-                                <b style="color:black;"><?php echo '@' . htmlspecialchars($user['username']); ?></b><br>
-                                <b style="font-weight:lighter; font-size:12px;"><?php echo htmlspecialchars($thread['thread_time']); ?></b>
-                            </h6>
-                            <p class="card-text"><?php echo htmlspecialchars($thread['thread_desc']); ?></p>
-                            <?php if (!empty($thread['url'])) { ?>
-                                <a href="<?php echo htmlspecialchars($thread['url']); ?>" class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">
-                                    <i class="ri-external-link-fill"></i><?php echo htmlspecialchars($thread['url']); ?>
-                                </a>
-                            <?php } ?>
-                            <br><br>
-                            <img src="img/upload/<?php echo htmlspecialchars($thread['uploaded_image']); ?>" class="img-thumbnail" alt="" width="200vw"><br>
-                            <a href="user-thread-edit-page.php?edit=<?php echo htmlspecialchars($thread['thread_id']); ?>" class="card-link text-success" style="text-decoration:none;">
-                                <i class="ri-edit-box-line"></i>
-                            </a>
-                            <a href="delete-your-threads.php?delete=<?php echo htmlspecialchars($thread['thread_id']); ?>" class="card-link text-danger" style="text-decoration:none;">
-                                <i class="ri-delete-bin-5-line"></i>
-                            </a>
-                        </div>
-                    </div>
-                    <!-- Thread box - End -->
+             <!-- Thread box - Start -->
+<div class="card rounded-0 shadow-sm border p-3 mb-3 mt-3" style="max-width: 600px; margin:auto;">
+    <div class="d-flex align-items-center mb-3">
+        <img src="img/images/<?php echo htmlspecialchars($user['profile_pic']); ?>" alt="Profile Image" class="rounded-circle me-3" width="40px" height="40px">
+        <div>
+            <h6 class="mb-0 text-dark"><?php echo htmlspecialchars($user['username']); ?></h6>
+            <small class="text-muted">Posted on: <?php echo htmlspecialchars($thread['thread_time']); ?></small>
+        </div>
+    </div>
+    <div class="card-body p-0">
+        <h5 class="card-title mb-2"><?php echo htmlspecialchars($thread['thread_name']); ?></h5>
+        <p class="card-text"><?php echo htmlspecialchars($thread['thread_desc']); ?></p>
+        
+        <?php if (!empty($thread['url'])) { ?>
+            <a href="<?php echo htmlspecialchars($thread['url']); ?>" class="link-primary d-block mb-2">
+                <i class="ri-external-link-fill"></i> <?php echo htmlspecialchars($thread['url']); ?>
+            </a>
+        <?php } ?>
+
+        <?php if (!empty($thread['uploaded_image'])) { ?>
+            <div class="text-center mb-3">
+                <img src="img/upload/<?php echo htmlspecialchars($thread['uploaded_image']); ?>" class="img-fluid rounded shadow-sm" alt="Thread Image" style="max-width:100%;">
+            </div>
+        <?php } ?>
+
+        <div class="d-flex justify-content-between align-items-center mt-3">
+            
+            <div>
+                <a href="user-thread-edit-page.php?edit=<?php echo htmlspecialchars($thread['thread_id']); ?>" class="btn btn-outline-success btn-sm me-2">
+                    <i class="ri-edit-box-line"></i> Edit
+                </a>
+                <a href="delete-your-threads.php?delete=<?php echo htmlspecialchars($thread['thread_id']); ?>" class="btn btn-outline-danger btn-sm">
+                    <i class="ri-delete-bin-5-line"></i> Delete
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Thread box - End -->
+
+
 <?php
                 }
             } else {

@@ -66,12 +66,13 @@ ini_set('display_errors', 1);
                 `gender` = '{$gender}',
                 `country` = '{$country}',
                 `personalcontact` = '{$pContact}',
-                `school` = `{$school}`,
+                `school` = '{$school}', 
                 `clg_university` = '{$collage_university}',
                 `status` = '{$status}',
                 `looking_for` = '{$looking_for}',
                 `interest_in` = '{$interest_in}'
                 WHERE `id` = $update_id";
+
 
                     $result = mysqli_query($conn, $sql);
 
