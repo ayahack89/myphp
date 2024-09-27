@@ -211,6 +211,19 @@ if (isset($_GET['user'])) {
      .date {
           background-color: #ccc
      }
+     .profile-pic {
+        height: 150px;
+        width: 150px;
+        border-radius: 50%;
+        object-fit: cover; 
+        border: 3px solid #ccc;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: box-shadow 0.3s ease-in-out;
+    }
+
+    .profile-pic:hover {
+        box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2); 
+    }
 </style>
 
 <body>
@@ -237,8 +250,7 @@ if (isset($_GET['user'])) {
                                             <img src="img/images/default.jpg" class="rounded-circle border mb-3"
                                                 alt="Default Profile Picture" height="150" width="150" />
                                         <?php } else { ?>
-                                            <img src="img/images/<?php echo $member['profile_pic']; ?>" class="rounded-circle border mb-3"
-                                                alt="<?php echo $member['about']; ?>" height="150" width="150" />
+                                             <img src="img/images/<?php echo $member['profile_pic']; ?>" class="profile-pic mb-3" alt="<?php echo $pro['about']; ?>" />
                                         <?php } ?>
 
                                         <!-- Username and Bio -->

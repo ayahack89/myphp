@@ -44,9 +44,7 @@ ini_set('display_errors', 1);
 
           if (isset($_POST['submit'])) {
                // User details
-               // Required
                $username = htmlspecialchars(mysqli_real_escape_string($conn, $_POST["uname"]));
-               // Optional
                $about = htmlspecialchars(mysqli_real_escape_string($conn, $_POST['about']));
                $cake_day = htmlspecialchars(mysqli_real_escape_string($conn, $_POST['cake_day']));
                $gender = htmlspecialchars(mysqli_real_escape_string($conn, $_POST['gender']));
@@ -65,7 +63,6 @@ ini_set('display_errors', 1);
                 `cake_day` = '{$cake_day}',
                 `gender` = '{$gender}',
                 `country` = '{$country}',
-                `personalcontact` = '{$pContact}',
                 `school` = '{$school}', 
                 `clg_university` = '{$collage_university}',
                 `status` = '{$status}',
@@ -78,7 +75,7 @@ ini_set('display_errors', 1);
 
                     if ($result) {
                          ?>
-                         <script>window.location.href = "http://php/public_html/profile.php?update=<?php echo $update_id ?>";</script>
+                         <script>window.location.href = "http://127.0.0.1/php/public_html/profile.php?update=<?php echo $update_id ?>";</script>
 
                          <?php
 
@@ -115,12 +112,12 @@ ini_set('display_errors', 1);
                          <!-- Optional section -Start  -->
             <div class="mb-3">
                 <label for="bday" class="form-label"><i class="fas fa-birthday-cake"></i> Cake Day</label>
-                <input type="date" class="form-control" value="<?php echo $row['cake_day'] ?>" id="bday" name="cake_day">
+                <input type="date" class="form-control" value="<?php echo $row['cake_day'] ?>" id="bday" name="cake_day" required>
             </div>
             <div class="mb-3">
                 <label for="gender" class="form-label"><i class="fas fa-venus-mars"></i> Gender</label>
-                <select id="gender" name="gender" class="form-select">
-                    <option value="" selected><?php echo $row['gender']; ?></option>
+                <select id="gender" name="gender" class="form-select" required>
+                    <option value="<?php echo $row['gender']; ?>" selected><?php echo $row['gender']; ?></option>
                     <option value="female">Female</option>
                     <option value="male">Male</option>
                     <option value="non-binary">Non-Binary</option>
@@ -131,8 +128,8 @@ ini_set('display_errors', 1);
                          <br>
                          <div class="mb-3">
                 <label for="country" class="form-label"><i class="fas fa-flag"></i> Country</label>
-                <select id="country" name="country" class="form-select">
-                              <option value=""><?php echo $row['country']; ?></option>
+                <select id="country" name="country" class="form-select" required>
+                              <option value="<?php echo $row['country']; ?>" selected><?php echo $row['country']; ?></option>
                               <option value="Afghanistan">Afghanistan</option>
                               <option value="Albania">Albania</option>
                               <option value="Algeria">Algeria</option>
@@ -389,60 +386,53 @@ ini_set('display_errors', 1);
 
                          <div class="mb-3">
                 <label for="about" class="form-label"><i class="fas fa-info-circle"></i> About</label>
-                <textarea id="about" name="about" class="form-control" placeholder="About yourself (Optional)" rows="3"><?php echo $row['about']; ?></textarea>
+                <textarea id="about" name="about" class="form-control" placeholder="About yourself" rows="3" required><?php echo $row['about']; ?></textarea>
             </div>
                          <br>
                          <div class="mb-3">
                 <label for="school" class="form-label"><i class="fas fa-school"></i> School</label>
-                <input type="text" class="form-control" value="<?php echo $row['school']; ?>" id="school" name="school" placeholder="Your school name?">
+                <input type="text" class="form-control" value="<?php echo $row['school']; ?>" id="school" name="school" placeholder="Your school name?" required>
             </div>
             <div class="mb-3">
                 <label for="clg_uni" class="form-label"><i class="fas fa-university"></i> College / University</label>
-                <input type="text" class="form-control" value="<?php echo $row['clg_university']; ?>" id="clg_uni" name="clg_university" placeholder="Your college / University name?">
+                <input type="text" class="form-control" value="<?php echo $row['clg_university']; ?>" id="clg_uni" name="clg_university" placeholder="Your college / University name?" required>
             </div>
             <div class="mb-3">
                 <label for="status" class="form-label"><i class="fas fa-user-tag"></i> Status</label>
-                <select id="status" name="status" class="form-select">
-                    <option value="" selected><?php echo $row['status']; ?></option>
+                <select id="status" name="status" class="form-select" required>
+                    <option value="<?php echo $row['status']; ?>" selected><?php echo $row['status']; ?></option>
                     <option value="student">Student</option>
-                    <option value="employed">Employed</option>
+                    <option value="employ">Employ</option>
                     <option value="housewife">Housewife</option>
                     <option value="robot">Robot</option>
-                    <option value="prefer-not-to-answer">Prefer not to Answer</option>
+                    <option value="dead inside">Prefer not to Answer</option>
                 </select>
             </div>
             <div class="mb-3">
                 <label for="lookingFor" class="form-label"><i class="fas fa-search"></i> Looking For</label>
-                <select id="lookingFor" name="looking_for" class="form-select">
-                    <option value="" selected><?php echo $row['looking_for']; ?></option>
+                <select id="lookingFor" name="looking_for" class="form-select" required>
+                    <option value="<?php echo $row['looking_for']; ?>" selected><?php echo $row['looking_for']; ?></option>
                     <option value="friends">Friends</option>
                     <option value="teacher">Teacher</option>
                     <option value="husband">Husband</option>
                     <option value="wife">Wife</option>
                     <option value="girlfriend">Girlfriend</option>
                     <option value="boyfriend">Boyfriend</option>
-                    <option value="prefer-not-to-answer">Prefer not to Answer</option>
+                    <option value="nothing">Prefer not to Answer</option>
                 </select>
             </div>
             <div class="mb-3">
                 <label for="interestIn" class="form-label"><i class="fas fa-heart"></i> Interest In</label>
-                <select id="interestIn" name="interest_in" class="form-select">
-                    <option value="" selected><?php echo $row['interest_in']; ?></option>
+                <select id="interestIn" name="interest_in" class="form-select" required>
+                    <option value="<?php echo $row['interest_in']; ?>" selected><?php echo $row['interest_in']; ?></option>
                     <option value="woman">Woman</option>
                     <option value="man">Man</option>
                     <option value="gay">Gay</option>
                     <option value="lesbian">Lesbian</option>
                     <option value="chappri">Chappri</option>
-                    <option value="prefer-not-to-answer">Prefer not to Answer</option>
+                    <option value="nobody">Prefer not to Answer</option>
                 </select>
-            </div>
-
-            <div class="mb-3">
-                <label for="pcontact" class="form-label"><i class="fas fa-phone"></i> Contact</label>
-                <input type="tel" class="form-control" id="pcontact" name="pContact" placeholder="Contact number (Optional)">
-            </div>
-                         
-                       
+            </div>     
 
 
                          <!-- Optional section -End  -->

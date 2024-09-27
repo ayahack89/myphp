@@ -50,14 +50,14 @@ ini_set('display_errors', 0);
                $result = mysqli_query($conn, $sql);
                if ($result) {
                     ?>
-                    <script>windows.location.href = "https://www.agguora.site/profile.php";</script>
+                    <script>window.location.href = "http://127.0.0.1/php/public_html/profile.php";</script>
                     <?php
 
                     // header("Location: profile.php");
                     exit();
 
                } else {
-                    echo' <div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">Opps! Somthing went wrong : (</div>';
+                    echo' <div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">Oops! Something went wrong : (</div>';
 
                }
 
@@ -65,7 +65,19 @@ ini_set('display_errors', 0);
           }
 
 
-     }
+     }else if (isset($_POST['delete'])) {
+          $delete_query = "UPDATE `user` SET profile_pic = '' WHERE id = '{$get_id}'"; 
+          $result = mysqli_query($conn, $delete_query);
+          
+          if ($result) {
+              ?>
+              <script>window.location.href = "http://127.0.0.1/php/public_html/profile.php";</script>
+              <?php
+          } else {
+              echo '<div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">Oops! Something went wrong : (</div>';
+          }
+      }
+      
 
 
      ?>
@@ -74,10 +86,13 @@ ini_set('display_errors', 0);
           enctype="multipart/form-data">
           <div class="input-group mb-3">
                <input type="file" class="form-control" name="image" id="inputGroupFile02">
-               <label class="input-group-text" for="inputGroupFile02">Upload</label>
+              
+               <button type="submit" name="delete" class="btn btn-danger">Delete <i class="ri-delete-bin-6-line"></i></button>
           </div>
           <button type="submit" name="submit" class="btn btn-dark rounded-0 w-100">Update your profile picture</button>
      </form>
+
+     
 
      <!-- Profile picture edit -END  -->
 

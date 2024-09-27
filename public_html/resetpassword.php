@@ -66,12 +66,12 @@ if(isset($_POST['submit'])){
 <!-- Reset form -Start  -->
     <form action="resetpassword.php" class="container my-5" method="post">
     <div class="input-group mb-3">
-      <span class="input-group-text rounded-0" id="basic-addon1">#</span>
-      <input type="text" class="form-control rounded-0" placeholder="Please enter your user ID" name="uid" aria-label="userid"
+      <span class="input-group-text rounded-0" id="basic-addon1">Email</span>
+      <input type="text" class="form-control rounded-0" placeholder="Please enter your valid email Id" name="user_email" aria-label="userEmail"
         aria-describedby="basic-addon1" required>
     </div>
     <div class="input-group mb-3">
-      <span class="input-group-text rounded-0" id="basic-addon1">@</span>
+      <span class="input-group-text rounded-0" id="basic-addon1">Username</span>
       <input type="text" class="form-control rounded-0" placeholder="Please enter your username" name="username" aria-label="Username"
         aria-describedby="basic-addon1" required>
     </div>

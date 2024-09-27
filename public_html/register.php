@@ -88,7 +88,7 @@ if (isset($_POST["submit"])) {
             if ($userpassword !== $userrepass) {
                 echo' <div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">Password not matched!</div>';
             } else {
-                // Optional fields
+                // User details fields
                 $about = htmlspecialchars(mysqli_real_escape_string($conn, $_POST['about']));
                 $bday = htmlspecialchars(mysqli_real_escape_string($conn, $_POST['bday']));
                 $gender = htmlspecialchars(mysqli_real_escape_string($conn, $_POST['gender']));
@@ -98,7 +98,6 @@ if (isset($_POST["submit"])) {
                 $status = htmlspecialchars(mysqli_real_escape_string($conn, $_POST['status']));
                 $looking_for = htmlspecialchars(mysqli_real_escape_string($conn, $_POST['lookingFor']));
                 $interest_in = htmlspecialchars(mysqli_real_escape_string($conn, $_POST['interestIn']));
-                $pContact = htmlspecialchars(mysqli_real_escape_string($conn, $_POST['pcontact']));
                 
 
                 // User profile pic (optional)
@@ -123,7 +122,7 @@ if (isset($_POST["submit"])) {
                 }
 
                 // Proceed with registration
-                $sql = "INSERT INTO `user` (`username`, `password`, `repassword`, `profile_pic`, `about`, `gender`, `country`, `personalcontact`, `cake_day`, `email`, `school`, `clg_university`, `status`, `looking_for`, `interest_in`) VALUES ('{$userName}', '{$userpass_hash}', '{$repass_hash}', '{$newImgName}', '{$about}', '{$gender}', '{$country}', '{$pContact}', '{$bday}', '{$userEmail}', '{$school}', '{$clg_university}', '{$status}', '{$looking_for}', '{$interest_in}');";
+                $sql = "INSERT INTO `user` (`username`, `password`, `repassword`, `profile_pic`, `about`, `gender`, `country`, `cake_day`, `email`, `school`, `clg_university`, `status`, `looking_for`, `interest_in`) VALUES ('{$userName}', '{$userpass_hash}', '{$repass_hash}', '{$newImgName}', '{$about}', '{$gender}', '{$country}', '{$bday}', '{$userEmail}', '{$school}', '{$clg_university}', '{$status}', '{$looking_for}', '{$interest_in}');";
                 $result = mysqli_query($conn, $sql);
 
                 if ($result) {
@@ -132,7 +131,7 @@ if (isset($_POST["submit"])) {
                     <?php
                     exit(); // Exit to prevent further execution
                 } else {
-                  echo' <div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">Opps! Somthing went wrong : (</div>';
+                  echo' <div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">Oops! Something went wrong : (</div>';
                 }
             }
         }
@@ -173,16 +172,15 @@ if (isset($_POST["submit"])) {
                 <input type="password" class="form-control" id="repassword" name="repassword" placeholder="Retype Password" required>
             </div>
 
-            <!-- Optional fields -->
-            <h5 class="text-center mb-3">Optional <i class="fas fa-user"></i></h5>
+            <!-- User details fields -->
             <div class="mb-3">
                 <label for="bday" class="form-label"><i class="fas fa-birthday-cake"></i> Cake Day</label>
-                <input type="date" class="form-control" id="bday" name="bday">
+                <input type="date" class="form-control" id="bday" name="bday" required>
             </div>
             <div class="mb-3">
                 <label for="gender" class="form-label"><i class="fas fa-venus-mars"></i> Gender</label>
-                <select id="gender" name="gender" class="form-select">
-                    <option value="" selected>Select your Gender</option>
+                <select id="gender" name="gender" class="form-select" required>
+                    <option selected>Select your Gender</option>
                     <option value="female">Female</option>
                     <option value="male">Male</option>
                     <option value="non-binary">Non-Binary</option>
@@ -192,7 +190,7 @@ if (isset($_POST["submit"])) {
             </div>
             <div class="mb-3">
                 <label for="country" class="form-label"><i class="fas fa-flag"></i> Country</label>
-                <select id="country" name="country" class="form-select">
+                <select id="country" name="country" class="form-select" required>
       <option selected>Select your country</option>
       <option value="Not mentioned">Not mentioned</option>
       <option value="Afghanistan">Afghanistan</option>
@@ -451,7 +449,7 @@ if (isset($_POST["submit"])) {
             </div>
             <div class="mb-3">
                 <label for="about" class="form-label"><i class="fas fa-info-circle"></i> About</label>
-                <textarea id="about" name="about" class="form-control" placeholder="About yourself (Optional)" rows="3"></textarea>
+                <textarea id="about" name="about" class="form-control" placeholder="About yourself" rows="3" required></textarea>
             </div>
             <div class="mb-3">
                 <label for="school" class="form-label"><i class="fas fa-school"></i> School</label>
@@ -463,43 +461,39 @@ if (isset($_POST["submit"])) {
             </div>
             <div class="mb-3">
                 <label for="status" class="form-label"><i class="fas fa-user-tag"></i> Status</label>
-                <select id="status" name="status" class="form-select">
-                    <option value="" selected>Select your status</option>
+                <select id="status" name="status" class="form-select" required>
+                    <option selected>Select your status</option>
                     <option value="student">Student</option>
-                    <option value="employed">Employed</option>
+                    <option value="employ">Employed</option>
                     <option value="housewife">Housewife</option>
                     <option value="robot">Robot</option>
-                    <option value="prefer-not-to-answer">Prefer not to Answer</option>
+                    <option value="dead inside">Prefer not to Answer</option>
                 </select>
             </div>
             <div class="mb-3">
                 <label for="lookingFor" class="form-label"><i class="fas fa-search"></i> Looking For</label>
-                <select id="lookingFor" name="lookingFor" class="form-select">
-                    <option value="" selected>Looking for?</option>
+                <select id="lookingFor" name="lookingFor" class="form-select" required>
+                    <option selected>Looking for?</option>
                     <option value="friends">Friends</option>
                     <option value="teacher">Teacher</option>
                     <option value="husband">Husband</option>
                     <option value="wife">Wife</option>
                     <option value="girlfriend">Girlfriend</option>
                     <option value="boyfriend">Boyfriend</option>
-                    <option value="prefer-not-to-answer">Prefer not to Answer</option>
+                    <option value="nothing">Prefer not to Answer</option>
                 </select>
             </div>
             <div class="mb-3">
                 <label for="interestIn" class="form-label"><i class="fas fa-heart"></i> Interest In</label>
-                <select id="interestIn" name="interestIn" class="form-select">
-                    <option value="" selected>Select your Interest</option>
+                <select id="interestIn" name="interestIn" class="form-select" required>
+                    <option selected>Select your Interest</option>
                     <option value="woman">Woman</option>
                     <option value="man">Man</option>
                     <option value="gay">Gay</option>
                     <option value="lesbian">Lesbian</option>
                     <option value="chappri">Chappri</option>
-                    <option value="prefer-not-to-answer">Prefer not to Answer</option>
+                    <option value="nobody">Prefer not to Answer</option>
                 </select>
-            </div>
-            <div class="mb-3">
-                <label for="pcontact" class="form-label"><i class="fas fa-phone"></i> Contact</label>
-                <input type="tel" class="form-control" id="pcontact" name="pcontact" placeholder="Contact number (Optional)">
             </div>
             <button type="submit" name="submit" class="btn btn-custom w-100">Create Account</button>
         </form>
