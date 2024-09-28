@@ -1,0 +1,38 @@
+Changes
+Modified php pages of Agguora
+modified: index.php
+modified: login.php
+modified: logout.php
+modified: register.php
+modified: user_email_insert.php
+modified: members.php
+modified: bootstrapcss-and-icons.php
+modified: profile.php
+modified: editprofile.php
+modified: your-disks.php
+modified: your-threads.php
+modified: your-comments.php
+modified: allprofile.php
+deleted:    public_html/Chat/beep.ogg
+deleted:    public_html/Chat/chat-footer.php
+deleted:    public_html/Chat/chat-header.php
+        deleted:    public_html/Chat/spachat.php
+        modified:   public_html/allprofile.php
+        modified:   public_html/bootstrapcss-and-icons.php
+        modified:   public_html/bootstrapjs.php
+        modified:   public_html/editprofile-image.php
+        modified:   public_html/editprofile.php
+        new file:   public_html/img/images/353da2c0-d164-11ed-9ef0-417bccc7974b_1200_630.png
+        new file:   public_html/img/images/bdaea026b0dd56d29039b4f66a06ba5e.jpg
+        new file:   public_html/img/images/images.jpeg
+        new file:   public_html/jquery-support.php
+        modified:   public_html/profile.php
+        modified:   public_html/register.php
+        modified:   public_html/resetpassword.php
+        deleted:    public_html/your-comments.php
+        deleted:    public_html/your-disks.php
+        deleted:    public_html/your-threads.php
+ modified:   public_html/jquery-support.php
+        modified:   public_html/main.php
+        modified:   public_html/members.php
+        new file:   public_html/user_react.php

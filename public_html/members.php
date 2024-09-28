@@ -175,6 +175,7 @@ body {
 }
 
 
+
 </style>
 
 <body class="bg-light">
@@ -199,6 +200,7 @@ if(!isset($_SESSION['username'])){
         <button class="btn btn-danger btn-lg rounded-pill ms-2 d-flex align-items-center px-4" type="submit" name="submit_search" id="basic-addon1">
             <i class="ri-user-search-line me-2"></i> Search
         </button>
+        
     </div>
 </form>
 
@@ -245,7 +247,7 @@ if (isset($_POST['submit_search'])) {
                 }
                 echo '</div></div>';
             } else {
-                echo '<div class="alert alert-warning rounded-0" role="alert">No Members Found :(</div>';
+                echo '<div class="alert alert-secondary rounded" role="alert">No Members Found :(</div>';
             }
         } else {
             echo '<div class="alert alert-danger rounded-0" role="alert">Oops! Something went wrong :(</div>';
@@ -255,6 +257,8 @@ if (isset($_POST['submit_search'])) {
     }
 }
 ?>
+
+
 
 
 
