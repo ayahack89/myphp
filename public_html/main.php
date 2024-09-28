@@ -263,8 +263,7 @@ $row = ['thread_time' => '2024-06-12 08:00:00'];
         <?php include "bottom-nav.php"; ?>
     </div>
     <?php include "bootstrapjs.php"; ?>
-    <?php include "jquery-support.php"; ?>
-
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function () {
             // Bind click event to the like button
@@ -288,11 +287,15 @@ $row = ['thread_time' => '2024-06-12 08:00:00'];
                                 likeButton.find('.like-icon').removeClass('ri-thumb-up-line').addClass('ri-thumb-up-fill');
                                 likeButton.css({
                                     "color": "red",
-                                    "font-weight": "bolder",
+                                    
                                 });
 
                             } else {
-                                likeButton.find('.like-icon').removeClass('ri-thumb-up-fill').addClass('ri-thumb-up-line'); // Change to outlined icon
+                                likeButton.find('.like-icon').removeClass('ri-thumb-up-fill').addClass('ri-thumb-up-line');
+                                likeButton.css({
+                                    "color": "grey",
+                                    
+                                });
                             }
                         }
                     },
