@@ -221,15 +221,25 @@ $row = ['thread_time' => '2024-06-12 08:00:00'];
                                         $thread_id = $row['thread_id'];
                                         $like_query = "SELECT COUNT(*) as total_likes FROM `user_react` WHERE thread_id = '{$thread_id}'";
                                         $like_result = mysqli_query($conn, $like_query);
+                                        
                                         if ($like_result) {
+                                            if(isset($_SESSION['username'])){
                                             $likes_count = mysqli_fetch_assoc($like_result)['total_likes'];
                                             echo '<form method="POST" action="user_react.php">';
                                             echo '<input type="hidden" name="thread_id" value="' . $row['thread_id'] . '">';
                                             echo '<button type="submit" class="btn btn-light" id="like_button">';
-                                            echo '<i class="ri-thumb-up-line"></i> <span class="like-count">' . $likes_count . '</span>';
+                                            echo '<i class="ri-thumb-up-fill"></i> <span class="like-count">' . $likes_count . '</span>';
                                             echo '</button>';
                                             echo '</form>';
+                                            }else{
+                                                $likes_count = mysqli_fetch_assoc($like_result)['total_likes'];   
+                                            echo '<button type="button" class="btn btn-light">';
+                                            echo '<a href="login.php" class="text-dark" style="text-decoration:none;"><i class="ri-thumb-up-fill"></i> <span class="like-count">' . $likes_count . '</span></a>';
+                                           
+
+                                            }
                                         }
+                                    
 
 
 

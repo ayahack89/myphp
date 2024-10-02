@@ -6,8 +6,6 @@ $user_id = $_SESSION['id'];
 $thread_id = $_POST['thread_id'];
 
 if(isset($user_id) && isset($thread_id)) {
-    
-    // Function to toggle like/unlike
     function toggleLike($user_id, $thread_id, $conn) {
         // Check if user has already liked the post
         $check_like_sql = "SELECT * FROM user_react WHERE user_id = {$user_id} AND thread_id = {$thread_id}";
@@ -30,19 +28,13 @@ if(isset($user_id) && isset($thread_id)) {
         $result = mysqli_query($conn, $sql);
         return mysqli_num_rows($result) > 0;
     }
-
-    // Toggle Like/Unlike
     toggleLike($user_id, $thread_id, $conn);
     
     // Fetch Updated Like Count
     $like_count_sql = "SELECT COUNT(*) as total_likes FROM user_react WHERE thread_id = {$thread_id}";
     $like_count_result = mysqli_query($conn, $like_count_sql);
     $like_count = mysqli_fetch_assoc($like_count_result)['total_likes'];
-    
-    // Check if the user has liked the post after toggling
     $liked = hasUserLikedPost($user_id, $thread_id, $conn);
-    
-    // Return JSON response with the updated like status and count
     echo json_encode(['liked' => $liked, 'like_count' => $like_count]);
 }
 ?>
