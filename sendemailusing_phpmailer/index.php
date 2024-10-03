@@ -1,46 +1,35 @@
-<?php
-//Import PHPMailer classes into the global namespace
-//These must be at the top of your script, not inside a function
+<?php 
 use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
-//Load Composer's autoloader
-require 'phpmailer/vendor/autoload.php';
+require 'phpmailer/vendor/phpmailer/phpmailer/src/Exception.php';
+require 'phpmailer/vendor/phpmailer/phpmailer/src/PHPMailer.php';
+require 'phpmailer/vendor/phpmailer/phpmailer/src/SMTP.php';
 
-//Create an instance; passing `true` enables exceptions
 $mail = new PHPMailer(true);
 
 try {
-    //Server settings
-//$mail->SMTPDebug = SMTP::DEBUG_SERVER;                      //Enable verbose debug output
-    $mail->isSMTP();                                            //Send using SMTP
-    $mail->Host       = 'smtp.example.com';                     //Set the SMTP server to send through
-    $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
-    $mail->Username   = 'user@example.com';                     //SMTP username
-    $mail->Password   = 'secret';                               //SMTP password
-    $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
-    $mail->Port       = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+    // Server settings
+    $mail->SMTPDebug = 0;                     // Disable verbose debug output
+    $mail->isSMTP();                          // Set mailer to use SMTP
+    $mail->Host = 'localhost';                // Set the MailHog server address
+    $mail->SMTPAuth = false;                  // No SMTP authentication is needed
+    $mail->Port = 1025;                       // TCP port MailHog listens on
 
-    //Recipients
-    $mail->setFrom('ayanabhachatterjee@gmail.com', 'Ayanabha Chatterjee');
-    $mail->addAddress('andrewdanet66@gmail.com', 'Andrew Danet');     //Add a recipient
-    $mail->addReplyTo('ayanabhachatterjee@gmail.com', 'to Ayanabha');
-//     $mail->addCC('cc@example.com');
-//     $mail->addBCC('bcc@example.com');
+    // Recipients
+    $mail->setFrom('andrewdanet66@gmail.com', 'Andrew');
+    $mail->addAddress('ayanabhachatterjee@gmail.com', 'Ayanabha');  // Add a recipient
 
-    //Attachments
-//     $mail->addAttachment('/var/tmp/file.tar.gz');         //Add attachments
-//     $mail->addAttachment('/image/new.jpeg', 'new.jpeg');    //Optional name
-
-    //Content
-    $mail->isHTML(true);                                  //Set email format to HTML
-    $mail->Subject = 'Here is the subject';
-    $mail->Body    = 'This is the HTML message body <b>in bold!</b>';
-    $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
+    // Content
+    $mail->isHTML(true);                      // Set email format to HTML
+    $mail->Subject = 'This is a test Email';
+    $mail->Body    = 'Hi welcome to our site and<b>Enjoy : )</b>';
+    $mail->AltBody = 'We are very glad that you join our community.';
 
     $mail->send();
     echo 'Message has been sent';
 } catch (Exception $e) {
     echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
 }
+
+?>
