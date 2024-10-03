@@ -267,8 +267,8 @@ if (isset($_GET['user'])) {
 
                                         <!-- Education -->
                                         <div class="my-3 text-start">
-                                        <span class="text-muted"><strong> <i class="ri-flag-fill"></i>Citizen </strong> <?php echo $pro['country']; ?></span><br>
-                                        <span class="text-muted"><strong> <i class="ri-cake-2-fill"></i>Born at</strong> <?php echo $pro['cake_day']; ?></span><br>
+                                        <span class="text-muted"><strong> <i class="ri-flag-fill"></i>Citizen </strong> <?php echo $member['country']; ?></span><br>
+                                        <span class="text-muted"><strong> <i class="ri-cake-2-fill"></i>Born at</strong> <?php echo $member['cake_day']; ?></span><br>
                                         <?php 
                                             if(!empty($member['clg_university'])){
                                                 echo '<span class="text-muted"><strong><i class="fas fa-university"></i> Studied at

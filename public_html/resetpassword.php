@@ -26,12 +26,8 @@ ini_set('display_errors', 0);
      <!-- Reset password php script -Start  -->
 <?php 
 if(isset($_POST['submit'])){
-    $userID = htmlspecialchars(mysqli_real_escape_string($conn, $_POST['uid']));
-    $username = htmlspecialchars(mysqli_real_escape_string($conn, $_POST['username']));
-    $password = htmlspecialchars(mysqli_real_escape_string($conn, $_POST['password']));
-    $cpassword = htmlspecialchars(mysqli_real_escape_string($conn, $_POST['cpassword']));
-
-    if(!empty($userID) && !empty($username) && !empty($password) && !empty($cpassword)){
+    $userEmail = htmlspecialchars(mysqli_real_escape_string($conn, $_POST['user_email']));
+    if(!empty($userEmail)){
         $user_check = "SELECT * FROM `user` WHERE id = '$userID' AND username = '$username'";
         $check = mysqli_query($conn, $user_check);
         $user_exist_verification = mysqli_num_rows($check);
@@ -69,21 +65,6 @@ if(isset($_POST['submit'])){
       <span class="input-group-text rounded-0" id="basic-addon1">Email</span>
       <input type="text" class="form-control rounded-0" placeholder="Please enter your valid email Id" name="user_email" aria-label="userEmail"
         aria-describedby="basic-addon1" required>
-    </div>
-    <div class="input-group mb-3">
-      <span class="input-group-text rounded-0" id="basic-addon1">Username</span>
-      <input type="text" class="form-control rounded-0" placeholder="Please enter your username" name="username" aria-label="Username"
-        aria-describedby="basic-addon1" required>
-    </div>
-    <div class="mb-3">
-      <label for="exampleFormControlInput1" class="form-label"><i class="ri-lock-2-fill"></i> Create new password</label>
-      <input type="password" class="form-control rounded-0" id="exampleFormControlInput1" placeholder="password" name="password"
-        required>
-    </div>
-    <div class="mb-3">
-      <label for="exampleFormControlInput1" class="form-label"><i class="ri-lock-2-fill"></i> Confirm new password</label>
-      <input type="password" class="form-control rounded-0" id="exampleFormControlInput1" placeholder="password" name="cpassword"
-        required>
     </div>
     <button type="submit" class="btn btn-dark w-100 rounded-0" name="submit">Reset password</button>
     </form>
