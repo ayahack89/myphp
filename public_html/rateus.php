@@ -26,83 +26,83 @@ ini_set('display_errors', 0);
 <?php include "fonts.php"; ?>
 <body>
      <?php include "header.php"; ?>
-     </div>
      <div class="container py-5">
-<div class="row justify-content-center">
-<div class="col-md-6">
-          <?php
-          if (isset($_POST["submit"])) {
-               //User Input
-               $user = htmlspecialchars(mysqli_real_escape_string($conn, $_SESSION["username"]));
-               $rating = htmlspecialchars(mysqli_real_escape_string($conn, $_POST['rating']));
-               $comment = htmlspecialchars(mysqli_real_escape_string($conn, $_POST["comments"]));
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <?php
+            include "db_connection.php"; // Ensure this is placed correctly for DB connection
 
-               if (!empty($user) && !empty($rating)) {
-                    $sqlQuery = "INSERT INTO `review` (`user`, `ratings`, `comments`) VALUES ('{$user}', '{$rating}', '{$comment}');"; // Added comma between '{$rating}' and '{$comment}'
+            if (isset($_POST["submit"])) {
+                // User Input
+                $user_id = htmlspecialchars(mysqli_real_escape_string($conn, $_SESSION["id"]));
+                $rating = htmlspecialchars(mysqli_real_escape_string($conn, $_POST['rating']));
+                $comment = htmlspecialchars(mysqli_real_escape_string($conn, $_POST["comments"]));
+
+                if (!empty($user_id)) {
+                    // SQL query to insert the data
+                    $sqlQuery = "INSERT INTO `review` (`user_id`, `ratings`, `comments`) VALUES ('{$user_id}', '{$rating}', '{$comment}')";
                     $runQuery = mysqli_query($conn, $sqlQuery);
+
                     if ($runQuery) {
-                         echo '<script>window.location="https://www.agguora.site/reviews.php";</script>';
-                         mysqli_close($conn);
-                         exit;
+                        echo '<script>window.location.href="reviews.php";</script>'; // Simplified redirect
+                        mysqli_close($conn);
+                        exit;
                     } else {
-                         echo' <div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">Opps! Somthing went wrong : (</div>';
+                        echo '<div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">Oops! Something went wrong : (</div>';
                     }
-               } else {
-                    echo' <div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">Please select the ratings!</div>';
-               }
-          }
+                } else {
+                    echo '<div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">User not found : (</div>';
+                }
+            }
+            ?>
 
-
-          ?>
-          <?php if (isset($_SESSION['username'])) {
-               ?>
-               <form action="<?php echo htmlentities($_SERVER['PHP_SELF']); ?>" method="post" class="border py-5 px-5 rounded-0 my-3 bg-light">
+            <?php if (isset($_SESSION['username']) && isset($_SESSION['id'])) { ?>
+                <form action="<?php echo htmlentities($_SERVER['PHP_SELF']); ?>" method="post" class="border py-4 px-5 rounded-0 my-3 bg-light shadow-sm">
+                    <!-- Username Display -->
                     <div class="input-group mb-3">
-                         <span class="input-group-text rounded-0" id="basic-addon1">@</span>
-                         <input type="text" class="form-control rounded-0" placeholder="Username" aria-label="Username"
-                              aria-describedby="basic-addon1" value="<?php echo $_SESSION['username']; ?>" disabled>
+                        <span class="input-group-text rounded-0" id="basic-addon1">@</span>
+                        <input type="text" class="form-control rounded-0" aria-label="Username" aria-describedby="basic-addon1" 
+                            value="<?php echo $_SESSION['username']; ?>" disabled>
                     </div>
+                    
+                    <!-- Rating Selection -->
                     <div class="input-group mb-3 rounded-0">
-                         <select name="rating" class="form-select bg-light rounded-0" aria-label="Default select example">
-                              <option selected>--Rating---</option>
-                              <option value="★">★</option>
-                              <option value="★★">★★</option>
-                              <option value="★★★">★★★</option>
-                              <option value="★★★★">★★★★</option>
-                              <option value="★★★★★">★★★★★</option>
-                         </select>
+                        <select name="rating" class="form-select bg-light rounded-0" aria-label="Default select example" required>
+                            <option value="" disabled selected>--Select Rating--</option>
+                            <option value="★">★</option>
+                            <option value="★★">★★</option>
+                            <option value="★★★">★★★</option>
+                            <option value="★★★★">★★★★</option>
+                            <option value="★★★★★">★★★★★</option>
+                        </select>
                     </div>
 
-                    <div class="form-floating">
-                         <textarea class="form-control rounded-0" placeholder="Leave a comment here" id="floatingTextarea2"
-                              style="height: 100px" name="comments"></textarea>
-                         <label for="floatingTextarea2">Comments</label>
-                    </div><br>
-                    <button type="submit" class="btn btn-dark rounded-0" name="submit">Submit your feedback</button>
-               </form>
-
-               <?php
-          } else {
-               ?>
-               <div class="alert alert-danger d-flex align-items-center" role="alert">
-
-                    <use xlink:href="#exclamation-triangle-fill" />
-                    </svg>
-                    <div>
-                         <i class="ri-alert-fill"></i> You are not logged In! Please <a href="login.php"
-                              style="color:maroon;">logIn</a> to get access.
+                    <!-- Comments Input -->
+                    <div class="form-floating mb-4">
+                        <textarea class="form-control rounded-0" placeholder="Leave a comment here" id="floatingTextarea2" 
+                            style="height: 120px" name="comments"></textarea>
+                        <label for="floatingTextarea2">Comments</label>
                     </div>
-               </div>
-               <?php
-          }
-          ?>
 
-     </div>
-     </div>
-     </div>
-<center>
-     <p>Want to see reviews? <a href="reviews.php">click here</a>.</p>
-</center>  
+                    <!-- Submit Button -->
+                    <button type="submit" class="btn btn-dark w-100 rounded-0" name="submit">Submit your feedback</button>
+                </form>
+            <?php } else { ?>
+                <!-- Error if not logged in -->
+                <div class="alert alert-danger d-flex align-items-center" role="alert">
+                    <i class="ri-alert-fill me-2"></i>
+                    You are not logged in! Please <a href="login.php" style="color: maroon;">log in</a> to submit your feedback.
+                </div>
+            <?php } ?>
+        </div>
+    </div>
+</div>
+
+<!-- Reviews Link -->
+<div class="text-center mt-4">
+    <p>Want to see reviews? <a href="reviews.php">Click here</a>.</p>
+</div>
+
 
 
 
