@@ -248,10 +248,26 @@ if (isset($_GET['user'])) {
                                         <!-- Profile Image -->
                                         <?php if (empty($member['profile_pic'])) { ?>
                                             <img src="img/images/default.jpg" class="rounded-circle border mb-3"
-                                                alt="Default Profile Picture" height="150" width="150" />
+                                                alt="Default Profile Picture" height="150" width="150" id="profile-img" />
                                         <?php } else { ?>
-                                             <img src="img/images/<?php echo $member['profile_pic']; ?>" class="profile-pic mb-3" alt="<?php echo $pro['about']; ?>" />
+                                             <img src="img/images/<?php echo $member['profile_pic']; ?>" class="profile-pic mb-3" id="profile-img" alt="<?php echo $pro['about']; ?>" />
                                         <?php } ?>
+                                        <!-- Zoom Modal -->
+                                        <div class="modal fade" id="zoomModal" tabindex="-1" aria-labelledby="zoomModalLabel"
+                                            aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered modal-lg">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                            aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body text-center">
+                                                        <img src="" id="zoomed-img" class="img-fluid" alt="Zoomed Profile Picture">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
 
                                         <!-- Username and Bio -->
                                         <h2 class="text-dark mt-3 mb-1"><?php echo $member['username']; ?></h2>
@@ -381,6 +397,22 @@ if (isset($_GET['user'])) {
 
      <?php include "footer.php"; ?>
      <?php include "bootstrapjs.php"; ?>
+     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+     <script>
+          //Zoom Image
+          $(document).ready(function () {
+                $('#profile-img').on('click', function () {
+                    // Get the source of the profile image
+                    let imgSrc = $(this).attr('src');
+
+                    // Set the source of the modal image
+                    $('#zoomed-img').attr('src', imgSrc);
+
+                    // Show the modal
+                    $('#zoomModal').modal('show');
+                });
+            });
+     </script>
      </div>
      </div>
 

@@ -211,52 +211,46 @@ $row = ['thread_time' => '2024-06-12 08:00:00'];
 
                                         if (!empty($row['uploaded_image'])) {
 
-                                            echo '<span style="font-size:10px;" class="text-secondary"><i class="ri-timer-2-line text-secondary" style="font-size:10px;"></i> Recent posts</span><a href="thread.php?thread=' . $row['thread_id'] . '"style="text-decoration:none;"><img src="img/upload/' . $row['uploaded_image'] . '" class="img-fluid rounded mb-2" alt="' . $row['thread_name'] . '" width="5000px" height="5000px"></a>';
+                                            echo '<a href="thread.php?thread=' . $row['thread_id'] . '"style="text-decoration:none;"><img src="img/upload/' . $row['uploaded_image'] . '" class="img-fluid rounded mb-2" alt="' . $row['thread_name'] . '" width="5000px" height="5000px"></a>';
                                         }
 
-                                        echo '<div class="d-flex justify-content-between align-items-center">';
-                                        echo '<div>';
+                                        echo '<div class="d-flex justify-content-around mb-3">';
+                                        
 
                                         // Like button
                                         $thread_id = $row['thread_id'];
                                         $like_query = "SELECT COUNT(*) as total_likes FROM `user_react` WHERE thread_id = '{$thread_id}'";
                                         $like_result = mysqli_query($conn, $like_query);
-                                        
-                                        if ($like_result) {
-                                            if(isset($_SESSION['username'])){
-                                            $likes_count = mysqli_fetch_assoc($like_result)['total_likes'];
-                                            echo '<form method="POST" action="user_react.php">';
-                                            echo '<input type="hidden" name="thread_id" value="' . $row['thread_id'] . '">';
-                                            echo '<button type="submit" class="btn btn-light" id="like_button">';
-                                            echo '<i class="ri-thumb-up-fill"></i> <span class="like-count">' . $likes_count . '</span>';
-                                            echo '</button>';
-                                            echo '</form>';
-                                            }else{
-                                                $likes_count = mysqli_fetch_assoc($like_result)['total_likes'];   
-                                            echo '<button type="button" class="btn btn-light">';
-                                            echo '<a href="login.php" class="text-dark" style="text-decoration:none;"><i class="ri-thumb-up-fill"></i> <span class="like-count">' . $likes_count . '</span></a>';
-                                           
 
+                                        if ($like_result) {
+                                            $likes_count = mysqli_fetch_assoc($like_result)['total_likes'];
+                                            if (isset($_SESSION['username'])) {
+                                                echo '<form method="POST" action="user_react.php" class="d-inline">';
+                                                echo '<input type="hidden" name="thread_id" value="' . $row['thread_id'] . '">';
+                                                echo '<button type="submit" class="btn btn-light btn-lg me-2" id="like_button">';
+                                                echo '<i class="ri-thumb-up-line"></i> <span class="like-count">' . $likes_count . '</span>';
+                                                echo '</button>';
+                                                echo '</form>';
+                                            } else {
+                                                echo '<button type="button" class="btn btn-light me-2">';
+                                                echo '<a href="login.php" class="text-dark" style="text-decoration:none;"><i class="ri-thumb-up-fill"></i> <span class="like-count">' . $likes_count . '</span></a>';
+                                                echo '</button>';
                                             }
                                         }
-                                    
 
-
-
-
-                                        echo '</div>';
-                                        echo '<div>';
-
-                                        $sql = "SELECT COUNT(*) as total_row FROM `comments` WHERE thread_id = '{$thread_id}'";
-                                        $comment_result = mysqli_query($conn, $sql);
-                                        if ($comment_result && mysqli_num_rows($comment_result)) {
-                                            $comments_count = mysqli_fetch_assoc($comment_result);
-                                            echo '<span><a href="thread.php?thread=' . $row['thread_id'] . '" class="text-dark" style="text-decoration:none;"><i class="ri-chat-3-line"></i> ' . $comments_count['total_row'] . ' &#183; Comments </a></span>';
+                                        // Comment button
+                                        $comment_query = "SELECT COUNT(*) as total_row FROM `comments` WHERE thread_id = '{$thread_id}'";
+                                        $comment_result = mysqli_query($conn, $comment_query);
+                                        if ($comment_result) {
+                                            $comments_count = mysqli_fetch_assoc($comment_result)['total_row'];
+                                            echo '<a href="thread.php?thread=' . $row['thread_id'] . '" class="btn btn-light me-2 text-dark" style="font-size:20px; text-decoration:none;"><i class="ri-chat-3-line"></i> ' . $comments_count . '</a>';
                                         }
-                                        echo '</div>';
-                                        echo '</div>';
 
-                                        echo '</div>';
+                                        // Share button
+                                        echo '<a href="share.php?thread=' . $row['thread_id'] . '" class="btn btn-light text-dark" style="font-size:20px; text-decoration:none;"><i class="ri-share-forward-line"></i></a>';
+
+                                       
+                                        echo '</div>'; // End card div
                                     }
                                 }
                             }
@@ -264,7 +258,9 @@ $row = ['thread_time' => '2024-06-12 08:00:00'];
                         </div>
                     </div>
                 </div>
+
                 <!-- Media card -End -->
+
 
 
             </div>
@@ -294,17 +290,15 @@ $row = ['thread_time' => '2024-06-12 08:00:00'];
 
                             // Toggle the icon based on the user's like status
                             if (response.liked) {
-                                likeButton.find('.like-icon').removeClass('ri-thumb-up-line').addClass('ri-thumb-up-fill');
                                 likeButton.css({
                                     "color": "red",
-                                    
+
                                 });
 
                             } else {
-                                likeButton.find('.like-icon').removeClass('ri-thumb-up-fill').addClass('ri-thumb-up-line');
                                 likeButton.css({
                                     "color": "grey",
-                                    
+
                                 });
                             }
                         }

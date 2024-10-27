@@ -153,6 +153,21 @@ body {
 }
 
 
+
+.all-image {
+    width: 100%;
+    height: 300px; /* Fixed height for uniformity */
+    object-fit: cover; /* Ensure images cover the area */
+    border-top-left-radius: 0.25rem; /* Optional: for rounded corners */
+    border-top-right-radius: 0.25rem; /* Optional: for rounded corners */
+}
+
+
+
+
+
+
+
 @media (max-width: 600px) {
     .user-container {
         flex-direction: column;
@@ -257,6 +272,42 @@ if (isset($_POST['submit_search'])) {
     }
 }
 ?>
+
+
+
+
+
+<div class="container">
+    <h3>People you may know</h3>
+</div>
+<?php 
+$user_accounts = "SELECT * FROM `user`;";
+$fetch_members = mysqli_query($conn, $user_accounts);
+if ($fetch_members && mysqli_num_rows($fetch_members)) {
+    echo '<div class="container mt-4"><div class="row">'; 
+    while ($people = mysqli_fetch_assoc($fetch_members)) {
+        ?>
+        <div class="col-md-3 col-sm-6 mb-4"> 
+            <div class="card">
+                <img class="card-img-top all-image" src="<?php echo !empty($people['profile_pic']) ? 'img/images/' . $people['profile_pic'] : 'img/images/default2.jpg'; ?>" alt="<?php echo htmlspecialchars($people['about']); ?>">
+                <div class="card-body">
+                    <h5 class="card-title"><?php echo htmlspecialchars($people['username']); ?></h5>
+                    <p class="card-text"><?php echo htmlspecialchars($people['about']); ?></p>
+                    <a href="allprofile.php?user=<?php echo $people['id']; ?>" class="btn btn-danger">Go to Profile</a>
+                </div>
+            </div>
+        </div>
+        <?php 
+    }
+    echo '</div></div>';
+} else {
+    echo '<div class="alert alert-secondary rounded" role="alert">No Members Found :(</div>';
+}
+?>
+
+
+
+
 
 
 

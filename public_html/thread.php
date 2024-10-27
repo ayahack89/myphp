@@ -117,8 +117,33 @@ ini_set('display_errors', 0);
 
     <?php include "fonts.php"; ?>
 </head>
-<style></style>
-<script></script>
+<style>
+    .download-btn {
+        display: inline-flex;
+        align-items: center;
+        padding: 10px 20px;
+        font-size: 16px;
+        font-weight: 500;
+        color: #fff;
+        background-color: black;
+        /* Bootstrap primary color */
+        border: none;
+        border-radius: 0px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .download-btn:hover {
+        background-color: #27272a;
+        /* Darker shade on hover */
+    }
+
+    .download-btn i {
+        margin-right: 8px;
+        font-size: 20px;
+        /* Adjust icon size */
+    }
+</style>
 
 <body class="bg-light">
     <?php include "header.php"; ?>
@@ -154,7 +179,7 @@ ini_set('display_errors', 0);
                                             <b><a href="allprofile.php?user=<?php echo htmlspecialchars($user['id']); ?>"
                                                     style="text-decoration:none;"
                                                     class="text-dark"><?php echo htmlspecialchars($user['username']); ?></a></b>
-                                        <?php
+                                            <?php
                                         } else {
                                             echo "Unknown user";
                                         }
@@ -185,13 +210,34 @@ ini_set('display_errors', 0);
 
                                     } else {
                                         ?>
-                                        <img src="img/upload/<?php echo $thread['uploaded_image']; ?>" class="figure-img img-fluid rounded"
-                                            alt="<?php echo $thread['thread_name']; ?>" width="1000px" height="1000px">
+                                        <img src="img/upload/<?php echo $thread['uploaded_image']; ?>" id="uploaded-img"
+                                            class="figure-img img-fluid rounded" alt="<?php echo $thread['thread_name']; ?>" width="1000px"
+                                            height="1000px" id="uploaded-img">
 
                                         <?php
 
                                     }
                                     ?>
+                                </div>
+                                <!-- Zoom Modal -->
+                                <div class="modal fade" id="zoomModal" tabindex="-1" aria-labelledby="zoomModalLabel"
+                                    aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered modal-lg">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body text-center">
+                                                <img src="" id="zoomed-img" class="img-fluid" alt="Zoomed Profile Picture">
+                                            </div>
+                                            <button class="download-btn">
+                                                <span><i class="ri-download-2-fill"></i> Download</span>
+                                            </button>
+
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
@@ -506,9 +552,19 @@ ini_set('display_errors', 0);
 
 
     <?php include "bottom-nav.php"; ?>
-
-
     <?php include "bootstrapjs.php"; ?>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        //Zoom Image
+        $(document).ready(function () {
+            $('#uploaded-img').on('click', function () {
+
+                let imgSrc = $(this).attr('src');
+                $('#zoomed-img').attr('src', imgSrc);
+                $('#zoomModal').modal('show');
+            });
+        });
+    </script>
 
 </body>
 

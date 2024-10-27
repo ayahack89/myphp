@@ -70,10 +70,10 @@ ini_set('display_errors', 0);
                         <select name="rating" class="form-select bg-light rounded-0" aria-label="Default select example" required>
                             <option value="" disabled selected>--Select Rating--</option>
                             <option value="★">★</option>
-                            <option value="★★">★★</option>
-                            <option value="★★★">★★★</option>
-                            <option value="★★★★">★★★★</option>
-                            <option value="★★★★★">★★★★★</option>
+                            <option value="★ ★">★ ★</option>
+                            <option value="★ ★ ★">★ ★ ★</option>
+                            <option value="★ ★ ★ ★">★ ★ ★ ★</option>
+                            <option value="★ ★ ★ ★ ★">★ ★ ★ ★ ★</option>
                         </select>
                     </div>
 

@@ -106,9 +106,9 @@ ini_set('display_errors', 0);
                                 <?php } ?>
                             </div>
                             <div class="ratings mt-3">
-                                <span class="badge bg-success rounded-pill px-3 py-2">
+                                <span class="px-3 py-2">
                                     <?php if (!empty($row['ratings'])) {
-                                        echo $row["ratings"];
+                                        echo'<span style="color:green;">' .$row["ratings"].'</span>';
                                     } else {
                                         echo 'No rating';
                                     } ?>
@@ -130,7 +130,7 @@ ini_set('display_errors', 0);
         </div>
         <div class="card-footer text-center">
             <p class="mb-0">Don't forget to give your ratings!</p>
-            <a href="rateus.php" class="btn btn-outline-primary mt-2">Click here to rate us</a>
+            <a href="rateus.php" class="btn btn-outline-danger mt-2">Click here to rate us</a>
         </div>
     </div>
 </div>
