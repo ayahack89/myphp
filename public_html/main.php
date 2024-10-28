@@ -215,7 +215,7 @@ $row = ['thread_time' => '2024-06-12 08:00:00'];
                                         }
 
                                         echo '<div class="d-flex justify-content-around mb-3">';
-                                        
+
 
                                         // Like button
                                         $thread_id = $row['thread_id'];
@@ -247,9 +247,53 @@ $row = ['thread_time' => '2024-06-12 08:00:00'];
                                         }
 
                                         // Share button
-                                        echo '<a href="share.php?thread=' . $row['thread_id'] . '" class="btn btn-light text-dark" style="font-size:20px; text-decoration:none;"><i class="ri-share-forward-line"></i></a>';
+                                        echo '<a href="#" id="shareBtn" class="btn btn-light text-dark" style="font-size:20px; text-decoration:none;">
+    <i class="ri-share-forward-line"></i>
+</a>';
+                                        echo '<!-- Share Modal Structure -->
+<div class="modal fade" id="shareModal" tabindex="-1" aria-labelledby="shareModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="shareModalLabel">Share This Notification</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Select a platform to share:</p>
+                <ul>
+                    <li><a href="https://www.facebook.com/sharer/sharer.php?u=url" target="_blank">
+  facebook
+</a></li>
+<li><a href="https://x.com/intent/tweet?text=YOUR_TEXT&url=YOUR_URL" target="_blank">
+  Twitter
+</a></li>
+<li><a href="https://www.linkedin.com/shareArticle?mini=true&url=YOUR_URL&title=YOUR_TITLE>
+  <img src="https://icon.png" alt="Share on LinkedIn">
+</a></li>
+<li><a href="https://www.reddit.com/submit?url=YOUR_URL&title=YOUR_TITLE" target="_blank">
+  <img src="https://icon.png" alt="Share on Reddit">
+</a></li>
+<li><a href="https://wa.me/?text=YOUR_TEXT%20YOUR_URL" target="_blank">
+  <img src="https://icon.png" alt="Share on WhatsApp">
+</a></li>
+<li><a href="https://www.tumblr.com/share/link?url=YOUR_URL&name=YOUR_TITLE&description=YOUR_TEXT" target="_blank">
+  <img src="https://icon.png" alt="Share on Tumblr">
+</a></li>
+<li><a href="https://pinterest.com/pin/create/button/?url=[URL]&media=[IMAGE_URL]&description=[DESCRIPTION]">
+  <img src="https://cdn.pinterest.com/images/pidgets/pinit_fg_en_rect_gray_20.png" />
+</a></li>
 
-                                       
+                    
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>';
+
+
                                         echo '</div>'; // End card div
                                     }
                                 }
@@ -269,26 +313,24 @@ $row = ['thread_time' => '2024-06-12 08:00:00'];
         <?php include "bottom-nav.php"; ?>
     </div>
     <?php include "bootstrapjs.php"; ?>
+    <script async defer src="//assets.pinterest.com/js/pinit.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function () {
             // Bind click event to the like button
             $('body').on('click', '#like_button', function (e) {
-                e.preventDefault(); // Prevent form submission and page reload
-                var thread_id = $(this).siblings('input[name="thread_id"]').val(); // Get the thread ID from the hidden input
-                var likeButton = $(this); // Store the like button element
+                e.preventDefault();
+                var thread_id = $(this).siblings('input[name="thread_id"]').val();
+                var likeButton = $(this);
 
                 $.ajax({
                     url: 'user_react.php',
                     type: 'POST',
-                    data: { thread_id: thread_id }, // Send thread_id to user_react.php
+                    data: { thread_id: thread_id },
                     dataType: 'json',
                     success: function (response) {
                         if (response) {
-                            // Update the like count in real-time
                             likeButton.find('.like-count').text(response.like_count);
-
-                            // Toggle the icon based on the user's like status
                             if (response.liked) {
                                 likeButton.css({
                                     "color": "red",
@@ -307,6 +349,14 @@ $row = ['thread_time' => '2024-06-12 08:00:00'];
                         alert('An error occurred while processing your request.');
                     }
                 });
+            });
+        });
+
+        // Share pop up
+        $(document).ready(function () {
+            $('#shareBtn').on('click', function (e) {
+                e.preventDefault();
+                $('#shareModal').modal('show');
             });
         });
 
