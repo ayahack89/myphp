@@ -175,7 +175,7 @@ $row = ['thread_time' => '2024-06-12 08:00:00'];
                                     $run_ql = mysqli_query($conn, $sqq);
                                     if ($run_ql && mysqli_num_rows($run_ql) > 0) {
                                         $user = mysqli_fetch_assoc($run_ql);
-                                        echo '<div class="rounded mb-4 ">';
+                                        echo '<div class="rounded mb-4">';
                                         echo '<div class="d-flex align-items-center mb-2">';
                                         echo '<a href="allprofile.php?user=' . $user['id'] . '" class="text-dark" style="text-decoration:none;">';
                                         if (!empty($user['profile_pic'])) {
@@ -211,10 +211,10 @@ $row = ['thread_time' => '2024-06-12 08:00:00'];
 
                                         if (!empty($row['uploaded_image'])) {
 
-                                            echo '<a href="thread.php?thread=' . $row['thread_id'] . '"style="text-decoration:none;"><img src="img/upload/' . $row['uploaded_image'] . '" class="img-fluid rounded mb-2" alt="' . $row['thread_name'] . '" width="5000px" height="5000px"></a>';
+                                            echo '<a href="thread.php?thread=' . $row['thread_id'] . '"style="text-decoration:none;"><img src="img/upload/' . $row['uploaded_image'] . '" class="img-fluid rounded mb-2 border" alt="' . $row['thread_name'] . '" width="5000px" height="5000px"></a>';
                                         }
 
-                                        echo '<div class="d-flex justify-content-around mb-3">';
+                                        echo '<div class="d-flex justify-content-around mb-3 ">';
 
 
                                         // Like button
@@ -225,9 +225,9 @@ $row = ['thread_time' => '2024-06-12 08:00:00'];
                                         if ($like_result) {
                                             $likes_count = mysqli_fetch_assoc($like_result)['total_likes'];
                                             if (isset($_SESSION['username'])) {
-                                                echo '<form method="POST" action="user_react.php" class="d-inline">';
+                                                echo '<form method="POST" action="user_react.php" class="d-inline ">';
                                                 echo '<input type="hidden" name="thread_id" value="' . $row['thread_id'] . '">';
-                                                echo '<button type="submit" class="btn btn-light btn-lg me-2" id="like_button">';
+                                                echo '<button type="submit" class="btn btn-light btn-lg me-2 simple-rounded-btn" id="like_button">';
                                                 echo '<i class="ri-thumb-up-line"></i> <span class="like-count">' . $likes_count . '</span>';
                                                 echo '</button>';
                                                 echo '</form>';
@@ -246,52 +246,60 @@ $row = ['thread_time' => '2024-06-12 08:00:00'];
                                             echo '<a href="thread.php?thread=' . $row['thread_id'] . '" class="btn btn-light me-2 text-dark" style="font-size:20px; text-decoration:none;"><i class="ri-chat-3-line"></i> ' . $comments_count . '</a>';
                                         }
 
-                                        // Share button
-                                        echo '<a href="#" id="shareBtn" class="btn btn-light text-dark" style="font-size:20px; text-decoration:none;">
-    <i class="ri-share-forward-line"></i>
-</a>';
-                                        echo '<!-- Share Modal Structure -->
-<div class="modal fade" id="shareModal" tabindex="-1" aria-labelledby="shareModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="shareModalLabel">Share This Notification</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <p>Select a platform to share:</p>
-                <ul>
-                    <li><a href="https://www.facebook.com/sharer/sharer.php?u=url" target="_blank">
-  facebook
-</a></li>
-<li><a href="https://x.com/intent/tweet?text=YOUR_TEXT&url=YOUR_URL" target="_blank">
-  Twitter
-</a></li>
-<li><a href="https://www.linkedin.com/shareArticle?mini=true&url=YOUR_URL&title=YOUR_TITLE>
-  <img src="https://icon.png" alt="Share on LinkedIn">
-</a></li>
-<li><a href="https://www.reddit.com/submit?url=YOUR_URL&title=YOUR_TITLE" target="_blank">
-  <img src="https://icon.png" alt="Share on Reddit">
-</a></li>
-<li><a href="https://wa.me/?text=YOUR_TEXT%20YOUR_URL" target="_blank">
-  <img src="https://icon.png" alt="Share on WhatsApp">
-</a></li>
-<li><a href="https://www.tumblr.com/share/link?url=YOUR_URL&name=YOUR_TITLE&description=YOUR_TEXT" target="_blank">
-  <img src="https://icon.png" alt="Share on Tumblr">
-</a></li>
-<li><a href="https://pinterest.com/pin/create/button/?url=[URL]&media=[IMAGE_URL]&description=[DESCRIPTION]">
-  <img src="https://cdn.pinterest.com/images/pidgets/pinit_fg_en_rect_gray_20.png" />
-</a></li>
+                                        // Share Button
+                                        ?>
+                                        <a href="#" id="shareBtn" class="btn btn-light text-dark"
+                                            style="font-size:20px; text-decoration:none;" data-bs-toggle="modal"
+                                            data-bs-target="#shareModal">
+                                            <i class="ri-share-forward-line"></i>
+                                        </a>
 
-                    
-                </ul>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>';
+                                        <!-- Share Modal Structure -->
+                                        <div class="modal fade" id="shareModal" tabindex="-1" aria-labelledby="shareModalLabel"
+                                            aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="shareModalLabel">Share This Post</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                            aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <p>Select a platform to share:</p>
+                                                        <ul>
+                                                            <?php
+                                                            // Set sharing links for each thread
+                                                            $post_url = "http://127.0.0.1/myphp/public_html/threads.php?thread=" . urlencode($row['thread_id']);
+                                                            $thread_title = urlencode($row['thread_name']);
+                                                            $thread_desc = urlencode($row['thread_desc']);
+                                                            $uploaded_image = !empty($row['uploaded_image']) ? urlencode($row['uploaded_image']) : '';
+                                                            ?>
+                                                            <li><a href="https://www.facebook.com/sharer/sharer.php?u=<?php echo $post_url; ?>"
+                                                                    target="_blank">Facebook</a></li>
+                                                            <li><a href="https://x.com/intent/tweet?text=<?php echo $thread_title; ?>&url=<?php echo $post_url; ?>"
+                                                                    target="_blank">Twitter</a></li>
+                                                            <li><a href="https://www.linkedin.com/shareArticle?mini=true&url=<?php echo $post_url; ?>&title=<?php echo $thread_title; ?>"
+                                                                    target="_blank">
+                                                                    LinkedIn</a></li>
+                                                            <li><a href="https://www.reddit.com/submit?url=<?php echo $post_url; ?>&title=<?php echo $thread_title; ?>"
+                                                                    target="_blank">Reddit</a></li>
+                                                            <li><a href="https://wa.me/?text=<?php echo $thread_title . '%20' . $post_url; ?>"
+                                                                    target="_blank">WhatsApp</a></li>
+                                                            <li><a href="https://www.tumblr.com/share/link?url=<?php echo $post_url; ?>&name=<?php echo $thread_title; ?>&description=<?php echo $thread_desc; ?>"
+                                                                    target="_blank">Tumblr</a></li>
+                                                            <li><a href="https://pinterest.com/pin/create/button/?url=<?php echo $post_url; ?>&media=<?php echo $uploaded_image; ?>&description=<?php echo $thread_desc; ?>"
+                                                                    target="_blank">Pinterest</a></li>
+                                                        </ul>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary"
+                                                            data-bs-dismiss="modal">Close</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <?php
 
 
                                         echo '</div>'; // End card div
