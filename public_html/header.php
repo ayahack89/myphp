@@ -57,7 +57,7 @@
           <div class="container-fluid">
                <!-- Logo -->
                <a class="navbar-brand d-flex align-items-center" href="main.php">
-                    <i class="ri-box-2-line text-dark me-2" style="font-size: 2rem;"></i>
+                    <i class="ri-box-2-line text-danger me-2" style="font-size: 2rem;"></i>
                     <span><strong>agguora</strong></span>
                </a>
 
@@ -115,14 +115,14 @@
                          <li class="nav-item">
                               <a class="nav-link d-flex align-items-center"
                                    href="<?php echo isset($_SESSION['username']) ? 'newpost.php' : 'login.php'; ?>">
-                                   <i class="ri-edit-box-line me-1"></i> Post <strong>+</strong>
+                                   <i class="ri-edit-box-line me-1"></i> Post 
                               </a>
                          </li>
 
                          <li class="nav-item">
                               <a class="nav-link d-flex align-items-center"
                                    href="<?php echo isset($_SESSION['username']) ? 'notification.php' : 'login.php'; ?>">
-                                   <i class="ri-notification-2-line"></i>  Notification
+                                   <i class="ri-notification-2-line"></i>&nbsp;Notification
                               </a>
                          </li>
 
@@ -131,7 +131,7 @@
                              
                               <a class="nav-link dropdown-toggle" href="#" id="exploreDropdown" role="button"
                                    data-bs-toggle="dropdown" aria-expanded="false">
-                                   <i class="ri-menu-5-line"></i> Explore
+                                   Explore
                               </a>
                               <ul class="dropdown-menu" aria-labelledby="exploreDropdown">
                               <div class="container">
@@ -245,23 +245,24 @@
                                                   style="width: 32px; height: 32px; object-fit: cover;">
                                         <?php } ?>
                                    <?php } else { ?>
-                                        <i class="ri-account-circle-line me-1"></i> Profile
+                                        <i class="ri-account-circle-line me-1"></i> 
                                    <?php } ?>
                               </a>
                          </li>
                          <?php if (isset($_SESSION['username'])) { ?>
                               <li class="nav-item">
-                                   <a class="nav-link text-danger" href="logout.php"><i class="ri-logout-circle-line"></i>
-                                        Logout</a>
+                              <a class="nav-link d-flex align-items-center text-danger" href="logout.php">
+                              <i class="ri-logout-circle-line"></i>&nbsp;Logout
+                              </a>
                               </li>
                          <?php } else { ?>
-                              <li class="nav-item">
-                                   <a class="nav-link text-success" href="login.php"><i class="ri-login-circle-line"></i>
-                                        Login</a>
-                              </li>
+                              <a class="nav-link d-flex align-items-center" href="login.php">
+                              <i class="ri-login-circle-line"></i>&nbsp;Login
+                              </a>
                               <li class="nav-item ms-2">
-                                   <a class="nav-link text-primary" href="signup.php"><i class="ri-user-add-line"></i> Sign
-                                        Up</a>
+                              <a class="nav-link d-flex align-items-center" href="register.php">
+                              <i class="ri-user-add-line"></i>&nbsp;  Signup
+                              </a>
                               </li>
                          <?php } ?>
                     </ul>

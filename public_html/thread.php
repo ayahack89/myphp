@@ -121,27 +121,24 @@ ini_set('display_errors', 0);
     .download-btn {
         display: inline-flex;
         align-items: center;
-        padding: 10px 20px;
-        font-size: 16px;
-        font-weight: 500;
+        padding: 0.5rem 1rem;
         color: #fff;
-        background-color: black;
-        /* Bootstrap primary color */
+        background-color: #18181b;
         border: none;
-        border-radius: 0px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
+        border-radius: 4px;
+        font-size: 1rem;
+        text-decoration: none;
+        transition: background-color 0.3s ease, transform 0.2s;
     }
 
     .download-btn:hover {
-        background-color: #27272a;
-        /* Darker shade on hover */
+        background-color: #18181b;
+        transform: scale(1.01);
     }
 
     .download-btn i {
-        margin-right: 8px;
-        font-size: 20px;
-        /* Adjust icon size */
+        font-size: 1.2rem;
+        margin-right: 0.5rem;
     }
 </style>
 
@@ -232,9 +229,16 @@ ini_set('display_errors', 0);
                                             <div class="modal-body text-center">
                                                 <img src="" id="zoomed-img" class="img-fluid" alt="Zoomed Profile Picture">
                                             </div>
-                                            <button class="download-btn">
-                                                <span><i class="ri-download-2-fill"></i> Download</span>
-                                            </button>
+                                            
+
+                                                <a href="http://127.0.0.1/myphp/public_html/img/upload/<?php echo $thread['uploaded_image']; ?>"
+                                                    download class="download-btn">
+                                                    <button class="download-btn">
+                                                    <i class="ri-download-2-fill"></i>
+                                                    <span>Download</span>
+                                                    </button>
+                                                </a>
+                                          
 
                                         </div>
                                     </div>
