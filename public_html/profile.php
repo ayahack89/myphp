@@ -234,8 +234,8 @@ if (!isset($_SESSION['username'])) {
                     <div class="container d-flex flex-column py-4 my-3">
                         <!-- Profile Card -->
                         <center>
-                            <div class=" shadow-sm rounded-lg border-0 bg-white">
-                                <div class="card bg-white p-4">
+                            <div class=" shadow-sm rounded-lg bg-white">
+                                <div class="card border-0 bg-white p-4">
                                     <div class="d-flex flex-column justify-content-center align-items-center text-center">
 
                                         <!-- Profile Image -->

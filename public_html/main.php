@@ -321,7 +321,8 @@ $row = ['thread_time' => '2024-06-12 08:00:00'];
                                         // Convert the thread time to Asia/Kolkata time zone
                                         $datetime = new DateTime($row['thread_time'], new DateTimeZone('UTC'));
                                         $datetime->setTimezone(new DateTimeZone('Asia/Kolkata'));
-                                        $formattedTime = $datetime->format('Y-m-d H:i:s');
+                                        $formattedTime = $datetime->format('d M Y, h:i A');
+
                                         echo '<div class="text-muted" style="font-size: 0.8rem;">' . $formattedTime . ' &#8226; <i class="ri-earth-line"></i></div>';
 
                                         echo '</div>';
@@ -343,7 +344,7 @@ $row = ['thread_time' => '2024-06-12 08:00:00'];
                                             echo '<a href="thread.php?thread=' . $row['thread_id'] . '"style="text-decoration:none;"><img src="img/upload/' . $row['uploaded_image'] . '" class="img-fluid rounded mb-2 border" alt="' . $row['thread_name'] . '" width="5000px" height="5000px"></a>';
                                         }
 
-                                        echo '<div class="d-flex justify-content-around mb-3 ">';
+                                        echo '<div class="d-flex justify-content-around flex-row-reverse  mb-3">';
 
 
                                         // Like button
@@ -357,15 +358,17 @@ $row = ['thread_time' => '2024-06-12 08:00:00'];
                                                 echo '<form method="POST" action="user_react.php" class="d-inline">';
                                                 echo '<input type="hidden" name="thread_id" value="' . $row['thread_id'] . '">';
                                                 echo '<button type="submit" class="vote-button" id="like_button">';
-                                                echo '<i class="ri-thumb-up-line" style="font-size:1.2rem""></i>';
+                                                echo '<i class="ri-heart-2-line" style="font-size:1.2rem"></i>';
                                                 echo '<span class="like-count" style="font-size:1rem">' . $likes_count . '</span>';
                                                 echo '</button>';
                                                 echo '</form>';
 
                                             } else {
-                                                echo '<button type="button" class="btn me-2">';
-                                                echo '<a href="login.php" class="text-dark" style="text-decoration:none;"><i class="ri-thumb-up-line"></i> <span class="like-count">' . $likes_count . '</span></a>';
-                                                echo '</button>';
+                                                echo '<a href="login.php" style="text-decoration:none;">';
+                                                echo '<button type="button" class="vote-button">';
+                                                echo '<i class="ri-heart-2-line" style="font-size:1.2rem"></i>';
+                                                echo '<span class="like-count" style="font-size:1rem">' . $likes_count . '</span>';
+                                                echo '</button></a>';
                                             }
                                         }
 
@@ -476,7 +479,6 @@ $row = ['thread_time' => '2024-06-12 08:00:00'];
         <?php include "bottom-nav.php"; ?>
     </div>
     <?php include "bootstrapjs.php"; ?>
-    <script async defer src="//assets.pinterest.com/js/pinit.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function () {

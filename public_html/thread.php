@@ -175,7 +175,8 @@ ini_set('display_errors', 0);
                                             ?>
                                             <b><a href="allprofile.php?user=<?php echo htmlspecialchars($user['id']); ?>"
                                                     style="text-decoration:none;"
-                                                    class="text-dark"><?php echo htmlspecialchars($user['username']); ?></a></b>
+                                                    class="text-dark"><strong><?php echo htmlspecialchars($user['username']); ?> <i
+                                                            class="ri-account-pin-circle-line"></i></strong></a></b>
                                             <?php
                                         } else {
                                             echo "Unknown user";
@@ -229,16 +230,16 @@ ini_set('display_errors', 0);
                                             <div class="modal-body text-center">
                                                 <img src="" id="zoomed-img" class="img-fluid" alt="Zoomed Profile Picture">
                                             </div>
-                                            
 
-                                                <a href="http://127.0.0.1/myphp/public_html/img/upload/<?php echo $thread['uploaded_image']; ?>"
-                                                    download class="download-btn">
-                                                    <button class="download-btn">
+
+                                            <a href="http://127.0.0.1/myphp/public_html/img/upload/<?php echo $thread['uploaded_image']; ?>"
+                                                download class="download-btn">
+                                                <button class="download-btn">
                                                     <i class="ri-download-2-fill"></i>
                                                     <span>Download</span>
-                                                    </button>
-                                                </a>
-                                          
+                                                </button>
+                                            </a>
+
 
                                         </div>
                                     </div>
@@ -251,12 +252,12 @@ ini_set('display_errors', 0);
                                     $result = mysqli_query($conn, $sql_count);
                                     if ($result && mysqli_num_rows($result) > 0) {
                                         $row = mysqli_fetch_assoc($result); ?>
-                                        Posted at:
                                         <?php
                                         // Convert the thread time to Asia/Kolkata time zone
                                         $datetime = new DateTime($thread['thread_time'], new DateTimeZone('UTC'));
                                         $datetime->setTimezone(new DateTimeZone('Asia/Kolkata'));
-                                        $formattedTime = $datetime->format('Y-m-d H:i:s');
+                                        $formattedTime = $datetime->format('d M Y, h:i A');
+
                                         echo $formattedTime;
                                         ?> &#183; <i class="ri-earth-line"
                                             style="font-size:12px; font-weight:light;"></i><br>
@@ -342,7 +343,7 @@ ini_set('display_errors', 0);
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h5 class="modal-title" id="replyModalLabel">@<?php echo $_SESSION['username']; ?> <b
+                                                <h5 class="modal-title" id="replyModalLabel"><?php echo $_SESSION['username']; ?> <b
                                                         style="font-size:12px">(you)</b></h5>
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
@@ -350,22 +351,40 @@ ini_set('display_errors', 0);
                                                 method="post">
                                                 <div class="modal-body">
                                                     <div class="mb-3">
-                                                        <select class="form-select" name="tag" aria-label="Tag Someone">
-                                                            <option selected>@Tag Someone</option>
-                                                            <?php
-                                                            $sql_query = "SELECT * FROM `user` ORDER BY `username` DESC;";
-                                                            $query = mysqli_query($conn, $sql_query);
-                                                            if ($query && mysqli_num_rows($query)) {
-                                                                while ($user = mysqli_fetch_assoc($query)) {
-                                                                    ?>
-                                                                    <option value="<?php echo $user['id']; ?>">
-                                                                        <?php echo $user['username']; ?>
-                                                                    </option>
-                                                                    <?php
+                                                        <div class="dropdown">
+                                                            <button class="btn btn-secondary dropdown-toggle" type="button"
+                                                                id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                @Tag Someone
+                                                            </button>
+                                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton"
+                                                                style="max-height: 500px; overflow-y: auto;">
+                                                                <?php
+                                                                $sql_query = "SELECT * FROM `user` ORDER BY `username` DESC;";
+                                                                $query = mysqli_query($conn, $sql_query);
+                                                                if ($query && mysqli_num_rows($query)) {
+                                                                    while ($user = mysqli_fetch_assoc($query)) {
+                                                                        $profilePic = !empty($user['profile_pic']) ? $user['profile_pic'] : 'default.jpg';
+                                                                        ?>
+                                                                        <li>
+                                                                            <a class="dropdown-item d-flex align-items-center user-select"
+                                                                                href="javascript:void(0);"
+                                                                                data-user-id="<?php echo $user['id']; ?>">
+                                                                                <img src="img/images/<?php echo $profilePic; ?>"
+                                                                                    class="rounded-circle me-2"
+                                                                                    alt="<?php echo htmlspecialchars($user['username']); ?>"
+                                                                                    style="width: 32px; height: 32px; object-fit: cover;">
+                                                                                <?php echo htmlspecialchars($user['username']); ?>
+                                                                            </a>
+                                                                        </li>
+                                                                        <?php
+                                                                    }
                                                                 }
-                                                            }
-                                                            ?>
-                                                        </select>
+                                                                ?>
+                                                            </ul>
+                                                        </div>
+                                                        <input type="hidden" name="tag" id="selectedUserId">
+
+
                                                     </div>
                                                     <div class="form-floating">
                                                         <textarea class="form-control" placeholder="Leave a reply here"
@@ -482,8 +501,23 @@ ini_set('display_errors', 0);
                                                         <h6 class="fw-bold mb-0">
                                                             <a href="allprofile.php?user=<?php echo $user['id']; ?>"
                                                                 class="text-dark text-decoration-none">
-                                                                <strong><?php echo $user['username']; ?></strong>
+                                                                <strong>
+                                                                    <?php
+                                                                    // Check if the current user is the creator (author) of the thread
+                                                                    $author_query = "SELECT thread_user_id FROM `threads` WHERE thread_id = '{$thread_id}'";
+                                                                    $author_result = mysqli_query($conn, $author_query);
+                                                                    $author = mysqli_fetch_assoc($author_result);
+
+                                                                    // If the current user is the thread's creator, add an "Author" badge
+                                                                    if ($author && $author['thread_user_id'] == $user['id']) {
+                                                                        echo $user['username'] . ' <span class="bg-light text-dark p-1 rounded" style="font-size: 15px;"><i class="ri-account-pin-circle-line"></i></span>';
+                                                                    } else {
+                                                                        echo $user['username'];
+                                                                    }
+                                                                    ?>
+                                                                </strong>
                                                             </a>
+
                                                             <?php
                                                             $sql = "SELECT * FROM `user` WHERE id = '{$thread['tag_someone']}'";
                                                             $tag_run = mysqli_query($conn, $sql);
@@ -502,9 +536,13 @@ ini_set('display_errors', 0);
                                                         </h6>
                                                         <small class="text-muted">
                                                             <?php
-                                                            $commentTime = new DateTime($thread['comment_time'], new DateTimeZone('UTC'));
-                                                            $commentTime->setTimezone(new DateTimeZone('Asia/Kolkata'));
-                                                            echo $commentTime->format('Y-m-d H:i:s');
+                                                            // Convert the thread time to Asia/Kolkata time zone
+                                                            $datetime = new DateTime($thread['comment_time'], new DateTimeZone('UTC'));
+                                                            $datetime->setTimezone(new DateTimeZone('Asia/Kolkata'));
+                                                            $formattedTime = $datetime->format('d M Y, h:i A');
+                                                            echo '<div class="text-muted" style="font-size: 0.8rem;">' . $formattedTime . '</div>';
+
+
                                                             ?>
                                                         </small>
                                                         <p class="mt-2"><?php echo $thread['comment_content']; ?></p>
@@ -568,6 +606,20 @@ ini_set('display_errors', 0);
                 $('#zoomModal').modal('show');
             });
         });
+
+        document.querySelectorAll('.user-select').forEach(item => {
+            item.addEventListener('click', function () {
+                const userId = this.getAttribute('data-user-id');
+                const userName = this.textContent.trim();
+
+                // Set selected user ID to hidden input
+                document.getElementById('selectedUserId').value = userId;
+
+                // Update dropdown button text to show selected username
+                document.getElementById('dropdownMenuButton').textContent = `@${userName}`;
+            });
+        });
+
     </script>
 
 </body>

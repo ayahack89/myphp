@@ -93,7 +93,7 @@ if (isset($_POST['submit'])) {
 
        
 <div class="container">
-    <p style="font-size:15px;">Please select a sweetable drive for your post. If you want to create new drive <a href="drives.php">click here</a></p>  
+    <p style="font-size:15px;">Please select a drive for your post. Create new drive? Click here &nbsp; <a href="drives.php"><button class="btn btn-sm rounded-circle btn-dark"><i class="ri-arrow-right-double-fill"></i></button></a></p>  
           <?php
           $sql = "SELECT * FROM `catagory`
 ORDER BY created DESC";
