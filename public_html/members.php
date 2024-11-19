@@ -156,10 +156,10 @@ body {
 
 .all-image {
     width: 100%;
-    height: 300px; /* Fixed height for uniformity */
-    object-fit: cover; /* Ensure images cover the area */
-    border-top-left-radius: 0.25rem; /* Optional: for rounded corners */
-    border-top-right-radius: 0.25rem; /* Optional: for rounded corners */
+    height: 300px;
+    object-fit: cover; 
+    border-top-left-radius: 0.25rem; 
+    border-top-right-radius: 0.25rem; 
 }
 
 
@@ -281,7 +281,7 @@ if (isset($_POST['submit_search'])) {
     <h3>People you may know</h3>
 </div>
 <?php 
-$user_accounts = "SELECT * FROM `user`;";
+$user_accounts = "SELECT * FROM `user` ORDER BY datetime DESC;";
 $fetch_members = mysqli_query($conn, $user_accounts);
 if ($fetch_members && mysqli_num_rows($fetch_members)) {
     echo '<div class="container mt-4"><div class="row">'; 
@@ -291,7 +291,8 @@ if ($fetch_members && mysqli_num_rows($fetch_members)) {
             <div class="card">
                 <img class="card-img-top all-image" src="<?php echo !empty($people['profile_pic']) ? 'img/images/' . $people['profile_pic'] : 'img/images/default2.jpg'; ?>" alt="<?php echo htmlspecialchars($people['about']); ?>">
                 <div class="card-body">
-                    <h5 class="card-title"><?php echo htmlspecialchars($people['username']); ?></h5>
+                    <h5 class="card-title"><?php echo htmlspecialchars($people['username']); ?> <br><span style="font-size:14px; color:grey;">Joined at <?php echo $people['datetime']; ?></span></h5>
+                    
                     <p class="card-text"><?php echo htmlspecialchars($people['about']); ?></p>
                     <a href="allprofile.php?user=<?php echo $people['id']; ?>" class="btn btn-danger">Go to Profile</a>
                 </div>

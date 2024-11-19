@@ -252,7 +252,7 @@ if (!isset($_SESSION['username'])) {
                                             <div class="modal-dialog modal-dialog-centered modal-lg">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        
+
                                                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                             aria-label="Close"></button>
                                                     </div>
@@ -418,7 +418,7 @@ if (!isset($_SESSION['username'])) {
                                                                 aria-label="Close"></button>
                                                         </div>
                                                         <div class="modal-body">
-                                                            Are you sure you want to delete your profile? This action cannot be undone.
+                                                            Are you sure you want to delete your profile? This action cannot be undo.
                                                         </div>
                                                         <div class="modal-footer">
                                                             <button type="button" class="btn btn-secondary"
@@ -486,11 +486,14 @@ if (!isset($_SESSION['username'])) {
                                                                 </a>
                                                             <?php } ?>
 
-                                                            <?php if (!empty($thread['uploaded_image'])) { ?>
-                                                                <div class="text-center mb-3">
-                                                                    <img src="img/upload/<?php echo htmlspecialchars($thread['uploaded_image']); ?>"
-                                                                        class="img-fluid rounded shadow-sm" alt="Thread Image" style="max-width:100%;">
-                                                                </div>
+                                                            <?php if (!empty($thread['uploaded_image'])) { 
+                                                                $thread_id = $thread['thread_id'];
+                                                                ?>
+                                                                
+                                                                <a href="thread.php?thread=<?php echo htmlspecialchars($thread_id, ENT_QUOTES, 'UTF-8'); ?>">
+                                                                    <img src="img/upload/<?php echo htmlspecialchars($thread['uploaded_image'], ENT_QUOTES, 'UTF-8'); ?>"
+                                                                        class="rounded" alt="" style="width: 100%;">
+                                                                </a>
                                                             <?php } ?>
 
                                                             <div class="d-flex justify-content-between align-items-center mt-3">
@@ -742,7 +745,7 @@ if (!isset($_SESSION['username'])) {
                     $('#deleteModal').modal('show');
                 });
                 $('#confirm-delete').on('click', function () {
-                    window.location.href = $(this).attr('href'); 
+                    window.location.href = $(this).attr('href');
                 });
             });
 

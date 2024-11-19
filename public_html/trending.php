@@ -335,6 +335,18 @@ ini_set('display_errors', 0);
 
                                         echo '</div>';
                                         echo '</div>';
+                                            echo '<span style="
+    font-size: 10px; 
+    color: #6c757d; 
+    margin-bottom:10px;
+    background-color: #f8f9fa; 
+    border: 1px solid #dee2e6; 
+    border-radius: 20px; 
+    padding: 1px 8px; 
+    font-weight: 500;
+    display: inline-block;">
+                                g/ '. htmlspecialchars($thread['post_genre'], ENT_QUOTES, 'UTF-8').'
+                        </span>';
 
                                         echo '<a href="thread.php?thread=' . $row['thread_id'] . '" class="text-dark" style="text-decoration:none;">';
                                         echo '<h5>' . $row['thread_name'] . '</h5>';
@@ -347,10 +359,13 @@ ini_set('display_errors', 0);
                                         }
                                         echo '<p style="font-size:14px">' . $thread_desc . '</p>';
 
-                                        if (!empty($row['uploaded_image'])) {
-
-                                            echo '<a href="thread.php?thread=' . $row['thread_id'] . '"style="text-decoration:none;"><img src="img/upload/' . $row['uploaded_image'] . '" class="img-fluid rounded mb-2" alt="' . $row['thread_name'] . '" width="5000px" height="5000px"></a>';
-                                        }
+                                        if (!empty($thread['uploaded_image'])) { 
+                                            $thread_id = $thread['thread_id'];
+                                            echo '<a href="thread.php?thread='.htmlspecialchars($thread_id, ENT_QUOTES, 'UTF-8').'">
+                                                <img src="img/upload/'.htmlspecialchars($thread['uploaded_image'], ENT_QUOTES, 'UTF-8').'"
+                                                    class="rounded" alt="" style="width: 100%;">
+                                            </a>';
+                                         } 
 
                                         echo '<div class="d-flex justify-content-around flex-row-reverse  mb-3">';
 

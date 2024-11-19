@@ -355,155 +355,148 @@ ini_set('display_errors', 0);
                 </div>
                 <!-- View Disk Hero -End  -->
 
-                <!-- Thread form start -->
-                <div class="container py-3">
+                <!-- Thread Form Start -->
+                <div class="container py-4">
                     <?php
                     $alert = false;
                     $method = $_SERVER['REQUEST_METHOD'];
-                    if ($method == 'POST') {
+
+                    if ($method == 'POST' && isset($_POST['submit'])) {
+                        // Database sanitization
                         $get_id = htmlspecialchars(mysqli_real_escape_string($conn, $_GET['Disk']));
-                        if (isset($_POST['submit'])) {
-                            // Input details
-                            $topic_name = htmlspecialchars(mysqli_real_escape_string($conn, $_POST['topic']));
-                            $topic_desc = htmlspecialchars(mysqli_real_escape_string($conn, $_POST['topic_desc']));
-                            $url = htmlspecialchars(mysqli_real_escape_string($conn, $_POST['url']));
-                            // Image file handling
-                            $image_name = $_FILES['image']['name'];
-                            $tmp_name = $_FILES['image']['tmp_name'];
-                            $image_error = $_FILES['image']['error'];
-                            $image_size = $_FILES['image']['size'];
-                            // Image file path destination
-                            $image_path_destination = "img/upload/";
-                            // Generate unique filename
-                            $image_new_name = uniqid('', true) . '_' . $image_name;
+                        $topic_name = htmlspecialchars(mysqli_real_escape_string($conn, $_POST['topic']));
+                        $topic_desc = htmlspecialchars(mysqli_real_escape_string($conn, $_POST['topic_desc']));
+                        $url = htmlspecialchars(mysqli_real_escape_string($conn, $_POST['url']));
+                        $post_genre = htmlspecialchars(mysqli_real_escape_string($conn, $_POST['post_genre']));
+                        $image_name = $_FILES['image']['name'];
+                        $tmp_name = $_FILES['image']['tmp_name'];
+                        $image_error = $_FILES['image']['error'];
+                        $image_size = $_FILES['image']['size'];
+                        $image_path_destination = "img/upload/";
+                        $image_new_name = uniqid('', true) . '_' . $image_name;
 
+                        if (!empty($topic_name) && !empty($post_genre)) {
+                            $upload_image = true;
 
-                            // Check if image is provided
+                            // Image Validation
                             if (!empty($image_name)) {
-                                // Check file size and type
-                                $allowed_types = array('jpg', 'jpeg', 'png', 'gif');
+                                $allowed_types = ['jpg', 'jpeg', 'png', 'gif'];
                                 $image_extension = strtolower(pathinfo($image_new_name, PATHINFO_EXTENSION));
-                                if ($image_size > 0 && in_array($image_extension, $allowed_types)) {
-                                    if ($image_size <= 999998) {
-                                        // Upload the file
-                                        if (move_uploaded_file($tmp_name, $image_path_destination . $image_new_name)) {
-                                            // Insert data into database
-                                            $username = $_SESSION['username'];
-                                            $sqlquery = "SELECT * FROM `user` WHERE username = '{$username}'";
-                                            $user = mysqli_query($conn, $sqlquery);
-                                            if (mysqli_num_rows($user) > 0) {
-                                                $user_account = mysqli_fetch_assoc($user);
-                                                $thread_user_id = $user_account['id'];
-                                                $sql_query = "INSERT INTO `threads` (`thread_name`, `thread_desc`, `thread_catagory_id`, `thread_user_id`,  `uploaded_image`, `url`) VALUES ('{$topic_name}', '{$topic_desc}', '{$get_id}', '{$thread_user_id}', '{$image_new_name}', '{$url}' )";
-                                                $result = mysqli_query($conn, $sql_query);
-                                                if ($result) {
-                                                    $alert = true;
-                                                } else {
-                                                    echo '<div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">Oops! Something went wrong :(</div>';
-                                                }
-                                            } else {
-                                                echo '<div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">User not found :(</div>';
-                                            }
-                                        } else {
-                                            echo '<div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">Sorry, there was an error uploading your file :(</div>';
-                                        }
-                                    } else {
-                                        echo '<div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">File size exceeds limit!</div>';
-                                    }
+                                if (!in_array($image_extension, $allowed_types) || $image_size > 1000000 || $image_error != 0) {
+                                    $upload_image = false;
+                                    echo '<div class="alert alert-danger">Invalid image file! Only JPG, JPEG, PNG, and GIF under 1MB are allowed.</div>';
                                 } else {
-                                    echo '<div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">Only JPG, JPEG, PNG, and GIF files are allowed!</div>';
+                                    move_uploaded_file($tmp_name, $image_path_destination . $image_new_name);
                                 }
-                            } else {
-                                // Insert data into database without image
+                            }
+
+                            // Insert into database
+                            if ($upload_image) {
                                 $username = $_SESSION['username'];
-                                $sqlquery = "SELECT * FROM `user` WHERE username = '{$username}'";
-                                $user = mysqli_query($conn, $sqlquery);
+                                $user_query = "SELECT * FROM `user` WHERE username = '{$username}'";
+                                $user = mysqli_query($conn, $user_query);
+
                                 if (mysqli_num_rows($user) > 0) {
                                     $user_account = mysqli_fetch_assoc($user);
                                     $thread_user_id = $user_account['id'];
-                                    $sql_query = "INSERT INTO `threads` (`thread_name`, `thread_desc`, `thread_catagory_id`, `thread_user_id`, `thread_created_by`, `url`) VALUES ('{$topic_name}', '{$topic_desc}', '{$get_id}', '{$thread_user_id}', '{$username}', '{$url}');";
+                                    $sql_query = "INSERT INTO `threads` 
+                        (`thread_name`, `thread_desc`, `thread_catagory_id`, `thread_user_id`, `uploaded_image`, `url`, `post_genre`) 
+                        VALUES ('{$topic_name}', '{$topic_desc}', '{$get_id}', '{$thread_user_id}', 
+                        '{$image_new_name}', '{$url}', '{$post_genre}')";
                                     $result = mysqli_query($conn, $sql_query);
+
                                     if ($result) {
                                         $alert = true;
                                     } else {
-                                        echo '<div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">Oops! Something went wrong :(</div>';
+                                        echo '<div class="alert alert-danger">Oops! Something went wrong :(</div>';
                                     }
                                 } else {
-                                    echo '<div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">User not found :(</div>';
+                                    echo '<div class="alert alert-danger">User not found. Please log in again.</div>';
                                 }
                             }
+                        } else {
+                            echo '<div class="alert alert-danger">Heading and Genre are mandatory to post.</div>';
                         }
                     }
-                    // Success message -start
+
+                    // Success Message
                     if ($alert) {
-                        echo '<div id="alertMsg" class="alert alert-success alert-dismissible fade show" role="alert">
-        <strong>Success!</strong> Your thread has been added successfully. Wait for community response.
+                        echo '<div id="alertMsg" class="alert alert-success alert-dismissible fade show">
+        <strong>Success!</strong> Your thread has been added successfully.
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>';
+        </div>';
                         echo '<script>
-        setTimeout(function() {
-            document.getElementById("alertMsg").style.display = "none";
-            window.location="disk.php?Disk=' . $get_id . '";
+        setTimeout(() => {
+            window.location = "disk.php?Disk=' . $get_id . '";
         }, 2000);
-    </script>';
+        </script>';
                     }
                     ?>
 
-                    <h3>Add New Post</h3>
+                    <h3 class="text-center">Add New Post</h3>
 
-                    <?php if (isset($_SESSION['username'])) { ?>
+                    <?php if (isset($_SESSION['username'])): ?>
                         <form action="<?php echo htmlentities($_SERVER['REQUEST_URI']); ?>" method="post" enctype="multipart/form-data"
-                            class="border rounded py-4 px-4">
+                            class="border rounded p-4 shadow-sm bg-light">
+                            <!-- Heading -->
                             <div class="mb-3">
-                                <?php
-                                $username = $_SESSION['username'];
-                                $sql = "SELECT * FROM `user` WHERE username = '{$username}'";
-                                $res = mysqli_query($conn, $sql);
-                                if ($res && mysqli_num_rows($res) > 0) {
-                                    $user = mysqli_fetch_assoc($res); ?>
-                                    <input type="hidden" value="<?php echo $user['id']; ?>">
-                                <?php } ?>
+                                <label for="topic" class="form-label">What's on your mind ? <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="topic" name="topic" placeholder="Write your thoughts in short" required>
                             </div>
+
+                            <!-- Genre -->
                             <div class="mb-3">
-                                <label for="topic" class="form-label">Heading</label>
-                                <input type="text" class="form-control" id="topic" name="topic">
+                                <label for="genre" class="form-label">Select Genre (g/) <span class="text-danger">*</span></label>
+                                <select id="genre" name="post_genre" class="form-select" required>
+                                    <option value="" selected disabled>(g/ meme, art, qna..)</option>
+                                    <?php
+                                    $sql = "SELECT * FROM `catagory` WHERE catagory_id = '{$disk_id}'";
+                                    $result = mysqli_query($conn, $sql);
+                                    while ($row = mysqli_fetch_assoc($result)) {
+                                        if(!empty($row['genre'])){
+                                        echo '<option value="' . htmlspecialchars($row['genre']) . '">g/ ' . htmlspecialchars($row['genre']) . '</option>';
+                                        }
+                                    }
+                                    ?>
+                                </select>
                             </div>
+
+                            <!-- Description -->
                             <div class="mb-3">
                                 <label for="topic_desc" class="form-label">Description (optional)</label>
-                                <textarea class="form-control" id="topic_desc" rows="3" name="topic_desc"></textarea>
+                                <textarea class="form-control" id="topic_desc" rows="3" name="topic_desc"
+                                    placeholder="Elaborate your thoughts ..."></textarea>
                             </div>
+
+                            <!-- URL -->
                             <div class="mb-3">
                                 <label for="url" class="form-label">URL (optional)</label>
-                                <div class="input-group">
-                                    <span class="input-group-text"><i class="ri-links-line"></i></span>
-                                    <input type="text" class="form-control" id="url" name="url">
-                                </div>
-                                <div class="form-text">Provide a valid URL if needed.</div>
+                                <input type="url" class="form-control" id="url" name="url" placeholder="Enter a valid URL">
                             </div>
+
+                            <!-- Image -->
                             <div class="mb-3">
                                 <label for="image" class="form-label">Upload Image (optional)</label>
-                                <input class="form-control" type="file" name="image" id="image">
+                                <input class="form-control" type="file" name="image" id="image" accept="image/*">
+                                <small class="form-text text-muted">Allowed: JPG, JPEG, PNG, GIF. Max size: 1MB</small>
                             </div>
-                            <div class="mb-3 text-center">
-                                <button type="submit" name="submit" class="btn btn-outline-danger">Upload <i
+
+                            <!-- Submit Button -->
+                            <div class="text-center">
+                                <button type="submit" name="submit" class="btn btn-danger">Upload <i
                                         class="ri-upload-cloud-line"></i></button>
                             </div>
                         </form>
-                        <!-- Thread form -End -->
-
-                        <!-- Alert message if you are not logged in ... -start -->
-                    <?php } else { ?>
-                        <div class="alert alert-danger d-flex align-items-center" role="alert">
-                            <div>
-                                <i class="ri-alert-fill"></i> You are not logged in! Please <a href="login.php"
-                                    style="color:maroon;">log in</a> to start a discussion.
-                            </div>
+                    <?php else: ?>
+                        <!-- Alert if not logged in -->
+                        <div class="alert alert-warning text-center">
+                            <i class="ri-alert-fill"></i> You are not logged in! Please <a href="login.php" class="text-danger">log
+                                in</a> to start a discussion.
                         </div>
-                    <?php } ?>
-                    <!-- Alert message if you are not logged in ... -end -->
-
+                    <?php endif; ?>
                 </div>
-                <!-- Thread form end -->
+                <!-- Thread Form End -->
+
 
 
 
@@ -550,7 +543,7 @@ ini_set('display_errors', 0);
                                     <a href="allprofile.php?user=<?php echo $thread['thread_user_id']; ?>"
                                         class="text-dark text-decoration-none fw-bold">
                                         <?php
-                                        // Check if the current thread user is the creator of the category
+                                        // Check if the current thread user is the creator of the drive
                                         $author_query = "SELECT created_by FROM catagory WHERE catagory_id = '{$disk_id}'";
                                         $author_result = mysqli_query($conn, $author_query);
                                         $author = mysqli_fetch_assoc($author_result);
@@ -572,21 +565,37 @@ ini_set('display_errors', 0);
                                     ?>
                                 </div>
                             </div>
+<span style="
+    font-size: 10px; 
+    color: #6c757d; 
+    margin-bottom:10px;
+    background-color: #f8f9fa; 
+    border: 1px solid #dee2e6; 
+    border-radius: 20px; 
+    padding: 1px 8px; 
+    font-weight: 500;
+    display: inline-block;">
+                                g/ <?php echo htmlspecialchars($thread['post_genre'], ENT_QUOTES, 'UTF-8'); ?>
+                        </span>
 
                             <!-- Thread Content Section -->
                             <a href="thread.php?thread=<?php echo $thread_id; ?>" class="text-dark text-decoration-none">
                                 <h6 class="card-title mb-1"><?php echo $thread['thread_name']; ?></h6>
                             </a>
                             <p class="card-text mb-2">
-                                <?php echo strlen($thread['thread_desc']) > 100 ? substr($thread['thread_desc'], 0, 100) . '... <a href="thread.php?thread=' . $thread_id . '" class="text-dark text-decoration-none"><strong>read more</strong></a>' : $thread['thread_desc']; ?>
+                                <?php if (!empty($thread['thread_desc'])) {
+                                    echo strlen($thread['thread_desc']) > 100 ? substr($thread['thread_desc'], 0, 100) . '... <a href="thread.php?thread=' . $thread_id . '" class="text-dark text-decoration-none"><strong>read more</strong></a>' : $thread['thread_desc'];
+                                }
+                                ?>
                             </p>
 
                             <?php if (!empty($thread['uploaded_image'])) { ?>
-                                <a href="thread.php?thread=<?php echo $thread_id; ?>">
-                                    <img src="img/upload/<?php echo $thread['uploaded_image']; ?>" class="rounded"
-                                        alt="<?php echo $thread['thread_name']; ?>" style="width: 100%;">
+                                <a href="thread.php?thread=<?php echo htmlspecialchars($thread_id, ENT_QUOTES, 'UTF-8'); ?>">
+                                    <img src="img/upload/<?php echo htmlspecialchars($thread['uploaded_image'], ENT_QUOTES, 'UTF-8'); ?>"
+                                        class="rounded" alt="" style="width: 100%;">
                                 </a>
                             <?php } ?>
+
 
                             <!-- Reaction Buttons (Like, Comment, Share) -->
                             <div class="d-flex justify-content-around flex-row-reverse">
@@ -701,6 +710,7 @@ ini_set('display_errors', 0);
                         </div>
                     </div>
                 </div>
+                <!-- Thread-content-end -->
                 <?php
             }
         } else {
