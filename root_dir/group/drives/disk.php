@@ -1,5 +1,5 @@
 <?php
-include "db_connection.php";
+include "../../include/db_connection.php";
 session_start();
 ini_set('display_errors', 0);
 
@@ -10,7 +10,7 @@ ini_set('display_errors', 0);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <?php include "bootstrapcss-and-icons.php"; ?>
+    <?php include "../../include/bootstrapcss-and-icons.php"; ?>
     <?php
     $get_id = mysqli_real_escape_string($conn, $_GET['Disk']);
     $sql = "SELECT * FROM `catagory` WHERE catagory_id = '{$get_id}'";
@@ -19,103 +19,13 @@ ini_set('display_errors', 0);
         $dec = mysqli_fetch_assoc($result);
         ?>
         <meta name="description" content="<?php echo $dec['catagory_desc']; ?>">
-
-        <!--DNS Prefetching & Prefetching-->
-        <!-- Google CDN -->
-        <link rel="dns-prefetch" href="//ajax.googleapis.com">
-        <link href="//ajax.googleapis.com" rel="preconnect" crossorigin>
-
-        <!-- Google API -->
-        <link rel="dns-prefetch" href="//apis.google.com">
-        <link href="apis.google.com" rel="preconnect" crossorigin>
-
-        <!-- Google Fonts -->
-        <link rel="dns-prefetch" href="//fonts.googleapis.com">
-        <link rel="dns-prefetch" href="//fonts.gstatic.com">
-
-        <!-- Google Analytics -->
-        <link rel="dns-prefetch" href="//www.google-analytics.com">
-        <link href="//www.google-analytics.com" rel="preconnect" crossorigin>
-
-        <!-- Google Tag Manager -->
-        <link rel="dns-prefetch" href="//www.googletagmanager.com">
-        <link href="//www.googletagmanager.com" rel="preconnect" crossorigin>
-
-        <!-- Google Publisher Tag -->
-        <link rel="dns-prefetch" href="//www.googletagservices.com">
-
-        <!-- Google AdSense -->
-        <link rel="dns-prefetch" href="//adservice.google.com">
-        <link rel="dns-prefetch" href="//pagead2.googlesyndication.com">
-        <link rel="dns-prefetch" href="//tpc.googlesyndication.com">
-
-
-        <!-- Microsoft CDN -->
-        <link rel="dns-prefetch" href="//ajax.microsoft.com">
-        <link rel="dns-prefetch" href="//ajax.aspnetcdn.com">
-
-        <!-- Amazon S3 -->
-        <link rel="dns-prefetch" href="//s3.amazonaws.com">
-
-        <!-- Cloudflare CDN -->
-        <link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
-
-        <!-- jQuery CDN -->
-        <link rel="dns-prefetch" href="//code.jquery.com">
-
-        <!-- Bootstrap CDN -->
-        <link rel="dns-prefetch" href="//stackpath.bootstrapcdn.com">
-
-        <!-- Font Awesome CDN -->
-        <link rel="dns-prefetch" href="//use.fontawesome.com">
-
-        <!-- Facebook -->
-        <link rel="dns-prefetch" href="//connect.facebook.net">
-
-        <!-- Twitter -->
-        <link rel="dns-prefetch" href="//platform.twitter.com">
-
-        <!-- Linkedin -->
-        <link rel="dns-prefetch" href="//platform.linkedin.com">
-
-        <!-- Vimeo -->
-        <link rel="dns-prefetch" href="//player.vimeo.com">
-
-        <!-- GitHub -->
-        <link rel="dns-prefetch" href="//github.githubassets.com">
-
-        <!-- Disqus -->
-        <link rel="dns-prefetch" href="//referrer.disqus.com">
-        <link rel="dns-prefetch" href="//c.disquscdn.com">
-
-        <!-- Gravatar -->
-        <link rel="dns-prefetch" href="//0.gravatar.com">
-        <link rel="dns-prefetch" href="//2.gravatar.com">
-        <link rel="dns-prefetch" href="//1.gravatar.com">
-
-        <!-- DoubleClick -->
-        <link rel="dns-prefetch" href="//ad.doubleclick.net">
-        <link rel="dns-prefetch" href="//googleads.g.doubleclick.net">
-        <link rel="dns-prefetch" href="//stats.g.doubleclick.net">
-        <link rel="dns-prefetch" href="//cm.g.doubleclick.net">
-
-        <link rel="icon" type="image/x-icon" href="img/background/agguoralogo.jpg">
+        <link rel="icon" type="image/x-icon" href="img/background/">
 
         <title><?php echo $dec['catagory_name']; ?> | Agguora Categories | Agguora</title>
     <?php } ?>
 
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-YXXL0NCGLE"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
-        gtag('js', new Date());
-
-        gtag('config', 'G-YXXL0NCGLE');
-    </script>
-
 </head>
-<?php include "fonts.php"; ?>
+<?php include "../../include/fonts.php"; ?>
 <style>
     :root {
         --success-result: #86efac;
@@ -286,7 +196,7 @@ ini_set('display_errors', 0);
 </style>
 
 <body class="bg-light">
-    <?php include "header.php"; ?>
+    <?php include "../../include/header.php"; ?>
     <!-- View Disk Hero -Start   -->
     <?php
     $disk_id = htmlspecialchars(mysqli_real_escape_string($conn, $_GET['Disk']));
@@ -535,7 +445,7 @@ ini_set('display_errors', 0);
                             <!-- User Profile Section -->
                             <div class="d-flex align-items-center mb-3">
                                 <a href="allprofile.php?user=<?php echo $thread['thread_user_id']; ?>" class="me-3">
-                                    <img src="img/images/<?php echo !empty($thread['profile_pic']) ? $thread['profile_pic'] : 'default.jpg'; ?>"
+                                    <img src="../../media/images/<?php echo !empty($thread['profile_pic']) ? $thread['profile_pic'] : 'default.jpg'; ?>"
                                         alt="<?php echo $thread['username']; ?>" class="rounded-circle"
                                         style="width: 50px; height: 50px;">
                                 </a>
@@ -591,7 +501,7 @@ ini_set('display_errors', 0);
 
                             <?php if (!empty($thread['uploaded_image'])) { ?>
                                 <a href="thread.php?thread=<?php echo htmlspecialchars($thread_id, ENT_QUOTES, 'UTF-8'); ?>">
-                                    <img src="img/upload/<?php echo htmlspecialchars($thread['uploaded_image'], ENT_QUOTES, 'UTF-8'); ?>"
+                                    <img src="../../media/upload/<?php echo htmlspecialchars($thread['uploaded_image'], ENT_QUOTES, 'UTF-8'); ?>"
                                         class="rounded" alt="" style="width: 100%;">
                                 </a>
                             <?php } ?>
@@ -728,8 +638,8 @@ ini_set('display_errors', 0);
 
 
 
-        <?php include "bottom-nav.php"; ?>
-        <?php include "bootstrapjs.php"; ?>
+        <?php include "../../include/bottom-nav.php"; ?>
+        <?php include "../../include/bootstrapjs.php"; ?>
 
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script>

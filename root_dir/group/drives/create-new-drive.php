@@ -1,11 +1,11 @@
 <?php
 session_start();
 if (!isset($_SESSION['username'])) {
-    echo 'Opps! atfirst you need to <a href="login.php">login</a> & proof that you are a true member.';
+    echo 'Oops! first you need to <a href="login.php">login</a> & proof that you are a true member.';
 } else {
     ?>
     <?php
-    include "db_connection.php";
+    include "../../include/db_connection.php";
     ini_set('display_errors', 0);
     ?>
     <!DOCTYPE html>
@@ -14,23 +14,14 @@ if (!isset($_SESSION['username'])) {
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta name="description"
-            content="Explore what's new and join us securely, explore new threads, participate to the community and be an active user." />
-        <?php include "bootstrapcss-and-icons.php"; ?>
+        <meta name="description" content="" />
+        <?php include "../../include/bootstrapcss-and-icons.php"; ?>
 
-        <link rel="icon" type="image/x-icon" href="img/background/agguoralogo.jpg">
-        <title>Login | Agguora</title>
-        <!-- Google tag (gtag.js) -->
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-YXXL0NCGLE"></script>
-        <script>
-            window.dataLayer = window.dataLayer || [];
-            function gtag() { dataLayer.push(arguments); }
-            gtag('js', new Date());
-
-            gtag('config', 'G-YXXL0NCGLE');
-        </script>
+        <link rel="icon" type="image/x-icon" href="img/background/">
+        <title>Create-new-drive.php</title>
+    
     </head>
-    <?php include "fonts.php"; ?>
+    <?php include "../../include/fonts.php"; ?>
     <style>
         .from-box {
             width: 30vw;

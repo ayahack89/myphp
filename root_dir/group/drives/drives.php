@@ -1,5 +1,5 @@
 <?php
-include "db_connection.php";
+include "../../include/db_connection.php";
 session_start();
 ini_set('display_errors', 0);
 
@@ -12,22 +12,12 @@ ini_set('display_errors', 0);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <link rel="icon" type="image/x-icon" href="img/background/agguoralogo.jpg">
-    <?php include "bootstrapcss-and-icons.php"; ?>
-    <?php include "bootstrapjs.php"; ?>
+    <?php include "../../include/bootstrapcss-and-icons.php"; ?>
+    <?php include "../../include/bootstrapjs.php"; ?>
     <title>All Drives | Agguora</title>
 
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-YXXL0NCGLE"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
-        gtag('js', new Date());
-
-        gtag('config', 'G-YXXL0NCGLE');
-    </script>
-
 </head>
-<?php include "fonts.php"; ?>
+<?php include "../../include/fonts.php"; ?>
 <style>
     .div-hover:hover {
         background-color: whitesmoke;
@@ -37,7 +27,7 @@ ini_set('display_errors', 0);
 </style>
 
 <body class="bg-light">
-    <?php include "header.php"; ?>
+    <?php include "../../include/header.php"; ?>
 
     <div class="container">
         <div class="mb-5 py-3">
@@ -150,7 +140,7 @@ ini_set('display_errors', 0);
                                                     ?>
                                                     <div class="d-flex align-items-center mt-3"
                                                         style="gap: 10px; font-size: 14px; color: #555;">
-                                                        <img src="img/images/<?php echo $profilePic; ?>" class="rounded-circle"
+                                                        <img src="../../media/images/<?php echo $profilePic; ?>" class="rounded-circle"
                                                             alt="<?php echo $about; ?>"
                                                             style="width: 32px; height: 32px; object-fit: cover;">
                                                         <span class="text-truncate">
@@ -196,7 +186,7 @@ ini_set('display_errors', 0);
                 </div>
             </div>
 
-            <?php include "bottom-nav.php"; ?>
+            <?php include "../../include/bottom-nav.php"; ?>
 </body>
 
 </html>

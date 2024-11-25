@@ -56,7 +56,7 @@
      <nav class="navbar navbar-expand-lg shadow-sm">
           <div class="container-fluid">
                <!-- Logo -->
-               <a class="navbar-brand d-flex align-items-center" href="main.php">
+               <a class="navbar-brand d-flex align-items-center" href="../../home/main.php">
                     <i class="ri-box-2-line text-danger me-2" style="font-size: 2rem;"></i>
                     <span><strong>agguora</strong></span>
                </a>
@@ -72,12 +72,12 @@
                     <!-- Left side links -->
                     <ul class="navbar-nav me-auto">
                          <li class="nav-item">
-                              <a class="nav-link d-flex align-items-center" href="main.php">
+                              <a class="nav-link d-flex align-items-center" href="home/main.php">
                                    <i class="ri-earth-line me-1"></i> Recent
                               </a>
                          </li>
                          <li class="nav-item">
-                              <a class="nav-link d-flex align-items-center" href="trending.php">
+                              <a class="nav-link d-flex align-items-center" href="home/trending.php">
                                    <i class="ri-funds-box-line me-1"></i> Trending
                               </a>
                          </li>
@@ -144,7 +144,7 @@
                                              $row = mysqli_fetch_assoc($result);
                                              ?>
                                              <a class="nav-link d-flex align-items-center text-dark" aria-current="page"
-                                                  href="drives.php" style="text-decoration: none;">
+                                                  href="../group/drives/drives.php" style="text-decoration: none;">
                                                   <i class="ri-box-1-line me-1"
                                                        style="color: #010101; font-size: 1.1em;"></i>
                                                   <span>Drives</span>
@@ -166,7 +166,7 @@
                                              $row = mysqli_fetch_assoc($result);
                                              ?>
                                              <a class="nav-link d-flex align-items-center text-dark" aria-current="page"
-                                                  href="members.php" style="text-decoration: none;">
+                                                  href="../group/members/members.php" style="text-decoration: none;">
                                                   <i class="ri-team-line me-1" style="color: #010101; font-size: 1.1em;"></i>
                                                   <span>Members</span>
                                                   <span class="badge bg-danger ms-2 p-1 rounded-circle" style="font-size: 0.7em;">
@@ -240,7 +240,7 @@
                                         if ($result && mysqli_num_rows($result) > 0) {
                                              $dp = mysqli_fetch_assoc($result);
                                              ?>
-                                             <img src="img/images/<?php echo $dp['profile_pic']; ?>" class="rounded-circle me-2"
+                                             <img src="../../media/images/<?php echo $dp['profile_pic']; ?>" class="rounded-circle me-2"
                                                   alt="<?php echo htmlspecialchars($dp['about']); ?>"
                                                   style="width: 32px; height: 32px; object-fit: cover;">
                                         <?php } ?>

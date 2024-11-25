@@ -74,7 +74,7 @@
                 if ($result && mysqli_num_rows($result) > 0) {
                     $dp = mysqli_fetch_assoc($result);
                     ?>
-                    <img src="img/images/<?php echo $dp['profile_pic']; ?>" class="rounded-circle me-2"
+                    <img src="../../media/images/<?php echo $dp['profile_pic']; ?>" class="rounded-circle me-2"
                         alt="<?php echo htmlspecialchars($dp['about']); ?>"
                         style="width: 32px; height: 32px; object-fit: cover;">
                 <?php } ?>

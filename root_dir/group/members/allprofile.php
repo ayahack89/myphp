@@ -1,5 +1,5 @@
 <?php
-include "db_connection.php";
+include "../../include/db_connection.php";
 session_start();
 ini_set('display_errors', 0);
 ?>
@@ -9,88 +9,9 @@ ini_set('display_errors', 0);
 <head>
      <meta charset="UTF-8" />
      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-     <meta name="description" content="View other contributors, see who is the new member in this community, and see all members.">
-     <?php include "bootstrapcss-and-icons.php"; ?>
+     <meta name="description" content="">
+     <?php include "../../include/bootstrapcss-and-icons.php"; ?>
      
-<!--DNS Prefetching & Prefetching-->
-<!-- Google CDN -->
-<link rel="dns-prefetch" href="//ajax.googleapis.com">
-<link href="//ajax.googleapis.com" rel="preconnect" crossorigin>
-
-<!-- Google API -->
-<link rel="dns-prefetch" href="//apis.google.com">
-<link href="apis.google.com" rel="preconnect" crossorigin>
-
-<!-- Google Fonts -->
-<link rel="dns-prefetch" href="//fonts.googleapis.com">
-<link rel="dns-prefetch" href="//fonts.gstatic.com">
-
-<!-- Google Analytics -->
-<link rel="dns-prefetch" href="//www.google-analytics.com">
-<link href="//www.google-analytics.com" rel="preconnect" crossorigin>
-
-<!-- Google Tag Manager -->
-<link rel="dns-prefetch" href="//www.googletagmanager.com">
-<link href="//www.googletagmanager.com" rel="preconnect" crossorigin>
-
-<!-- Google Publisher Tag -->
-<link rel="dns-prefetch" href="//www.googletagservices.com">
-
-<!-- Google AdSense -->
-<link rel="dns-prefetch" href="//adservice.google.com">
-<link rel="dns-prefetch" href="//pagead2.googlesyndication.com">
-<link rel="dns-prefetch" href="//tpc.googlesyndication.com">
-
-
-<!-- Microsoft CDN -->
-<link rel="dns-prefetch" href="//ajax.microsoft.com">
-<link rel="dns-prefetch" href="//ajax.aspnetcdn.com">
-
-<!-- Amazon S3 -->
-<link rel="dns-prefetch" href="//s3.amazonaws.com">
-
-<!-- Cloudflare CDN -->
-<link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
-
-<!-- jQuery CDN -->
-<link rel="dns-prefetch" href="//code.jquery.com">
-
-<!-- Bootstrap CDN -->
-<link rel="dns-prefetch" href="//stackpath.bootstrapcdn.com">
-
-<!-- Font Awesome CDN -->
-<link rel="dns-prefetch" href="//use.fontawesome.com">
-
-<!-- Facebook -->
-<link rel="dns-prefetch" href="//connect.facebook.net">
-
-<!-- Twitter -->
-<link rel="dns-prefetch" href="//platform.twitter.com">
-
-<!-- Linkedin -->
-<link rel="dns-prefetch" href="//platform.linkedin.com">
-
-<!-- Vimeo -->
-<link rel="dns-prefetch" href="//player.vimeo.com">
-
-<!-- GitHub -->
-<link rel="dns-prefetch" href="//github.githubassets.com">
-
-<!-- Disqus -->
-<link rel="dns-prefetch" href="//referrer.disqus.com">
-<link rel="dns-prefetch" href="//c.disquscdn.com">
-
-<!-- Gravatar -->
-<link rel="dns-prefetch" href="//0.gravatar.com">
-<link rel="dns-prefetch" href="//2.gravatar.com">
-<link rel="dns-prefetch" href="//1.gravatar.com">
-
-<!-- DoubleClick -->
-<link rel="dns-prefetch" href="//ad.doubleclick.net">
-<link rel="dns-prefetch" href="//googleads.g.doubleclick.net">
-<link rel="dns-prefetch" href="//stats.g.doubleclick.net">
-<link rel="dns-prefetch" href="//cm.g.doubleclick.net">
-
 <link rel="icon" type="image/x-icon" href="img/background/agguoralogo.jpg">
 
  <?php 
@@ -114,18 +35,8 @@ if (isset($_GET['user'])) {
 ?>
 
 
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-YXXL0NCGLE"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-YXXL0NCGLE');
-</script>
-
 </head>
-<?php include "fonts.php"; ?>
+<?php include "../../include/fonts.php"; ?>
 <style>
      ul li {
           list-style-type: none;
@@ -227,7 +138,7 @@ if (isset($_GET['user'])) {
 </style>
 
 <body>
-     <?php include "header.php"; ?>
+     <?php include "../../include/../../include/header.php"; ?>
      <?php
      if (isset($_GET['user'])) {
           $userId = mysqli_real_escape_string($conn, $_GET['user']);
@@ -247,10 +158,10 @@ if (isset($_GET['user'])) {
 
                                         <!-- Profile Image -->
                                         <?php if (empty($member['profile_pic'])) { ?>
-                                            <img src="img/images/default.jpg" class="rounded-circle border mb-3"
+                                            <img src="../../media/images/default.jpg" class="rounded-circle border mb-3"
                                                 alt="Default Profile Picture" height="150" width="150" id="profile-img" />
                                         <?php } else { ?>
-                                             <img src="img/images/<?php echo $member['profile_pic']; ?>" class="profile-pic mb-3" id="profile-img" alt="<?php echo $pro['about']; ?>" />
+                                             <img src="../../media/images/<?php echo $member['profile_pic']; ?>" class="profile-pic mb-3" id="profile-img" alt="<?php echo $pro['about']; ?>" />
                                         <?php } ?>
                                         <!-- Zoom Modal -->
                                         <div class="modal fade" id="zoomModal" tabindex="-1" aria-labelledby="zoomModalLabel"
@@ -395,8 +306,8 @@ if (isset($_GET['user'])) {
 
      ?>
 
-     <?php include "footer.php"; ?>
-     <?php include "bootstrapjs.php"; ?>
+     <?php include "../../include/footer.php"; ?>
+     <?php include "../../include/bootstrapjs.php"; ?>
      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
      <script>
           //Zoom Image

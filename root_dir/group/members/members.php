@@ -1,5 +1,5 @@
 <?php
-include "db_connection.php";
+include "../../include/db_connection.php";
 session_start();
 ini_set('display_errors', 0);
 ?>
@@ -8,22 +8,14 @@ ini_set('display_errors', 0);
 <head>
      <meta charset="UTF-8">
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-     <meta name="description" content="Join our community, Agguora, and become one of our members now.">
-     <?php include "bootstrapcss-and-icons.php"; ?>
+     <meta name="description" content="">
+     <?php include "../../include/bootstrapcss-and-icons.php"; ?>
      
-     <link rel="icon" type="image/x-icon" href="img/background/agguoralogo.jpg">
+     <link rel="icon" type="image/x-icon" href="img/background/">
      <title>Community Members | Agguora</title>
-     <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-YXXL0NCGLE"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
 
-  gtag('config', 'G-YXXL0NCGLE');
-</script>
 </head>
-<?php include "fonts.php"; ?>
+<?php include "../../include/fonts.php"; ?>
 <style>
 body {
     font-family: Arial, sans-serif;
@@ -194,7 +186,7 @@ body {
 </style>
 
 <body class="bg-light">
-<?php include "header.php"; ?>
+<?php include "../../include/header.php"; ?>
 
 <?php 
 if(!isset($_SESSION['username'])){
@@ -289,7 +281,7 @@ if ($fetch_members && mysqli_num_rows($fetch_members)) {
         ?>
         <div class="col-md-3 col-sm-6 mb-4"> 
             <div class="card">
-                <img class="card-img-top all-image" src="<?php echo !empty($people['profile_pic']) ? 'img/images/' . $people['profile_pic'] : 'img/images/default2.jpg'; ?>" alt="<?php echo htmlspecialchars($people['about']); ?>">
+                <img class="card-img-top all-image" src="<?php echo !empty($people['profile_pic']) ? '../../media/images/' . $people['profile_pic'] : '../../media/images/default2.jpg'; ?>" alt="<?php echo htmlspecialchars($people['about']); ?>">
                 <div class="card-body">
                     <h5 class="card-title"><?php echo htmlspecialchars($people['username']); ?> <br><span style="font-size:14px; color:grey;">Joined at <?php echo $people['datetime']; ?></span></h5>
                     
@@ -315,8 +307,8 @@ if ($fetch_members && mysqli_num_rows($fetch_members)) {
 
 
 
-     <?php include "bottom-nav.php"; ?>
-     <?php include "bootstrapjs.php"; ?>
+     <?php include "../../include/bottom-nav.php"; ?>
+     <?php include "../../include/bootstrapjs.php"; ?>
 </body>
 
 </html>
