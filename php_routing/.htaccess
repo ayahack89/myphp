@@ -1,0 +1,14 @@
+RewriteEngine On
+RewriteBase /myphp
+
+# Exclude common static files
+RewriteCond %{REQUEST_URI} !(\.png|\.jpg|\.webp|\.gif|\.jpeg|\.zip|\.css|\.svg|\.js|\.pdf)$
+
+# Prevent rewriting the routes.php file itself to avoid infinite loops
+RewriteCond %{REQUEST_URI} !routes\.php$
+
+# Only rewrite if the requested resource doesn't exist as a file or directory
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+RewriteRule ^(.*)$ routes.php [QSA,L]

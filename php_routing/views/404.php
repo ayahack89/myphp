@@ -3,12 +3,9 @@
 <head>
      <meta charset="UTF-8">
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-     <title>Home</title>
+     <title>404 not found</title>
 </head>
 <body>
-     <h2>Welcome to home page</h2>
-     <a href="/"> Home</a><br>
-     <a href="/profile">Profile</a><br>
-     <a href="/about">About</a>
+     <h1>404 NOT FOUND</h1>
 </body>
 </html>
