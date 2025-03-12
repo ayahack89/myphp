@@ -1,5 +1,5 @@
 <?php
-include "../include/db_connection.php";
+include "../db/db_connection.php";
 session_start();
 ini_set('display_errors', 0);
 ?>

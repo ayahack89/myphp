@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
      <meta charset="UTF-8">
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -56,7 +55,7 @@
      <nav class="navbar navbar-expand-lg shadow-sm">
           <div class="container-fluid">
                <!-- Logo -->
-               <a class="navbar-brand d-flex align-items-center" href="../../home/main.php">
+               <a class="navbar-brand d-flex align-items-center" href="../home/main.php">
                     <i class="ri-box-2-line text-danger me-2" style="font-size: 2rem;"></i>
                     <span><strong>agguora</strong></span>
                </a>
@@ -72,12 +71,12 @@
                     <!-- Left side links -->
                     <ul class="navbar-nav me-auto">
                          <li class="nav-item">
-                              <a class="nav-link d-flex align-items-center" href="home/main.php">
+                              <a class="nav-link d-flex align-items-center" href="../home/main.php">
                                    <i class="ri-earth-line me-1"></i> Recent
                               </a>
                          </li>
                          <li class="nav-item">
-                              <a class="nav-link d-flex align-items-center" href="home/trending.php">
+                              <a class="nav-link d-flex align-items-center" href="../home/trending.php">
                                    <i class="ri-funds-box-line me-1"></i> Trending
                               </a>
                          </li>
@@ -105,7 +104,7 @@
 
                                    $karma = $disks + $threads + $comments;
                                    ?>
-                                   <a class="nav-link d-flex align-items-center" href="profile.php">
+                                   <a class="nav-link d-flex align-items-center" href="../user_account/profile.php">
                                         <i class="ri-trophy-fill me-1 text-warning"></i> <span><?php echo $karma; ?></span>
                                    </a>
                               <?php }}else{
@@ -114,14 +113,14 @@
                          </li>
                          <li class="nav-item">
                               <a class="nav-link d-flex align-items-center"
-                                   href="<?php echo isset($_SESSION['username']) ? 'newpost.php' : 'login.php'; ?>">
+                                   href="<?php echo isset($_SESSION['username']) ? '../main/newpost.php' : '../authentication/login.php'; ?>">
                                    <i class="ri-edit-box-line me-1"></i> Post 
                               </a>
                          </li>
 
                          <li class="nav-item">
                               <a class="nav-link d-flex align-items-center"
-                                   href="<?php echo isset($_SESSION['username']) ? 'notification.php' : 'login.php'; ?>">
+                                   href="<?php echo isset($_SESSION['username']) ? '../notification/notification.php' : '../authentication/login.php'; ?>">
                                    <i class="ri-notification-2-line"></i>&nbsp;Notification
                               </a>
                          </li>
@@ -144,7 +143,7 @@
                                              $row = mysqli_fetch_assoc($result);
                                              ?>
                                              <a class="nav-link d-flex align-items-center text-dark" aria-current="page"
-                                                  href="../group/drives/drives.php" style="text-decoration: none;">
+                                                  href="../main/drives.php" style="text-decoration: none;">
                                                   <i class="ri-box-1-line me-1"
                                                        style="color: #010101; font-size: 1.1em;"></i>
                                                   <span>Drives</span>
@@ -166,7 +165,7 @@
                                              $row = mysqli_fetch_assoc($result);
                                              ?>
                                              <a class="nav-link d-flex align-items-center text-dark" aria-current="page"
-                                                  href="../group/members/members.php" style="text-decoration: none;">
+                                                  href="../users/members.php" style="text-decoration: none;">
                                                   <i class="ri-team-line me-1" style="color: #010101; font-size: 1.1em;"></i>
                                                   <span>Members</span>
                                                   <span class="badge bg-danger ms-2 p-1 rounded-circle" style="font-size: 0.7em;">
@@ -178,13 +177,15 @@
                                         <?php } ?>
                                    </li>
                                    <!-- Members tab - end -->
+
+                                   <!-- Announcement tab was removed  -->
                                    <!-- Announcements tab - start -->
-                                   <li class="nav-item">
+                                   <!-- <li class="nav-item">
                                         <?php
-                                        $sql_count = "SELECT COUNT(*) AS total_rows FROM announcement_threads";
-                                        $result = mysqli_query($conn, $sql_count);
-                                        if ($result && mysqli_num_rows($result) > 0) {
-                                             $row = mysqli_fetch_assoc($result);
+                                        // $sql_count = "SELECT COUNT(*) AS total_rows FROM announcement_threads";
+                                        // $result = mysqli_query($conn, $sql_count);
+                                        // if ($result && mysqli_num_rows($result) > 0) {
+                                        //      $row = mysqli_fetch_assoc($result);
                                              ?>
                                              <a class="nav-link d-flex align-items-center text-dark" aria-current="page"
                                                   href="nav-announcements.php" style="text-decoration: none;">
@@ -193,20 +194,24 @@
                                                   <span>Announcements</span>
                                                   <span class="badge bg-danger ms-2 p-1 rounded-circle" style="font-size: 0.7em;">
                                                        <?php
-                                                       $active_count = $row['total_rows'] - 3;
-                                                       echo $active_count; ?>+
+                                                       // $active_count = $row['total_rows'] - 3;
+                                                       // echo $active_count; ?>+
                                                   </span>
                                              </a>
-                                        <?php } ?>
-                                   </li>
+                                        <?php 
+                                        // } 
+                                        ?>
+                                   </li> -->
                                    <!-- Announcements tab - end -->
+
+                                   <!-- Review tab was removed -->
                                    <!-- Review tab - start -->
-                                   <li class="nav-item">
+                                   <!-- <li class="nav-item">
                                         <?php
-                                        $sql_count = "SELECT COUNT(*) AS total_rows FROM review";
-                                        $result = mysqli_query($conn, $sql_count);
-                                        if ($result && mysqli_num_rows($result) > 0) {
-                                             $row = mysqli_fetch_assoc($result);
+                                        // $sql_count = "SELECT COUNT(*) AS total_rows FROM review";
+                                        // $result = mysqli_query($conn, $sql_count);
+                                        // if ($result && mysqli_num_rows($result) > 0) {
+                                        //      $row = mysqli_fetch_assoc($result);
                                              ?>
                                              <a class="nav-link d-flex align-items-center text-dark" aria-current="page"
                                                   href="reviews.php" style="text-decoration: none;">
@@ -215,12 +220,14 @@
                                                   <span>Reviews</span>
                                                   <span class="badge bg-danger ms-2 p-1 rounded-circle" style="font-size: 0.7em;">
                                                        <?php
-                                                       $active_count = $row['total_rows'] - 3;
-                                                       echo $active_count; ?>+
+                                                       // $active_count = $row['total_rows'] - 3;
+                                                       // echo $active_count; ?>+
                                                   </span>
                                              </a>
-                                        <?php } ?>
-                                   </li>
+                                        <?php
+                                   //  } 
+                                    ?>
+                                   </li> -->
                                    <!-- Review tab - end -->
                               </div>
                          </li>
@@ -231,7 +238,7 @@
                     <ul class="navbar-nav">
                          <li class="nav-item">
                               <a class="nav-link d-flex align-items-center"
-                                   href="<?php echo isset($_SESSION['username']) ? 'profile.php' : 'login.php'; ?>">
+                                   href="<?php echo isset($_SESSION['username']) ? '../user_account/profile.php' : '../authentication/login.php'; ?>">
                                    <?php if (isset($_SESSION['username'])) { ?>
                                         <?php
                                         $userId = $_SESSION['id'];
@@ -240,7 +247,7 @@
                                         if ($result && mysqli_num_rows($result) > 0) {
                                              $dp = mysqli_fetch_assoc($result);
                                              ?>
-                                             <img src="../../media/images/<?php echo $dp['profile_pic']; ?>" class="rounded-circle me-2"
+                                             <img src="../media/images/<?php echo $dp['profile_pic']; ?>" class="rounded-circle me-2"
                                                   alt="<?php echo htmlspecialchars($dp['about']); ?>"
                                                   style="width: 32px; height: 32px; object-fit: cover;">
                                         <?php } ?>
@@ -251,16 +258,16 @@
                          </li>
                          <?php if (isset($_SESSION['username'])) { ?>
                               <li class="nav-item">
-                              <a class="nav-link d-flex align-items-center text-danger" href="logout.php">
+                              <a class="nav-link d-flex align-items-center text-danger" href="../authentication/logout.php">
                               <i class="ri-logout-circle-line"></i>&nbsp;Logout
                               </a>
                               </li>
                          <?php } else { ?>
-                              <a class="nav-link d-flex align-items-center" href="login.php">
+                              <a class="nav-link d-flex align-items-center" href="../authentication/login.php">
                               <i class="ri-login-circle-line"></i>&nbsp;Login
                               </a>
                               <li class="nav-item ms-2">
-                              <a class="nav-link d-flex align-items-center" href="register.php">
+                              <a class="nav-link d-flex align-items-center" href="../authentication/register.php">
                               <i class="ri-user-add-line"></i>&nbsp;  Signup
                               </a>
                               </li>

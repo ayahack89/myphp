@@ -1,6 +1,6 @@
 <?php
 session_start();
-include "db_connection.php";
+include "../db/db_connection.php";
 
 // Check if the user is logged in
 if (!isset($_SESSION['username'])) {
@@ -16,9 +16,10 @@ if (!isset($_SESSION['username'])) {
     <meta name="google-site-verification" content="2MFbMdbyunwBJ4iibPaO_wI5PoMj08UC1i-W3iTEO1U" />
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <?php include "bootstrapcss-and-icons.php"; ?>
+    <?php include "../include/bootstrapcss-and-icons.php"; ?>
     <link rel="icon" type="image/x-icon" href="img/background/agguoralogo.jpg">
     <title>Notifications</title>
+    <?php include "../include/fonts.php"; ?>
     <style>
         /* Additional styles if needed */
         .notification-container {
@@ -35,7 +36,6 @@ if (!isset($_SESSION['username'])) {
 <?php
 $uid = $_SESSION['id'];
 
-// Query to fetch notifications only for the current user
 $query = "
     SELECT comments.comment_content, user.username, threads.thread_name, comments.thread_id
     FROM comments
@@ -70,7 +70,7 @@ $result = mysqli_query($conn, $query);
 </div>
 
 
-    <?php include "bootstrapjs.php"; ?>
+    <?php include "../include/bootstrapjs.php"; ?>
 </body>
 
 </html>
