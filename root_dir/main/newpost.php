@@ -1,11 +1,11 @@
 <?php 
 session_start();
 if(!isset($_SESSION['username'])){
-echo 'Opps! atfirst you need to <a href="login.php">login</a> & proof that you are a true member.';
+echo 'Oops! at first you need to <a href="login.php">login</a> & proof that you are a true member.';
 }else{ 
 ?>
 <?php
-include "db_connection.php";
+include "../db/db_connection.php";
 ini_set('display_errors', 0);
 
 ?>
@@ -14,23 +14,14 @@ ini_set('display_errors', 0);
 <head>
      <meta charset="UTF-8">
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-     <?php include "bootstrapcss-and-icons.php"; ?>
+     <?php include "../include/bootstrapcss-and-icons.php"; ?>
 <meta name="description" content="">
 <link rel="icon" type="image/x-icon" href="img/background/agguoralogo.jpg">
 <title>Add new post | Agguora</title>
      
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-YXXL0NCGLE"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-YXXL0NCGLE');
-</script>
 
 </head>
-<?php include "fonts.php"; ?>
+<?php include "../include/fonts.php"; ?>
 <style>
 .div-hover:hover{
     background-color:whitesmoke;
@@ -144,7 +135,7 @@ ORDER BY created DESC";
           ?>
           </div>
      </div>
-<?php include "bottom-nav.php"; ?>
+<?php include "../include/bottom-nav.php"; ?>
      </body>
 </html>
 <?php } ?>

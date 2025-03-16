@@ -35,13 +35,13 @@ ini_set('display_errors', 0);
           $error = $_FILES['image']['error'];
           $size = $_FILES['image']['size'];
 
-          if (move_uploaded_file($temp_name, "img/images/" . $name)) {
+          if (move_uploaded_file($temp_name, "../../../media/images/" . $name)) {
 
                $sql = "UPDATE `user` SET profile_pic = '{$name}' WHERE id = '{$get_id}' ";
                $result = mysqli_query($conn, $sql);
                if ($result) {
                     ?>
-                    <script>window.location.href = "../../../user_account/profile.php";</script>
+                    <script>window.location.href = "user_account/profile.php";</script>
                     <?php
 
                     // header("Location: profile.php");
@@ -52,6 +52,9 @@ ini_set('display_errors', 0);
 
                }
 
+
+          }else{
+               echo' <div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">Oops! 404 image not found : (</div>';
 
           }
 

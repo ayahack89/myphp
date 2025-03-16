@@ -1,5 +1,5 @@
 <?php
-include "../../include/db_connection.php";
+include "../db/db_connection.php";
 session_start();
 ini_set('display_errors', 0);
 
@@ -10,7 +10,7 @@ ini_set('display_errors', 0);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <?php include "../../include/bootstrapcss-and-icons.php"; ?>
+    <?php include "../include/bootstrapcss-and-icons.php"; ?>
     <?php
     $get_id = mysqli_real_escape_string($conn, $_GET['Disk']);
     $sql = "SELECT * FROM `catagory` WHERE catagory_id = '{$get_id}'";
@@ -25,7 +25,7 @@ ini_set('display_errors', 0);
     <?php } ?>
 
 </head>
-<?php include "../../include/fonts.php"; ?>
+<?php include "../include/fonts.php"; ?>
 <style>
     :root {
         --success-result: #86efac;
@@ -196,7 +196,7 @@ ini_set('display_errors', 0);
 </style>
 
 <body class="bg-light">
-    <?php include "../../include/header.php"; ?>
+    <?php include "../include/header.php"; ?>
     <!-- View Disk Hero -Start   -->
     <?php
     $disk_id = htmlspecialchars(mysqli_real_escape_string($conn, $_GET['Disk']));
@@ -219,7 +219,7 @@ ini_set('display_errors', 0);
                                 if ($retrieve && mysqli_num_rows($retrieve) > 0) {
                                     $row = mysqli_fetch_assoc($retrieve);
                                     ?>
-                                    <a href="allprofile.php?user=<?php echo $row['id']; ?>" style="text-decoration:none;"
+                                    <a href="../users/allprofile.php?user=<?php echo $row['id']; ?>" style="text-decoration:none;"
                                         class="text-dark"><strong><?php echo $row['username']; ?> <i
                                                 class="ri-account-pin-box-line"></i></strong></a>
                                     <?php
@@ -233,7 +233,7 @@ ini_set('display_errors', 0);
                             <div class="card-body">
                                 <h2 class="card-title text-danger mb-4"><?php echo htmlspecialchars($disk['catagory_name']); ?></h2>
                                 <p class="card-text"><?php echo htmlspecialchars($disk['catagory_desc']); ?></p>
-                                <a href="drives.php" class="btn btn-outline-dark mt-3"><i class="ri-arrow-go-back-line"></i> Go
+                                <a href="../main/drives.php" class="btn btn-outline-dark mt-3"><i class="ri-arrow-go-back-line"></i> Go
                                     Back</a>
                             </div>
                         </div>
@@ -251,7 +251,7 @@ ini_set('display_errors', 0);
                             <?php } ?>
                             <!-- Thread Count -End  -->
 
-                            <!-- **Like btn is unded development process**  -->
+                            <!-- **Like btn is under development process**  -->
                             <!-- Like count -Start  -->
                             <!-- <div id="likeContainer<?php echo $disk['catagory_id']; ?>" class="d-flex align-items-center justify-content-center" style="width: 100px; height: 50px; border: 1px solid #ccc;">
                               <button id="likeButton<?php echo $disk['catagory_id']; ?>" onclick="setLikeDislike('like', '<?php echo $disk['catagory_id']; ?>')" class="btn btn-danger rounded-0 mx-2">Like</button>
@@ -260,7 +260,6 @@ ini_set('display_errors', 0);
                             <!-- Like count -End  -->
 
                         </div>
-
                     </div>
                 </div>
                 <!-- View Disk Hero -End  -->
@@ -277,15 +276,15 @@ ini_set('display_errors', 0);
                         $topic_name = htmlspecialchars(mysqli_real_escape_string($conn, $_POST['topic']));
                         $topic_desc = htmlspecialchars(mysqli_real_escape_string($conn, $_POST['topic_desc']));
                         $url = htmlspecialchars(mysqli_real_escape_string($conn, $_POST['url']));
-                        $post_genre = htmlspecialchars(mysqli_real_escape_string($conn, $_POST['post_genre']));
+                        // $post_genre = htmlspecialchars(mysqli_real_escape_string($conn, $_POST['post_genre']));
                         $image_name = $_FILES['image']['name'];
                         $tmp_name = $_FILES['image']['tmp_name'];
                         $image_error = $_FILES['image']['error'];
                         $image_size = $_FILES['image']['size'];
-                        $image_path_destination = "img/upload/";
+                        $image_path_destination = "../media/upload/";
                         $image_new_name = uniqid('', true) . '_' . $image_name;
 
-                        if (!empty($topic_name) && !empty($post_genre)) {
+                        if (!empty($topic_name)) {
                             $upload_image = true;
 
                             // Image Validation
@@ -310,9 +309,9 @@ ini_set('display_errors', 0);
                                     $user_account = mysqli_fetch_assoc($user);
                                     $thread_user_id = $user_account['id'];
                                     $sql_query = "INSERT INTO `threads` 
-                        (`thread_name`, `thread_desc`, `thread_catagory_id`, `thread_user_id`, `uploaded_image`, `url`, `post_genre`) 
+                        (`thread_name`, `thread_desc`, `thread_catagory_id`, `thread_user_id`, `uploaded_image`, `url`) 
                         VALUES ('{$topic_name}', '{$topic_desc}', '{$get_id}', '{$thread_user_id}', 
-                        '{$image_new_name}', '{$url}', '{$post_genre}')";
+                        '{$image_new_name}', '{$url}')";
                                     $result = mysqli_query($conn, $sql_query);
 
                                     if ($result) {
@@ -355,21 +354,21 @@ ini_set('display_errors', 0);
                             </div>
 
                             <!-- Genre -->
-                            <div class="mb-3">
+                            <!-- <div class="mb-3">
                                 <label for="genre" class="form-label">Select Genre (g/) <span class="text-danger">*</span></label>
                                 <select id="genre" name="post_genre" class="form-select" required>
                                     <option value="" selected disabled>(g/ meme, art, qna..)</option>
                                     <?php
-                                    $sql = "SELECT * FROM `catagory` WHERE catagory_id = '{$disk_id}'";
-                                    $result = mysqli_query($conn, $sql);
-                                    while ($row = mysqli_fetch_assoc($result)) {
-                                        if(!empty($row['genre'])){
-                                        echo '<option value="' . htmlspecialchars($row['genre']) . '">g/ ' . htmlspecialchars($row['genre']) . '</option>';
-                                        }
-                                    }
+                                    // $sql = "SELECT * FROM `catagory` WHERE catagory_id = '{$disk_id}'";
+                                    // $result = mysqli_query($conn, $sql);
+                                    // while ($row = mysqli_fetch_assoc($result)) {
+                                    //     if(!empty($row['genre'])){
+                                    //     echo '<option value="' . htmlspecialchars($row['genre']) . '">g/ ' . htmlspecialchars($row['genre']) . '</option>';
+                                    //     }
+                                    // }
                                     ?>
                                 </select>
-                            </div>
+                            </div> -->
 
                             <!-- Description -->
                             <div class="mb-3">
@@ -400,7 +399,7 @@ ini_set('display_errors', 0);
                     <?php else: ?>
                         <!-- Alert if not logged in -->
                         <div class="alert alert-warning text-center">
-                            <i class="ri-alert-fill"></i> You are not logged in! Please <a href="login.php" class="text-danger">log
+                            <i class="ri-alert-fill"></i> You are not logged in! Please <a href="../authentication/login.php" class="text-danger">log
                                 in</a> to start a discussion.
                         </div>
                     <?php endif; ?>
@@ -444,13 +443,13 @@ ini_set('display_errors', 0);
                         <div class="card-body">
                             <!-- User Profile Section -->
                             <div class="d-flex align-items-center mb-3">
-                                <a href="allprofile.php?user=<?php echo $thread['thread_user_id']; ?>" class="me-3">
-                                    <img src="../../media/images/<?php echo !empty($thread['profile_pic']) ? $thread['profile_pic'] : 'default.jpg'; ?>"
+                                <a href="../users/allprofile.php?user=<?php echo $thread['thread_user_id']; ?>" class="me-3">
+                                    <img src="../media/images/<?php echo !empty($thread['profile_pic']) ? $thread['profile_pic'] : 'default.jpg'; ?>"
                                         alt="<?php echo $thread['username']; ?>" class="rounded-circle"
                                         style="width: 50px; height: 50px;">
                                 </a>
                                 <div>
-                                    <a href="allprofile.php?user=<?php echo $thread['thread_user_id']; ?>"
+                                    <a href="../users/allprofile.php?user=<?php echo $thread['thread_user_id']; ?>"
                                         class="text-dark text-decoration-none fw-bold">
                                         <?php
                                         // Check if the current thread user is the creator of the drive
@@ -501,7 +500,7 @@ ini_set('display_errors', 0);
 
                             <?php if (!empty($thread['uploaded_image'])) { ?>
                                 <a href="thread.php?thread=<?php echo htmlspecialchars($thread_id, ENT_QUOTES, 'UTF-8'); ?>">
-                                    <img src="../../media/upload/<?php echo htmlspecialchars($thread['uploaded_image'], ENT_QUOTES, 'UTF-8'); ?>"
+                                    <img src="../media/upload/<?php echo htmlspecialchars($thread['uploaded_image'], ENT_QUOTES, 'UTF-8'); ?>"
                                         class="rounded" alt="" style="width: 100%;">
                                 </a>
                             <?php } ?>
@@ -638,8 +637,8 @@ ini_set('display_errors', 0);
 
 
 
-        <?php include "../../include/bottom-nav.php"; ?>
-        <?php include "../../include/bootstrapjs.php"; ?>
+        <?php include "../include/bottom-nav.php"; ?>
+        <?php include "../include/bootstrapjs.php"; ?>
 
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script>

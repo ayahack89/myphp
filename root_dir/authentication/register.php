@@ -6,9 +6,11 @@ ini_set('display_errors', 1);
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-// require 'public_html/phpmailer/vendor/phpmailer/phpmailer/src/PHPMailer.php';
-// require 'public_html/phpmailer/vendor/phpmailer/phpmailer/src/Exception.php';
-// require 'public_html/phpmailer/vendor/phpmailer/phpmailer/src/SMTP.php';
+
+require '../vendor/phpmailer/phpmailer/src/PHPMailer.php';
+require '../vendor/phpmailer/phpmailer/src/SMTP.php';
+require '../vendor/phpmailer/phpmailer/src/Exception.php';
+
 
 ?>
 <!DOCTYPE html>
@@ -73,8 +75,7 @@ use PHPMailer\PHPMailer\Exception;
 <body>
     <?php include "../include/header.php"; ?>
     <?php
-    //PHPMailer.Vendor
-    require 'phpmailer/vendor/autoload.php';
+    
     //From submission script -Start 
     if (isset($_POST["submit"])) {
         if (!$conn) {
@@ -107,7 +108,7 @@ use PHPMailer\PHPMailer\Exception;
                     $bday = htmlspecialchars(mysqli_real_escape_string($conn, $_POST['bday']));
                     $gender = htmlspecialchars(mysqli_real_escape_string($conn, $_POST['gender']));
                     $country = htmlspecialchars(mysqli_real_escape_string($conn, $_POST['country']));
-                    $school = htmlspecialchars(mysqli_real_escape_string($conn, $_POST['school']));
+                    // $school = htmlspecialchars(mysqli_real_escape_string($conn, $_POST['school']));
                     $clg_university = htmlspecialchars(mysqli_real_escape_string($conn, $_POST['clg_uni']));
                     $status = htmlspecialchars(mysqli_real_escape_string($conn, $_POST['status']));
                     $looking_for = htmlspecialchars(mysqli_real_escape_string($conn, $_POST['lookingFor']));
@@ -125,7 +126,7 @@ use PHPMailer\PHPMailer\Exception;
                         $allowedImageTypes = array('jpeg', 'png', 'jpg');
                         if (in_array($imgExLowerStr, $allowedImageTypes)) {
                             $newImgName = uniqid($userName, true) . '.' . $imgExLowerStr;
-                            $imageUpload = 'img/images/' . $newImgName;
+                            $imageUpload = '../media/images/' . $newImgName;
                             if (move_uploaded_file($tempImgName, $imageUpload)) {
                                 // Image uploaded successfully
                             } else {
@@ -135,7 +136,7 @@ use PHPMailer\PHPMailer\Exception;
                             echo ' <div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">Please choose only jpeg, png, jpg types of images</div>';
                         }
                     }
-                    $sql = "INSERT INTO `user` (`username`, `password`, `repassword`, `profile_pic`, `about`, `gender`, `country`, `cake_day`, `email`, `school`, `clg_university`, `status`, `looking_for`, `interest_in`) VALUES ('{$userName}', '{$userpass_hash}', '{$repass_hash}', '{$newImgName}', '{$about}', '{$gender}', '{$country}', '{$bday}', '{$userEmail}', '{$school}', '{$clg_university}', '{$status}', '{$looking_for}', '{$interest_in}');";
+                    $sql = "INSERT INTO `user` (`username`, `password`, `repassword`, `profile_pic`, `about`, `gender`, `country`, `cake_day`, `email`, `clg_university`, `status`, `looking_for`, `interest_in`) VALUES ('{$userName}', '{$userpass_hash}', '{$repass_hash}', '{$newImgName}', '{$about}', '{$gender}', '{$country}', '{$bday}', '{$userEmail}', '{$clg_university}', '{$status}', '{$looking_for}', '{$interest_in}');";
                     $result = mysqli_query($conn, $sql);
 
                     if ($result) {
@@ -151,7 +152,7 @@ use PHPMailer\PHPMailer\Exception;
     
 
                             // Recipients
-                            $mail->setFrom('alpha001@agguora.site', 'Alpha');
+                            $mail->setFrom('alphaoran9@gmail.com', 'Ayanabha');
                             $str_to_user_email = strval($userEmail);
                             $str_to_user_name = strval($userName);
                             $mail->addAddress($str_to_user_email, $str_to_user_name);  // Add a recipient
@@ -197,7 +198,7 @@ use PHPMailer\PHPMailer\Exception;
                             $mail->send();
                             echo 'alert("Message sent successfully")';
                             ?>
-                            <script>window.location.href = "http://127.0.0.1/php/public_html/login.php";</script>
+                            <script>window.location.href = "login.php";</script>
                             <?php
                         } catch (Exception $e) {
                             echo 'alert("Message could not be sent. Mailer Error: {$mail->ErrorInfo}")';
@@ -572,7 +573,7 @@ use PHPMailer\PHPMailer\Exception;
                     <option value="nobody">Prefer not to Answer</option>
                 </select>
             </div>
-            <button type="submit" name="submit" class="btn btn-custom w-100">Create Account</button>
+            <button type="submit" name="submit" class="btn btn-dark w-100">Create Account</button>
         </form>
     </div>
     <!-- form-end -->

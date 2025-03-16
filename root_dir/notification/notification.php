@@ -53,7 +53,7 @@ $result = mysqli_query($conn, $query);
         <?php
         if ($result && mysqli_num_rows($result) > 0) {
             while ($row = mysqli_fetch_assoc($result)) { ?>
-                <a href="http://127.0.0.1/myphp/public_html/thread.php?thread=<?php echo $row['thread_id']; ?>"
+                <a href="../main/thread.php?thread=<?php echo $row['thread_id']; ?>"
                    class="list-group-item list-group-item-action d-flex justify-content-between align-items-start text-decoration-none">
                     <div class="ms-2 me-auto">
                         <p class="mb-1"><?php echo htmlspecialchars($row['comment_content']); ?></p>

@@ -41,7 +41,7 @@ ini_set('display_errors', 1);
                $gender = htmlspecialchars(mysqli_real_escape_string($conn, $_POST['gender']));
                $country = htmlspecialchars(mysqli_real_escape_string($conn, $_POST['country']));
                $pContact = htmlspecialchars(mysqli_real_escape_string($conn, $_POST['pContact']));
-               $school = htmlspecialchars(mysqli_real_escape_string($conn, $_POST['school']));
+               // $school = htmlspecialchars(mysqli_real_escape_string($conn, $_POST['school']));
                $collage_university = htmlspecialchars(mysqli_real_escape_string($conn, $_POST['clg_university']));
                $status = htmlspecialchars(mysqli_real_escape_string($conn, $_POST['status']));
                $looking_for = htmlspecialchars(mysqli_real_escape_string($conn, $_POST['looking_for']));
@@ -53,8 +53,7 @@ ini_set('display_errors', 1);
                 `about` = '{$about}',
                 `cake_day` = '{$cake_day}',
                 `gender` = '{$gender}',
-                `country` = '{$country}',
-                `school` = '{$school}', 
+                `country` = '{$country}', 
                 `clg_university` = '{$collage_university}',
                 `status` = '{$status}',
                 `looking_for` = '{$looking_for}',

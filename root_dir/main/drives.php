@@ -123,7 +123,6 @@ ini_set('display_errors', 0);
                                                     <?php } else { ?>
                                                         <span style="font-size:12px; color:grey;">g/ empty </span>
                                                     <?php } ?>
-
                                                 </a>
                                             </h5>
 
@@ -140,7 +139,7 @@ ini_set('display_errors', 0);
                                                     ?>
                                                     <div class="d-flex align-items-center mt-3"
                                                         style="gap: 10px; font-size: 14px; color: #555;">
-                                                        <img src="../../media/images/<?php echo $profilePic; ?>" class="rounded-circle"
+                                                        <img src="../media/images/<?php echo $profilePic; ?>" class="rounded-circle"
                                                             alt="<?php echo $about; ?>"
                                                             style="width: 32px; height: 32px; object-fit: cover;">
                                                         <span class="text-truncate">
@@ -153,7 +152,7 @@ ini_set('display_errors', 0);
                                                     ?>
                                                     <div class="d-flex align-items-center mt-3"
                                                         style="gap: 10px; font-size: 14px; color: #555;">
-                                                        <img src="img/images/default.jpg" class="rounded-circle" alt="Default user image"
+                                                        <img src="../media/images/default.jpg" class="rounded-circle" alt="Default user image"
                                                             style="width: 32px; height: 32px; object-fit: cover;">
                                                         <span>Unknown User</span>
                                                     </div>
@@ -163,7 +162,7 @@ ini_set('display_errors', 0);
                                                 ?>
                                                 <div class="d-flex align-items-center mt-3"
                                                     style="gap: 10px; font-size: 14px; color: #555;">
-                                                    <img src="img/images/default.jpg" class="rounded-circle" alt="Default user image"
+                                                    <img src="../media/images/default.jpg" class="rounded-circle" alt="Default user image"
                                                         style="width: 32px; height: 32px; object-fit: cover;">
                                                     <span>Unknown User</span>
                                                 </div>

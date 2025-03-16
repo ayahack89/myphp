@@ -5,7 +5,7 @@ if (!isset($_SESSION['username'])) {
 } else {
     ?>
     <?php
-    include "../../include/db_connection.php";
+    include "../db/db_connection.php";
     ini_set('display_errors', 0);
     ?>
     <!DOCTYPE html>
@@ -15,13 +15,13 @@ if (!isset($_SESSION['username'])) {
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta name="description" content="" />
-        <?php include "../../include/bootstrapcss-and-icons.php"; ?>
+        <?php include "../include/bootstrapcss-and-icons.php"; ?>
 
         <link rel="icon" type="image/x-icon" href="img/background/">
         <title>Create-new-drive.php</title>
     
     </head>
-    <?php include "../../include/fonts.php"; ?>
+    <?php include "../include/fonts.php"; ?>
     <style>
         .from-box {
             width: 30vw;
@@ -43,11 +43,11 @@ if (!isset($_SESSION['username'])) {
                     $drivename = htmlspecialchars(mysqli_real_escape_string($conn, $_POST['drive_name']));
                     $drivedescription = htmlspecialchars(mysqli_real_escape_string($conn, $_POST['drive_description']));
                     $created_by = htmlspecialchars(mysqli_real_escape_string($conn, $_POST['userid']));
-                    $genre = htmlspecialchars(mysqli_real_escape_string($conn, strtolower(str_replace(' ', '', $_POST['drive_genre']))));
+                    // $genre = htmlspecialchars(mysqli_real_escape_string($conn, strtolower(str_replace(' ', '', $_POST['drive_genre']))));
 
-                    if (!empty($drivename) && !empty($drivedescription) && !empty($genre)) {
-                        $sql_query = "INSERT INTO `catagory` (catagory_name, catagory_desc, created_by, genre) 
-                VALUES ('{$drivename}', '{$drivedescription}', '{$created_by}', '{$genre}')";
+                    if (!empty($drivename) && !empty($drivedescription)) {
+                        $sql_query = "INSERT INTO `catagory` (catagory_name, catagory_desc, created_by) 
+                VALUES ('{$drivename}', '{$drivedescription}', '{$created_by}')";
 
                         $result_q = mysqli_query($conn, $sql_query);
 
@@ -90,12 +90,12 @@ if (!isset($_SESSION['username'])) {
                         </div>
                         <br>
                         <label for="unique-drive-genre">Genre (g/)</label>
-                        <div class="mb-2">
+                        <!-- <div class="mb-2">
                             <input type="text" class="form-control rounded-0" id="driveGenre" name="drive_genre"
                                 placeholder="e.g. meme, tech, qna, art etc..." aria-label="Drive genre" required>
                             <span style="font-size:12px; color:grey;">Provide a unique genre to identify your drive (e.g.,
                                 meme, qna, art, etc.).</span>
-                        </div>
+                        </div> -->
                     </div>
                     <div class="form-group">
                         <label for="description">Description</label>
@@ -109,13 +109,13 @@ if (!isset($_SESSION['username'])) {
         <!--Create new drives -End-->
 
         <script>
-            function sanitizeInput(input) {
-                return input.replace(/[^a-zA-Z0-9]/g, '');
-            }
+            // function sanitizeInput(input) {
+            //     return input.replace(/[^a-zA-Z0-9]/g, '');
+            // }
 
-            document.getElementById('driveGenre').addEventListener('input', function () {
-                this.value = sanitizeInput(this.value);
-            });
+            // document.getElementById('driveGenre').addEventListener('input', function () {
+            //     this.value = sanitizeInput(this.value);
+            // });
 
         </script>
 

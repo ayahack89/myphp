@@ -1,7 +1,7 @@
 <?php
 include "../db/db_connection.php";
 session_start();
-ini_set('display_errors', 0);
+ini_set('display_errors', 1);
 ?>
 
 <!DOCTYPE html>
@@ -218,7 +218,7 @@ ini_set('display_errors', 0);
                                         $user = mysqli_fetch_assoc($run_ql);
                                         echo '<div class="rounded mb-4 ">';
                                         echo '<div class="d-flex align-items-center mb-2">';
-                                        echo '<a href="allprofile.php?user=' . $user['id'] . '" class="text-dark" style="text-decoration:none;">';
+                                        echo '<a href="../users/allprofile.php?user=' . $user['id'] . '" class="text-dark" style="text-decoration:none;">';
                                         if (!empty($user['profile_pic'])) {
                                             echo '<img src="../media/images/' . $user['profile_pic'] . '" alt="' . $user['about'] . '" width="50px" height="50px" class="rounded-circle">';
                                         } else {
@@ -226,7 +226,7 @@ ini_set('display_errors', 0);
                                         }
                                         echo '</a>';
                                         echo '<div class="ms-2">';
-                                        echo '<a href="allprofile.php?user=' . $user['id'] . '" class="text-dark" style="text-decoration:none;">';
+                                        echo '<a href="../users/allprofile.php?user=' . $user['id'] . '" class="text-dark" style="text-decoration:none;">';
                                         echo '<span class="fw-bold" style="font-size: 1.1rem;">' . $user['username'] . '</span>';
                                         echo '</a>';
 
@@ -239,37 +239,36 @@ ini_set('display_errors', 0);
 
                                         echo '</div>';
                                         echo '</div>';
-                                            echo '<span style="
-    font-size: 10px; 
-    color: #6c757d; 
-    margin-bottom:10px;
-    background-color: #f8f9fa; 
-    border: 1px solid #dee2e6; 
-    border-radius: 20px; 
-    padding: 1px 8px; 
-    font-weight: 500;
-    display: inline-block;">
-                                g/ '. htmlspecialchars($thread['post_genre'], ENT_QUOTES, 'UTF-8').'
-                        </span>';
+    //                                         echo '<span style="
+    // font-size: 10px; 
+    // color: #6c757d; 
+    // margin-bottom:10px;
+    // background-color: #f8f9fa; 
+    // border: 1px solid #dee2e6; 
+    // border-radius: 20px; 
+    // padding: 1px 8px; 
+    // font-weight: 500;
+    // display: inline-block;">
+    //                             g/ '. htmlspecialchars($thread['post_genre'], ENT_QUOTES, 'UTF-8').'
+    //                     </span>';
 
-                                        echo '<a href="thread.php?thread=' . $row['thread_id'] . '" class="text-dark" style="text-decoration:none;">';
+                                        echo '<a href="../main/thread.php?thread=' . $row['thread_id'] . '" class="text-dark" style="text-decoration:none;">';
                                         echo '<h5>' . $row['thread_name'] . '</h5>';
                                         echo '</a>';
 
                                         $thread_desc = $row['thread_desc'];
                                         $max_length = 80;
                                         if (strlen($thread_desc) > $max_length) {
-                                            $thread_desc = substr($thread_desc, 0, $max_length) . '<a href="thread.php?thread=' . $row['thread_id'] . '" class="text-dark" style="text-decoration:none;">. . .<strong>read more</strong></a>';
+                                            $thread_desc = substr($thread_desc, 0, $max_length) . '<a href="../main/thread.php?thread=' . $row['thread_id'] . '" class="text-dark" style="text-decoration:none;">. . .<strong>read more</strong></a>';
                                         }
                                         echo '<p style="font-size:14px">' . $thread_desc . '</p>';
 
-                                        if (!empty($thread['uploaded_image'])) { 
-                                            $thread_id = $thread['thread_id'];
-                                            echo '<a href="thread.php?thread='.htmlspecialchars($thread_id, ENT_QUOTES, 'UTF-8').'">
-                                                <img src="../media/upload/'.htmlspecialchars($thread['uploaded_image'], ENT_QUOTES, 'UTF-8').'"
-                                                    class="rounded" alt="" style="width: 100%;">
+                                        if (!empty($row['uploaded_image'])) {
+                                            $thread_id = $row['thread_id'];
+                                            echo '<a href="../main/thread.php?thread=' . htmlspecialchars($thread_id, ENT_QUOTES, 'UTF-8') . '">
+                                                <img src="../media/upload/' . htmlspecialchars($row['uploaded_image'], ENT_QUOTES, 'UTF-8') . '" class="rounded" alt="" style="width: 100%;" onerror="console.log(\'Image Error\');">
                                             </a>';
-                                         } 
+                                        } 
 
                                         echo '<div class="d-flex justify-content-around flex-row-reverse  mb-3">';
 
@@ -303,7 +302,7 @@ ini_set('display_errors', 0);
                                         $comment_result = mysqli_query($conn, $comment_query);
                                         if ($comment_result) {
                                             $comments_count = mysqli_fetch_assoc($comment_result)['total_row'];
-                                            echo '<a href="thread.php?thread=' . $row['thread_id'] . '" class="comment-button">';
+                                            echo '<a href="../main/thread.php?thread=' . $row['thread_id'] . '" class="comment-button">';
                                             echo '<span class="icon-text">
     <svg aria-hidden="true" class="icon-comment" fill="currentColor" height="20" width="20" viewBox="0 0 20 20">
         <path d="M10 2C5.589 2 2 5.21 2 9.5c0 1.751.737 3.395 2.021 4.732C3.617 16.26 2.26 17.508 2 17.73c-.011.009-.018.021-.027.031A.5.5 0 0 0 2.5 18h9c4.411 0 8-3.21 8-7.5S14.411 2 10 2ZM3 9.5C3 6.462 6.364 4 10 4s7 2.462 7 5.5S13.636 15 10 15H3.5c.561-.463 1.44-1.308 2.149-2.021.028-.03.055-.06.081-.092A6.98 6.98 0 0 0 3 9.5Z"></path>

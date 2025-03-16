@@ -255,8 +255,6 @@ $row = ['thread_time' => '2024-06-12 08:00:00'];
 
                                         if (!empty($row['uploaded_image'])) {
                                             $thread_id = $row['thread_id'];
-
-
                                             echo '<a href="../main/thread.php?thread=' . htmlspecialchars($thread_id, ENT_QUOTES, 'UTF-8') . '">
                                                 <img src="../media/upload/' . htmlspecialchars($row['uploaded_image'], ENT_QUOTES, 'UTF-8') . '"
                                                     class="rounded" alt="" style="width: 100%;">

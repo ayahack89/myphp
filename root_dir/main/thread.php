@@ -142,8 +142,8 @@ ini_set('display_errors', 1);
                                             </div>
 
 
-                                            <a href="../media/upload/<?php echo $thread['uploaded_image']; ?>"
-                                                download class="download-btn">
+                                            <a href="../media/upload/<?php echo $thread['uploaded_image']; ?>" download
+                                                class="download-btn">
                                                 <button class="download-btn">
                                                     <i class="ri-download-2-fill"></i>
                                                     <span>Download</span>
@@ -177,7 +177,7 @@ ini_set('display_errors', 1);
                                 <!-- Voting System -Start  -->
                                 <!-- <div class="py-2"></div> -->
                                 <!-- Voting System -End  -->
-                                 
+
                             </div>
                         </div>
                         <!-- Thread view section -End  -->
@@ -398,7 +398,7 @@ ini_set('display_errors', 1);
                                             <div class="mb-2 border-none">
                                                 <div class="d-flex align-items-start bg-light py-1 px-3">
                                                     <div class="me-3">
-                                                        <a href="allprofile.php?user=<?php echo $user['id']; ?>">
+                                                        <a href="../users/allprofile.php?user=<?php echo $user['id']; ?>">
                                                             <?php if (!empty($user['profile_pic'])) { ?>
                                                                 <img src="../media/images/<?php echo $user['profile_pic']; ?>"
                                                                     alt="<?php echo $user['about']; ?>" width="50px" height="50px" class="rounded-circle">
@@ -430,19 +430,45 @@ ini_set('display_errors', 1);
                                                             </a>
 
                                                             <?php
-                                                            $sql = "SELECT * FROM `user` WHERE id = '{$thread['tag_someone']}'";
-                                                            $tag_run = mysqli_query($conn, $sql);
-                                                            if ($tag_run && mysqli_num_rows($tag_run) > 0) {
-                                                                $tag_user = mysqli_fetch_assoc($tag_run);
-                                                                ?>
-                                                                <span class="text-secondary fw-light" style="font-size: 14px;">replied to</span>
-                                                                <a href="../users/allprofile.php?user=<?php echo $tag_user['id']; ?>"
-                                                                    class="text-dark text-decoration-none">
-                                                                    <strong><?php echo $tag_user['username']; ?></strong>
-                                                                </a>
-                                                                <?php
+                                                            // ********************* Feature incomplete ***************
+// Fetch the thread data
+                                                            $sq = "SELECT * FROM `threads`";
+                                                            $run = mysqli_query($conn, $sq);
+
+                                                            if ($run && mysqli_num_rows($run) > 0) {
+                                                                $thread_data = mysqli_fetch_assoc($run);
+
+                                                                // Fetch the tagged user data
+                                                                $sql = "SELECT * FROM `user` WHERE id = '{$thread['tag_someone']}'";
+                                                                $tag_run = mysqli_query($conn, $sql);
+
+                                                                if ($tag_run && mysqli_num_rows($tag_run) > 0) {
+                                                                    $tag_user = mysqli_fetch_assoc($tag_run);
+                                                                    ?>
+                                                                    <span class="text-secondary fw-light" style="font-size: 14px;">replied to</span>
+                                                                    <a href="../users/allprofile.php?user=<?php echo $tag_user['id']; ?>"
+                                                                        class="text-dark text-decoration-none">
+                                                                        <strong>
+                                                                            <?php
+                                                                            // Show username
+                                                                            echo htmlspecialchars($tag_user['username'], ENT_QUOTES, 'UTF-8');
+
+                                                                            // Check if the tagged user is the thread owner
+                                                                            if ($tag_user['id'] == $thread_data['thread_user_id']) { ?>
+                                                                                <span class="bg-light text-dark p-1 rounded" style="font-size: 15px;">
+                                                                                    <i class="ri-account-pin-circle-line"></i>
+                                                                                </span>
+                                                                            <?php } ?>
+                                                                        </strong>
+                                                                    </a>
+                                                                    <?php
+                                                                }
                                                             }
+                                                            // ********************* Feature incomplete ***************
                                                             ?>
+
+
+
 
                                                         </h6>
                                                         <small class="text-muted">
