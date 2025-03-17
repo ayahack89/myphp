@@ -1,9 +1,15 @@
 <?php
 session_start();
+//Unauthorize access prevent
 if(!isset($_SESSION['username'])){
-     echo 'Opps! atfirst you need to <a href="login.php">login</a> & proof that you are a true member.';
+     echo 'Oops! at first you need to <a href="login.php">login</a> & proof that you are a true user.';
      }else{ 
-include "db_connection.php";
+ 
+//Database connection 
+require_once "../db/db_connection.php";
+
+//Error handling
+error_reporting(0);
 ini_set('display_error', 0);
 ?>
 <!DOCTYPE html>
@@ -12,12 +18,12 @@ ini_set('display_error', 0);
      <meta charset="UTF-8">
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
      <link rel="icon" type="image/x-icon" href="img/background/agguoralogo.jpg">
-     <?php include "bootstrapcss-and-icons.php"; ?>
+     <?php include "../include/bootstrapcss-and-icons.php"; ?>
      <title>Email Update | Agguora</title>
 </head>
 <body>
 
-    <form action="<?php ?>" method="post" class="container mt-5 p-4 w-75">
+    <form action="<?php echo htmlentities($_SERVER['PHP_SELF']); ?>" method="post" class="container mt-5 p-4 w-75">
       
       <h4 class="mb-4 text-center">Update your email</h4>
       
@@ -51,16 +57,17 @@ ini_set('display_error', 0);
                $sql = "UPDATE `user` SET email = '{$user_email}' WHERE username = '{$username}'";
                $result = mysqli_query($conn, $sql);
                if(!$result){
-                    echo '<div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">Oops! something went wrong : (</div>';
+                    echo '<div class="alert alert-danger rounded" role="alert" style="font-size:15px;">Oops! something went wrong : (</div>';
 
                }else{
                     ?>
-                    <script>window.location.href="http://127.0.0.1/php/public_html/main.php";</script>
-                    exit();
+                    <script>window.location.href="../home/main.php";</script>
+                    
                     <?php 
+                    exit();
                }
           }else{
-               echo '<div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">Session issue</div>';
+               echo '<div class="alert alert-danger rounded" role="alert" style="font-size:15px;">Session issue</div>';
 
           }
      }
@@ -68,7 +75,7 @@ ini_set('display_error', 0);
      
      ?>
 
-     <?php include "bootstrapjs.php"; ?>
+     <?php include "../include/bootstrapjs.php"; ?>
 </body>
 </html>
 <?php } ?>

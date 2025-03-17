@@ -1,11 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-     <meta charset="UTF-8">
-     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-     <title>Navbar</title>
-     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
-     <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
+<?php
+//Error handling 
+error_reporting(0);
+ini_set("display_errors", 0);
+?>
      <style>
           /* Navbar customization */
           .navbar {
@@ -177,58 +174,6 @@
                                         <?php } ?>
                                    </li>
                                    <!-- Members tab - end -->
-
-                                   <!-- Announcement tab was removed  -->
-                                   <!-- Announcements tab - start -->
-                                   <!-- <li class="nav-item">
-                                        <?php
-                                        // $sql_count = "SELECT COUNT(*) AS total_rows FROM announcement_threads";
-                                        // $result = mysqli_query($conn, $sql_count);
-                                        // if ($result && mysqli_num_rows($result) > 0) {
-                                        //      $row = mysqli_fetch_assoc($result);
-                                             ?>
-                                             <a class="nav-link d-flex align-items-center text-dark" aria-current="page"
-                                                  href="nav-announcements.php" style="text-decoration: none;">
-                                                  <i class="ri-megaphone-line me-1"
-                                                       style="color: #010101; font-size: 1.1em;"></i>
-                                                  <span>Announcements</span>
-                                                  <span class="badge bg-danger ms-2 p-1 rounded-circle" style="font-size: 0.7em;">
-                                                       <?php
-                                                       // $active_count = $row['total_rows'] - 3;
-                                                       // echo $active_count; ?>+
-                                                  </span>
-                                             </a>
-                                        <?php 
-                                        // } 
-                                        ?>
-                                   </li> -->
-                                   <!-- Announcements tab - end -->
-
-                                   <!-- Review tab was removed -->
-                                   <!-- Review tab - start -->
-                                   <!-- <li class="nav-item">
-                                        <?php
-                                        // $sql_count = "SELECT COUNT(*) AS total_rows FROM review";
-                                        // $result = mysqli_query($conn, $sql_count);
-                                        // if ($result && mysqli_num_rows($result) > 0) {
-                                        //      $row = mysqli_fetch_assoc($result);
-                                             ?>
-                                             <a class="nav-link d-flex align-items-center text-dark" aria-current="page"
-                                                  href="reviews.php" style="text-decoration: none;">
-                                                  <i class="ri-bar-chart-grouped-line me-1"
-                                                       style="color: #5a5a5a; font-size: 1.1em;"></i>
-                                                  <span>Reviews</span>
-                                                  <span class="badge bg-danger ms-2 p-1 rounded-circle" style="font-size: 0.7em;">
-                                                       <?php
-                                                       // $active_count = $row['total_rows'] - 3;
-                                                       // echo $active_count; ?>+
-                                                  </span>
-                                             </a>
-                                        <?php
-                                   //  } 
-                                    ?>
-                                   </li> -->
-                                   <!-- Review tab - end -->
                               </div>
                          </li>
                          </ul>

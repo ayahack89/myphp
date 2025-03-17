@@ -1,0 +1,4 @@
+<Files "db_connection.php">
+  Order Allow,Deny
+  Deny from all
+</Files>

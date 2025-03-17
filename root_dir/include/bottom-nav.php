@@ -44,28 +44,28 @@
 <div class="navbar nav-bar fixed-bottom bg-body-tertiary">
     <div class="container-fluid d-flex justify-content-around">
         <!--Recent post -Start-->
-        <a class="navbar-brand nav-bar-brand" href="main.php"><i class="ri-earth-line" id="recentTab"></i></a>
+        <a class="navbar-brand nav-bar-brand" href="../home/main.php"><i class="ri-earth-line" id="recentTab"></i></a>
         <!--Recent post -End-->
 
         <!--trending - Start -->
-        <a class="navbar-brand nav-bar-brand" href="trending.php"><i class="ri-funds-box-line" id="trendingTab"></i></a>
+        <a class="navbar-brand nav-bar-brand" href="../home/trending.php"><i class="ri-funds-box-line" id="trendingTab"></i></a>
         <!--trending - End-->
 
         <!-- New post -Start -->
         <?php if (isset($_SESSION['username'])) { ?>
-            <a class="navbar-brand nav-bar-brand" href="newpost.php"><i class="ri-edit-box-line" id="newpostTab"></i></a>
+            <a class="navbar-brand nav-bar-brand" href="../main/newpost.php"><i class="ri-edit-box-line" id="newpostTab"></i></a>
         <?php } else { ?>
-            <a class="navbar-brand nav-bar-brand" href="login.php"><i class="ri-edit-box-line"></i></a>
+            <a class="navbar-brand nav-bar-brand" href="../authentication/login.php"><i class="ri-edit-box-line"></i></a>
         <?php } ?>
         <!-- New post -End -->
 
         <!-- Members -Start -->
-        <a class="navbar-brand nav-bar-brand" href="members.php"><i class="ri-team-line" id="membersTab"></i></a>
+        <a class="navbar-brand nav-bar-brand" href="../users/members.php"><i class="ri-team-line" id="membersTab"></i></a>
         <!-- Members -End -->
 
         <!-- Profile -Start -->
         <a class="nav-link d-flex align-items-center"
-            href="<?php echo isset($_SESSION['username']) ? 'profile.php' : 'login.php'; ?>">
+            href="<?php echo isset($_SESSION['username']) ? '../user_account/profile.php' : '../authentication/login.php'; ?>">
             <?php if (isset($_SESSION['username'])) { ?>
                 <?php
                 $userId = $_SESSION['id'];
@@ -74,25 +74,23 @@
                 if ($result && mysqli_num_rows($result) > 0) {
                     $dp = mysqli_fetch_assoc($result);
                     ?>
-                    <img src="../../media/images/<?php echo $dp['profile_pic']; ?>" class="rounded-circle me-2"
+                    <img src="../media/images/<?php echo $dp['profile_pic']; ?>" class="rounded-circle me-2"
                         alt="<?php echo htmlspecialchars($dp['about']); ?>"
                         style="width: 32px; height: 32px; object-fit: cover;">
                 <?php } ?>
             <?php } else { ?>
-                <a href="login.php" class="navbar-brand nav-bar-brand"><i class="ri-account-circle-line me-1" id="profileTab"></i></a>
+                <a href="../authentication/login.php" class="navbar-brand nav-bar-brand"><i class="ri-account-circle-line me-1" id="profileTab"></i></a>
             <?php } ?>
         </a>
         <!-- Profile -End -->
     </div>
 </div>
 <script>
-    // Function to toggle CSS class
     function toggleClass(element, beforeClass, afterClass) {
         element.classList.toggle(beforeClass);
         element.classList.toggle(afterClass);
     }
 
-    // Assign elements and class names to an array for easy iteration
     const tabs = [
         {
             element: document.getElementById("recentTab"),
@@ -121,7 +119,6 @@
         }
     ];
 
-    // Add event listeners to each tab
     tabs.forEach(tab => {
         tab.element.addEventListener('click', () => {
             toggleClass(tab.element, tab.beforeClass, tab.afterClass);
@@ -129,9 +126,6 @@
     });
 
 
-
-
-    //recent Tab
 
 
 </script>
