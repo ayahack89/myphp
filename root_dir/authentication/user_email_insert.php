@@ -17,9 +17,10 @@ ini_set('display_error', 0);
 <head>
      <meta charset="UTF-8">
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-     <link rel="icon" type="image/x-icon" href="img/background/agguoralogo.jpg">
-     <?php include "../include/bootstrapcss-and-icons.php"; ?>
+     <link rel="icon" type="image/x-icon" href="">
      <title>Email Update | Agguora</title>
+     <?php include "../include/style.php"; ?>
+     <?php include "../include/fonts.php;" ?>
 </head>
 <body>
 
@@ -75,7 +76,7 @@ ini_set('display_error', 0);
      
      ?>
 
-     <?php include "../include/bootstrapjs.php"; ?>
+     <?php include "../include/script.php"; ?>
 </body>
 </html>
 <?php } ?>

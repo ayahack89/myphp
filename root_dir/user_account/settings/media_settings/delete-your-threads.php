@@ -1,7 +1,11 @@
 <?php
-include "../../../db/db_connection.php";
+//Database connection
+require_once "../../../db/db_connection.php";
 session_start();
-ini_set('display_errors', 1);
+
+//Error handling 
+error_reporting(0);
+ini_set('display_errors', 0);
 ?>
 <!-- Thread -Delete action -Start -->
 <?php

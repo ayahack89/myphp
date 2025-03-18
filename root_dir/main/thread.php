@@ -1,7 +1,11 @@
 <?php
-include "../db/db_connection.php";
+//Database connection
+require_once "../db/db_connection.php";
 session_start();
-ini_set('display_errors', 1);
+
+//Error handling
+error_reporting(0);
+ini_set('display_errors', 0);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -16,15 +20,11 @@ ini_set('display_errors', 1);
     if ($result && mysqli_num_rows($result) > 0) {
         $th = mysqli_fetch_assoc($result);
         ?>
-        <meta name="description"
-            content="<?php echo $th['thread_name']; ?>.. Discover a vibrant hub of discussion with our diverse range of threads! Stay informed with the latest updates, connect with fellow enthusiasts, and elevate your game to new heights...">
-
-        <link rel="icon" type="image/x-icon" href="img/background/agguoralogo.jpg">
-
+        <meta name="description" content="<?php echo $th['thread_name']; ?>">
+        <link rel="icon" type="image/x-icon" href="">
         <title><?php echo $th['thread_name']; ?> | Explore Amazing Threads | Agguora Threads | Agguora</title>
     <?php } ?>
-    <?php include "../include/bootstrapcss-and-icons.php"; ?>
-
+    <?php include "../include/style.php"; ?>
     <?php include "../include/fonts.php"; ?>
 </head>
 <style>
@@ -334,13 +334,13 @@ ini_set('display_errors', 1);
                                                 if ($result) {
                                                     $check = true;
                                                 } else {
-                                                    echo '<div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">Oops! Something went wrong :(</div>';
+                                                    echo '<div class="alert alert-danger rounded" role="alert" style="font-size:15px;">Oops! Something went wrong :(</div>';
                                                 }
                                             } else {
-                                                echo '<div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">User not found :(</div>';
+                                                echo '<div class="alert alert-danger rounded" role="alert" style="font-size:15px;">User not found :(</div>';
                                             }
                                         } else {
-                                            echo '<div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">Please add a reply!</div>';
+                                            echo '<div class="alert alert-danger rounded" role="alert" style="font-size:15px;">Please add a reply!</div>';
                                         }
                                     }
                                 }
@@ -508,7 +508,7 @@ ini_set('display_errors', 1);
                                     </div>
                                 <?php }
                             } else {
-                                echo '<div class="alert alert-danger rounded-0" role="alert" style="font-size: 15px;">Oops! Something went wrong : (</div>';
+                                echo '<div class="alert alert-danger rounded" role="alert" style="font-size: 15px;">Oops! Something went wrong : (</div>';
                             }
                             ?>
                         </div>
@@ -517,13 +517,13 @@ ini_set('display_errors', 1);
                     <?php
                 }
             } else {
-                echo '<div class="alert alert-danger rounded-0" role="alert" style="font-size: 15px;">Invalid thread ID!</div>';
+                echo '<div class="alert alert-danger rounded" role="alert" style="font-size: 15px;">Invalid thread ID!</div>';
             }
         } else {
-            echo '<div class="alert alert-danger rounded-0" role="alert" style="font-size: 15px;">Oops! Something went wrong : (</div>';
+            echo '<div class="alert alert-danger rounded" role="alert" style="font-size: 15px;">Oops! Something went wrong : (</div>';
         }
     } else {
-        echo '<div class="alert alert-danger rounded-0" role="alert" style="font-size: 15px;">Invalid user ID!</div>';
+        echo '<div class="alert alert-danger rounded" role="alert" style="font-size: 15px;">Invalid user ID!</div>';
     }
     ?>
 
@@ -531,8 +531,8 @@ ini_set('display_errors', 1);
 
 
     <?php include "../include/bottom-nav.php"; ?>
-    <?php include "../include/bootstrapjs.php"; ?>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <?php include "../include/script.php"; ?>
+    <script src="../jquery/jquery.js"></script>
     <script>
         //Zoom Image
         $(document).ready(function () {
@@ -558,7 +558,6 @@ ini_set('display_errors', 1);
         });
 
     </script>
-
 </body>
 
 </html>

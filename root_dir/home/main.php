@@ -1,7 +1,11 @@
 <?php
-include "../db/db_connection.php";
+//Database connection
+require_once "../db/db_connection.php";
 session_start();
-ini_set('display_errors', 1);
+
+//Error handling
+error_reporting(0);
+ini_set('display_errors', 0);
 date_default_timezone_set('Asia/Kolkata');
 $row = ['thread_time' => '2024-06-12 08:00:00'];
 ?>
@@ -13,10 +17,11 @@ $row = ['thread_time' => '2024-06-12 08:00:00'];
     <meta name="google-site-verification" content="2MFbMdbyunwBJ4iibPaO_wI5PoMj08UC1i-W3iTEO1U" />
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <?php include "../include/bootstrapcss-and-icons.php"; ?>
     <title>Recent</title>
+    <?php include "../include/style.php"; ?>
+    <?php include "../include/fonts.php"; ?>
 </head>
-<?php include "../include/fonts.php"; ?>
+
 
 <style>
     :root {
@@ -395,8 +400,8 @@ $row = ['thread_time' => '2024-06-12 08:00:00'];
 
         <?php include "../include/bottom-nav.php"; ?>
     </div>
-    <?php include "../include/bootstrapjs.php"; ?>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <?php include "../include/script.php"; ?>
+    <script src="../jquery/jquery.js"></script>
     <script>
         $(document).ready(function () {
             // Bind click event to the like button

@@ -5,7 +5,11 @@ if (!isset($_SESSION['username'])) {
 } else {
     ?>
     <?php
-    include "../db/db_connection.php";
+    //Database connection
+    require_once "../db/db_connection.php";
+
+    //Error handling
+    error_reporting(0);
     ini_set('display_errors', 0);
     ?>
     <!DOCTYPE html>
@@ -15,13 +19,12 @@ if (!isset($_SESSION['username'])) {
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta name="description" content="" />
-        <?php include "../include/bootstrapcss-and-icons.php"; ?>
-
-        <link rel="icon" type="image/x-icon" href="img/background/">
+        <link rel="icon" type="image/x-icon" href="">
         <title>Create-new-drive.php</title>
-    
+        <?php include "../include/style.php"; ?>
+        <?php include "../include/fonts.php"; ?>
     </head>
-    <?php include "../include/fonts.php"; ?>
+
     <style>
         .from-box {
             width: 30vw;
@@ -44,7 +47,7 @@ if (!isset($_SESSION['username'])) {
                     $drivedescription = htmlspecialchars(mysqli_real_escape_string($conn, $_POST['drive_description']));
                     $created_by = htmlspecialchars(mysqli_real_escape_string($conn, $_POST['userid']));
                     // $genre = htmlspecialchars(mysqli_real_escape_string($conn, strtolower(str_replace(' ', '', $_POST['drive_genre']))));
-
+            
                     if (!empty($drivename) && !empty($drivedescription)) {
                         $sql_query = "INSERT INTO `catagory` (catagory_name, catagory_desc, created_by) 
                 VALUES ('{$drivename}', '{$drivedescription}', '{$created_by}')";
@@ -118,7 +121,7 @@ if (!isset($_SESSION['username'])) {
             // });
 
         </script>
-
+        <?php include "../include/script.php"; ?>
     </body>
 
     </html>

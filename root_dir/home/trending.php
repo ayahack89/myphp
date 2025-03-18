@@ -1,7 +1,11 @@
 <?php
-include "../db/db_connection.php";
+//Database connection
+require_once "../db/db_connection.php";
 session_start();
-ini_set('display_errors', 1);
+
+//Error handling
+error_reporting(0);
+ini_set('display_errors', 0);
 ?>
 
 <!DOCTYPE html>
@@ -12,11 +16,10 @@ ini_set('display_errors', 1);
     <meta name="google-site-verification" content="2MFbMdbyunwBJ4iibPaO_wI5PoMj08UC1i-W3iTEO1U" />
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <?php include "../include/bootstrapcss-and-icons.php"; ?>
     <title>trending.php</title>
+    <?php include "../include/style.php"; ?>
+    <?php include "../include/fonts.php"; ?>
 </head>
-
-<?php include "../include/fonts.php"; ?>
 
 <style>
     :root {
@@ -239,19 +242,19 @@ ini_set('display_errors', 1);
 
                                         echo '</div>';
                                         echo '</div>';
-    //                                         echo '<span style="
-    // font-size: 10px; 
-    // color: #6c757d; 
-    // margin-bottom:10px;
-    // background-color: #f8f9fa; 
-    // border: 1px solid #dee2e6; 
-    // border-radius: 20px; 
-    // padding: 1px 8px; 
-    // font-weight: 500;
-    // display: inline-block;">
-    //                             g/ '. htmlspecialchars($thread['post_genre'], ENT_QUOTES, 'UTF-8').'
-    //                     </span>';
-
+                                        //                                         echo '<span style="
+                                        // font-size: 10px; 
+                                        // color: #6c757d; 
+                                        // margin-bottom:10px;
+                                        // background-color: #f8f9fa; 
+                                        // border: 1px solid #dee2e6; 
+                                        // border-radius: 20px; 
+                                        // padding: 1px 8px; 
+                                        // font-weight: 500;
+                                        // display: inline-block;">
+                                        //                             g/ '. htmlspecialchars($thread['post_genre'], ENT_QUOTES, 'UTF-8').'
+                                        //                     </span>';
+                            
                                         echo '<a href="../main/thread.php?thread=' . $row['thread_id'] . '" class="text-dark" style="text-decoration:none;">';
                                         echo '<h5>' . $row['thread_name'] . '</h5>';
                                         echo '</a>';
@@ -268,7 +271,7 @@ ini_set('display_errors', 1);
                                             echo '<a href="../main/thread.php?thread=' . htmlspecialchars($thread_id, ENT_QUOTES, 'UTF-8') . '">
                                                 <img src="../media/upload/' . htmlspecialchars($row['uploaded_image'], ENT_QUOTES, 'UTF-8') . '" class="rounded" alt="" style="width: 100%;" onerror="console.log(\'Image Error\');">
                                             </a>';
-                                        } 
+                                        }
 
                                         echo '<div class="d-flex justify-content-around flex-row-reverse  mb-3">';
 
@@ -398,8 +401,8 @@ ini_set('display_errors', 1);
 
         <?php include "../include/bottom-nav.php"; ?>
     </div>
-    <?php include "../include/bootstrapjs.php"; ?>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <?php include "../include/script.php"; ?>
+    <script src="../jquery/jquery.js"></script>
     <script>
         $(document).ready(function () {
             // Bind click event to the like button

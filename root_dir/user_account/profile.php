@@ -4,8 +4,12 @@ if (!isset($_SESSION['username'])) {
     echo 'Oops! at first you need to <a href="login.php">login</a> & proof that you are a true member.';
 } else { ?>
     <?php
-    include "../db/db_connection.php";
-    ini_set('display_errors', 1);
+    //Database handling 
+    require_once "../db/db_connection.php";
+
+    //Error handling 
+    error_reporting(0);
+    ini_set('display_errors', 0);
     ?>
     <!DOCTYPE html>
     <html lang="en">
@@ -13,11 +17,8 @@ if (!isset($_SESSION['username'])) {
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta name="description" content="Login in and create your user account | Profile | Agguora">
-        <?php include "../include/bootstrapcss-and-icons.php"; ?>
-        <?php include "../include/jquery-support.php"; ?>
-       
-        <link rel="icon" type="image/x-icon" href="img/background/agguoralogo.jpg">
+        <meta name="description" content="">
+        <link rel="icon" type="image/x-icon" href="">
         <?php
         $username = $_SESSION['username'];
         $sq = "SELECT * FROM `user` WHERE username = '{$username}'";
@@ -27,8 +28,15 @@ if (!isset($_SESSION['username'])) {
             ?>
             <title><?php echo $rows['username']; ?> | Agguora</title>
         <?php } ?>
-
+        <?php include "../include/style.php"; ?>
         <?php include "../include/fonts.php"; ?>
+
+       <!-- ******************Bugs (incomplete)*****************  -->
+        <!-- <script src="../jquery-ui/jquery-ui.min.js"></script>
+        <script src="../jquery-ui/jquery-ui.min.css"></script> -->
+        <?php include "../include/jquery-support.php"; ?>
+        
+        
         <style>
             ul li {
                 list-style-type: none;
@@ -639,7 +647,8 @@ if (!isset($_SESSION['username'])) {
         ?>
 
         <?php include "../include/footer.php"; ?>
-        <?php include "../include/bootstrapjs.php"; ?>
+        <?php include "../include/script.php"; ?>
+        <script src="../jquery/jquery.js"></script>
 
         <script>
             //Dropdown
@@ -677,8 +686,6 @@ if (!isset($_SESSION['username'])) {
 
 
         </script>
-
     </body>
-
     </html>
 <?php } ?>

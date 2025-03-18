@@ -3,14 +3,11 @@
 <head>
      <meta charset="UTF-8">
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-     <?php include "../include/bootstrapcss-and-icons.php"; ?>
-     <meta name="description" content="We are Agguora, a community more then a virtual society, make some new connections and interactions within our virtual neighborhood. Explore our site www.agguora.site for more information and create a new disks, participate on the community threads be a active user and win karmas.">
-     
-     <link rel="icon" type="image/x-icon" href="img/background/agguoralogo.jpg">
-     <title>Tearms and Conditions | Agguora</title>
-
-
-<?php include "../include/fonts.php"; ?>
+     <meta name="description" content="">
+     <link rel="icon" type="image/x-icon" href="">
+     <title>Terms and Conditions | Agguora</title>
+     <?php include "../include/style.php"; ?>
+     <?php include "../include/fonts.php"; ?>
 <style>
 </head>
      ul,li{
@@ -80,7 +77,7 @@
 
 </div>
 <?php include "../include/footer.php"; ?>
-<?php include "../include/bootstrapjs.php"; ?>
+<?php include "../include/script.php"; ?>
      
 </body>
 </html>

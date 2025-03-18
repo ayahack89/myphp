@@ -24,13 +24,12 @@ require '../vendor/phpmailer/phpmailer/src/Exception.php';
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="">
-    <?php include "../include/bootstrapcss-and-icons.php" ?>
-
-    <link rel="icon" type="image/x-icon" href="img/background/agguoralogo.jpg">
+    <link rel="icon" type="image/x-icon" href="">
     <title>Create Your User Account | Agguora</title>
-
-</head>
+<?php include "../include/style.php"; ?>
 <?php include "../include/fonts.php"; ?>
+</head>
+
 <style>
     .from-box {
         width: 50vw;
@@ -587,7 +586,7 @@ require '../vendor/phpmailer/phpmailer/src/Exception.php';
     </p>
 
     <?php include "../include/footer.php"; ?>
-    <?php include "../include/bootstrapjs.php"; ?>
+    <?php include "../include/script.php"; ?>
 
 </body>
 

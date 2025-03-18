@@ -1,6 +1,10 @@
 <?php
-include "../db/db_connection.php";
+//Database connection
+require_once "../db/db_connection.php";
 session_start();
+
+//Error handling
+error_reporting(0);
 ini_set('display_errors', 0);
 
 ?>
@@ -10,7 +14,6 @@ ini_set('display_errors', 0);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <?php include "../include/bootstrapcss-and-icons.php"; ?>
     <?php
     $get_id = mysqli_real_escape_string($conn, $_GET['Disk']);
     $sql = "SELECT * FROM `catagory` WHERE catagory_id = '{$get_id}'";
@@ -19,13 +22,13 @@ ini_set('display_errors', 0);
         $dec = mysqli_fetch_assoc($result);
         ?>
         <meta name="description" content="<?php echo $dec['catagory_desc']; ?>">
-        <link rel="icon" type="image/x-icon" href="img/background/">
-
+        <link rel="icon" type="image/x-icon" href="">
         <title><?php echo $dec['catagory_name']; ?> | Agguora Categories | Agguora</title>
     <?php } ?>
-
+    <?php include "../include/style.php"; ?>
+    <?php include "../include/fonts.php"; ?>
 </head>
-<?php include "../include/fonts.php"; ?>
+
 <style>
     :root {
         --success-result: #86efac;
@@ -420,10 +423,10 @@ ini_set('display_errors', 0);
                     <?php
             }
         } else {
-            echo '<div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">Invalid Disk ID!</div>';
+            echo '<div class="alert alert-danger rounded" role="alert" style="font-size:15px;">Invalid Disk ID!</div>';
         }
     } else {
-        echo '<div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">Oops! Something went wrong :(</div>';
+        echo '<div class="alert alert-danger rounded" role="alert" style="font-size:15px;">Oops! Something went wrong :(</div>';
     }
     ?>
 
@@ -638,9 +641,9 @@ ini_set('display_errors', 0);
 
 
         <?php include "../include/bottom-nav.php"; ?>
-        <?php include "../include/bootstrapjs.php"; ?>
+        <?php include "../include/script.php"; ?>
 
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="../jquery/jquery.js"></script>
         <script>
             $(document).ready(function () {
                 // Bind click event to the like button

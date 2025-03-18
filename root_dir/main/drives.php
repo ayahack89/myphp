@@ -1,6 +1,10 @@
 <?php
-include "../db/db_connection.php";
+//Database connection
+require_once "../db/db_connection.php";
 session_start();
+
+//Error handling
+error_reporting(0);
 ini_set('display_errors', 0);
 
 ?>
@@ -11,13 +15,12 @@ ini_set('display_errors', 0);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
-    <link rel="icon" type="image/x-icon" href="img/background/agguoralogo.jpg">
-    <?php include "../include/bootstrapcss-and-icons.php"; ?>
-    <?php include "../include/bootstrapjs.php"; ?>
+    <link rel="icon" type="image/x-icon" href="">
     <title>All Drives | Agguora</title>
-
+    <?php include "../include/style.php"; ?>
+    <?php include "../include/fonts.php"; ?>
 </head>
-<?php include "../include/fonts.php"; ?>
+
 <style>
     .div-hover:hover {
         background-color: whitesmoke;
@@ -176,16 +179,17 @@ ini_set('display_errors', 0);
                                 <?php
                             }
                         } else {
-                            echo '<div class="alert alert-light rounded-0 text-center w-100" role="alert" style="font-size:15px;">No disks found! Be the first person to create new disks.</div>';
+                            echo '<div class="alert alert-light rounded text-center w-100" role="alert" style="font-size:15px;">No disks found! Be the first person to create new disks.</div>';
                         }
                     } else {
-                        echo '<div class="alert alert-danger rounded-0 text-center w-100" role="alert" style="font-size:15px;">Oops! Something went wrong :(</div>';
+                        echo '<div class="alert alert-danger rounded text-center w-100" role="alert" style="font-size:15px;">Oops! Something went wrong :(</div>';
                     }
                     ?>
                 </div>
             </div>
 
             <?php include "../include/bottom-nav.php"; ?>
+            <?php include "../include/script.php"; ?>
 </body>
 
 </html>

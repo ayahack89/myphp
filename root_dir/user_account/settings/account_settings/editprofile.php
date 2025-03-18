@@ -4,20 +4,23 @@ if(!isset($_SESSION['username'])){
 echo 'Oops! at first you need to <a href="login.php">login</a> & proof that you are a true member.';
 }else{ ?>
 <?php 
-include "../../../db/db_connection.php";
-ini_set('display_errors', 1);
+//Database handling 
+require_once "../../../db/db_connection.php";
+
+//Error handling 
+error_reporting(0);
+ini_set('display_errors', 0);
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
      <meta charset="UTF-8">
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-     <?php include "../../../include/bootstrapcss-and-icons.php"; ?>
-     
-     <link rel="icon" type="image/x-icon" href="img/background/agguoralogo.jpg">
+     <link rel="icon" type="image/x-icon" href="">
      <title>Edit Your Profile | Agguora</title>
+     <?php include "../asset/style.php" ?>
+     <?php include "../asset/fonts.php"; ?>
 </head>
-<?php include "../../../include/fonts.php"; ?>
 
 <body>
      <!-- Profile details edit -Start -->
@@ -437,7 +440,7 @@ ini_set('display_errors', 1);
 
      mysqli_close($conn);
      ?>
-     <?php include "../../../include/bootstrapjs.php"; ?>
+     <?php include "../asset/script.php"; ?>
 </body>
 </html>
 <?php } ?>

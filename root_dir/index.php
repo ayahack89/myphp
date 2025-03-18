@@ -7,11 +7,11 @@
     <meta name="google-site-verification" content="2MFbMdbyunwBJ4iibPaO_wI5PoMj08UC1i-W3iTEO1U" />
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <?php include "include/bootstrapcss-and-icons.php"; ?>
-    <link rel="icon" type="image/x-icon" href="media/background/">
+    <link rel="icon" type="image/x-icon" href="">
     <title>Index.php</title>
+    <?php include "asset/style.php"; ?>
 </head>
-<?php include "include/fonts.php"; ?>
+
 
 <style>
     body,
@@ -56,7 +56,7 @@
         <i class="ri-box-2-line text-danger" style="font-size:5rem;"></i>
     </div>
 
-    <?php include "include/bootstrapjs.php"; ?>
+    <?php include "asset/script.php"; ?>
 </body>
 
 </html>

@@ -1,5 +1,9 @@
 <?php
-include "../../../db/db_connection.php";
+//Database connection
+require_once "../../../db/db_connection.php";
+
+//Error handling 
+error_reporting(0);
 ini_set('display_errors', 0);
 ?>
 <?php
@@ -19,7 +23,7 @@ if (isset($_GET['delete'])) {
      }
 } else {
      
-     echo' <div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">Invalid request: Missing "delete" parameter</div>';
+     echo' <div class="alert alert-danger rounded" role="alert" style="font-size:15px;">Invalid request: Missing "delete" parameter</div>';
 
 }
 ?>

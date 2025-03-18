@@ -1,23 +1,26 @@
 <?php 
 session_start();
 if(!isset($_SESSION['username'])){
-echo 'Opps! atfirst you need to <a href="login.php">login</a> & proof that you are a true member.';
+echo 'Opps! at first you need to <a href="login.php">login</a> & proof that you are a true member.';
 }else{ ?>
 <?php
-include "../../../db/db_connection.php";
-ini_set('display_errors', 1);
+//Database connection
+require_once "../../../db/db_connection.php";
+
+//Error handling 
+error_reporting(0);
+ini_set('display_errors', 0);
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
      <meta charset="UTF-8">
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-     <?php include "../../../include/bootstrapcss-and-icons.php"; ?>
-     <link rel="icon" type="image/x-icon" href="img/background/agguoralogo.jpg">
+     <link rel="icon" type="image/x-icon" href="">
      <title>Edit Your Comments | Comments | Agguora</title>
-
+     <?php include "../asset/style.php"; ?>
+     <?php include "../asset/fonts.php"; ?>
 </head>
-<?php include "../../../include/fonts.php"; ?>
 <body>
      <!-- User comment edit action -Start  -->
      <?php
@@ -49,10 +52,10 @@ ini_set('display_errors', 1);
                               <?php
                               exit;
                          } else {
-                              echo' <div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">Opps! Somthing went wrong while updating : (</div>';
+                              echo' <div class="alert alert-danger rounded" role="alert" style="font-size:15px;">Opps! Somthing went wrong while updating : (</div>';
                          }
                     } else {
-                         echo' <div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">Please edit your comment or leave.</div>';
+                         echo' <div class="alert alert-danger rounded" role="alert" style="font-size:15px;">Please edit your comment or leave.</div>';
                     }
                }
                ?>
@@ -65,20 +68,20 @@ ini_set('display_errors', 1);
                          <textarea class="form-control rounded-0" aria-label="With textarea"
                               name="comment"><?php echo $row['comment_content']; ?></textarea>
                     </div>
-                    <button type="submit" class="btn btn-dark my-3 rounded-0" name="submit">Update Comments</button>
+                    <button type="submit" class="btn btn-dark my-3 rounded" name="submit">Update Comments</button>
                </form> 
                <?php
           } else {
                echo "No comment found with the given ID.";
-               echo' <div class="alert alert-warning rounded-0" role="alert" style="font-size:15px;">No comment found with the given ID.</div>';
+               echo' <div class="alert alert-warning rounded" role="alert" style="font-size:15px;">No comment found with the given ID.</div>';
           }
      } else {
-          echo' <div class="alert alert-danger rounded-0" role="alert" style="font-size:15px;">Edit ID is missing!</div>';
+          echo' <div class="alert alert-danger rounded" role="alert" style="font-size:15px;">Edit ID is missing!</div>';
      }
      ?>
      <!-- User comment edit action -End  -->
 
-     <?php include "../../../include/bootstrapjs.php"; ?>
+     <?php include "../asset/script.php"; ?>
 </body>
 </html>
 <?php } ?>
