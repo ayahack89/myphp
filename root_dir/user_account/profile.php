@@ -30,11 +30,10 @@ if (!isset($_SESSION['username'])) {
         <?php } ?>
         <?php include "../include/style.php"; ?>
         <?php include "../include/fonts.php"; ?>
-
-       <!-- ******************Bugs (incomplete)*****************  -->
-        <!-- <script src="../jquery-ui/jquery-ui.min.js"></script>
-        <script src="../jquery-ui/jquery-ui.min.css"></script> -->
-        <?php include "../include/jquery-support.php"; ?>
+        <script src="jquery/jquery.js"></script>
+        <script src="jquery-ui/jquery-ui.min.css"></script>
+        <script src="jquery-ui/jquery-ui.min.js"></script>
+        
         
         
         <style>
@@ -648,7 +647,6 @@ if (!isset($_SESSION['username'])) {
 
         <?php include "../include/footer.php"; ?>
         <?php include "../include/script.php"; ?>
-        <script src="../jquery/jquery.js"></script>
 
         <script>
             //Dropdown
